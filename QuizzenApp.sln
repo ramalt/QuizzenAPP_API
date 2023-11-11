@@ -11,6 +11,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{C28F11
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuizzenApp.Shared", "src\Shared\QuizzenApp.Shared\QuizzenApp.Shared.csproj", "{D6525D0E-EC79-44CE-A553-CC16AE132495}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuizzerApp.Infrastructure", "src\QuizzerApp.Infrastructure\QuizzerApp.Infrastructure.csproj", "{CC3E3B90-0D40-4046-B7B8-9F1DA44C0E31}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -28,10 +30,15 @@ Global
 		{D6525D0E-EC79-44CE-A553-CC16AE132495}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D6525D0E-EC79-44CE-A553-CC16AE132495}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D6525D0E-EC79-44CE-A553-CC16AE132495}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CC3E3B90-0D40-4046-B7B8-9F1DA44C0E31}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CC3E3B90-0D40-4046-B7B8-9F1DA44C0E31}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CC3E3B90-0D40-4046-B7B8-9F1DA44C0E31}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CC3E3B90-0D40-4046-B7B8-9F1DA44C0E31}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{DAB08CC6-5B98-4B87-B521-F8B136482194} = {AD96262E-E114-4994-962E-EC4A8CD2CD6C}
 		{C28F1117-4F1A-4693-9A6D-C4043D8B8EA8} = {AD96262E-E114-4994-962E-EC4A8CD2CD6C}
 		{D6525D0E-EC79-44CE-A553-CC16AE132495} = {C28F1117-4F1A-4693-9A6D-C4043D8B8EA8}
+		{CC3E3B90-0D40-4046-B7B8-9F1DA44C0E31} = {AD96262E-E114-4994-962E-EC4A8CD2CD6C}
 	EndGlobalSection
 EndGlobal
