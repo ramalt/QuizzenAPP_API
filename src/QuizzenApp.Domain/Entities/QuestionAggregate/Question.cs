@@ -1,5 +1,6 @@
 using QuizzenApp.Domain.Entities.ExamAggregate;
 using QuizzenApp.Domain.Entities.QuestionAggregate.ValueObjects;
+using QuizzenApp.Domain.Entities.UserAggregate;
 using QuizzenApp.Domain.Enums;
 using QuizzenApp.Shared.Domain;
 
@@ -13,5 +14,5 @@ public class Question : AggregateRoot<QuestionId>
     public Exam Exam { get; private set; }
     public QuestionStatus Status { get; private set; }
 
-    //TODO: User
+    public User User { get; private set; }
 }

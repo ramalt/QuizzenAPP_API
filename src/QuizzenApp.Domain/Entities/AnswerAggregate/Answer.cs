@@ -1,4 +1,5 @@
 using QuizzenApp.Domain.Entities.AnswerAggregate.ValueObjects;
+using QuizzenApp.Domain.Entities.UserAggregate;
 using QuizzenApp.Domain.Enums;
 using QuizzenApp.Shared.Domain;
 
@@ -11,5 +12,5 @@ public class Answer : AggregateRoot<AnswerId>
     public List<AnswerImage> Images { get; private set; }
     public AnswerStatus Status { get; private set; }
 
-    //TODO: User
+    public User User { get; private set; }
 }
