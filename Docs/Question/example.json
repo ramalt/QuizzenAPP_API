@@ -27,6 +27,7 @@
     },
     "answers": [
         {
+            "id": "00000000-0000-0000-0000-000000000000",
             "user": {
                 "id": "00000000-0000-0000-0000-000000000000",
                 "username": "clever_boy7",
@@ -34,7 +35,7 @@
                     "url": "https://picsum.photos/id/237/200/300"
                 }
             },
-            "description": "Popülasyon büyüklüğünü belirlemek için kullanılan logaritma formülü, büyüme oranı ve başlangıç büyüklüğü arasındaki ilişkiyi ifade eden N(t) = N0 * e^(rt) formülüdür",
+            "text": "Popülasyon büyüklüğünü belirlemek için kullanılan logaritma formülü, büyüme oranı ve başlangıç büyüklüğü arasındaki ilişkiyi ifade eden N(t) = N0 * e^(rt) formülüdür",
             "images": [
                 {
                     "url": "https://picsum.photos/id/237/200/300"
@@ -42,7 +43,28 @@
                 {
                     "url": "https://picsum.photos/id/237/200/300"
                 }
-            ]
+            ],
+            "status": "approved"
+        },
+        {
+            "id": "00000000-0000-0000-0000-000000000000",
+            "user": {
+                "id": "00000000-0000-0000-0000-000000000000",
+                "username": "amazing_student57",
+                "profileImg": {
+                    "url": "https://picsum.photos/id/237/200/300"
+                }
+            },
+            "text": "Popülasyon büyüklüğünü belirlemek için kullanılan logaritma formülü, büyüme oranı ve başlangıç büyüklüğü arasındaki ilişkiyi ifade eden N(t) = N0 * e^(rt) formülüdür",
+            "images": [
+                {
+                    "url": "https://picsum.photos/id/237/200/300"
+                },
+                {
+                    "url": "https://picsum.photos/id/237/200/300"
+                }
+            ],
+            "status": "active"
         }
     ],
     "upvote": 24,

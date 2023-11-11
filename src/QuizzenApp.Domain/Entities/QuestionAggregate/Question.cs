@@ -13,4 +13,5 @@ public class Question : AggregateRoot<QuestionId>
     public Exam Exam { get; private set; }
     public QuestionStatus Status { get; private set; }
 
+    //TODO: User
 }
