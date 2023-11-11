@@ -14,4 +14,7 @@ public record ExamId
         }
         Value = value;
     }
+
+    public static implicit operator Guid(ExamId id) => id.Value;
+    public static implicit operator ExamId(Guid id) => new(id);
 }
