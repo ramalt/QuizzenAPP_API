@@ -5,7 +5,7 @@ namespace QuizzenApp.Domain.Entities.ExamAggregate;
 
 public class Exam : AggregateRoot<ExamId>
 {
-    public ExamId Id { get; private set; }
+    public new ExamId Id { get; private set; }
     public string Name { get; private set; }
     public List<ExamTopic> Topics { get; private set; }
 
