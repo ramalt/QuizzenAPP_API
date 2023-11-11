@@ -1,8 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http.Headers;
-using System.Threading.Tasks;
 using QuizzenApp.Domain.Exceptions.Common;
 
 namespace QuizzenApp.Domain.Entities.AnswerAggregate.ValueObjects;
@@ -20,4 +15,8 @@ public record AnswerText
         }
         Value = value;
     }
+
+
+    public static implicit operator string(AnswerText text) => text.Value;
+    public static implicit operator AnswerText(string value) => new(value);
 }
