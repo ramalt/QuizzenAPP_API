@@ -21,6 +21,13 @@ public record QuestionDescription
             throw new QuestionOverLimitException(type: typeof(QuestionDescription), textMaxLimit.ToString());
         }
         Text = text;
-        Images = images;
+        Images = images ?? new List<QuestionImage>();
+    }
+
+    public void AddImages(List<QuestionImage> images)
+    {
+        images.ForEach(qi => {
+            Images.Add(qi);
+        });
     }
 }

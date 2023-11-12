@@ -8,15 +8,17 @@ using QuizzenApp.Shared.Domain;
 
 namespace QuizzenApp.Domain.Entities.QuestionAggregate;
 
-public class Question(Guid id, QuestionTitle title, QuestionDescription description, Exam exam, User user) : AggregateRoot<QuestionId>
+public class Question : AggregateRoot<QuestionId>
 {
-    public new QuestionId Id { get; private set; } = id;
-    public QuestionTitle Title {get; private set;} = title;
-    public QuestionDescription Description {get; private set;} = description;
-    public Exam Exam { get; private set; } = exam;
-    public QuestionStatus Status { get; private set; } = QuestionStatus.active;
+    public new QuestionId Id { get; private set; } 
+    public QuestionTitle Title { get; private set; } 
+    public QuestionDescription Description { get; private set; } 
+    public Exam Exam { get; private set; } 
+    public QuestionStatus Status { get; private set; } 
     public List<Answer>? Answers { get; private set; }
-    public User User { get; private set; } = user;
+    public User User { get; private set; } 
+    public DateTime CreatedDate { get; private set; }
+    public DateTime UpdatedDate { get; private set; }
 
     public void UpdateStatus(QuestionStatus status)
     {
@@ -26,4 +28,24 @@ public class Question(Guid id, QuestionTitle title, QuestionDescription descript
         }
         Status = status;
     }
+
+    public Question(Guid id, QuestionTitle title, QuestionDescription description, Exam exam, User user)
+    {
+        Id = id;
+        Title = title;
+        Description = description;
+        Exam = exam;
+        User = user;
+        Status = QuestionStatus.active;
+        CreatedDate = DateTime.Now;
+        UpdatedDate = DateTime.Now;
+        Answers = new List<Answer>();
+    }
+
+    public void AddAnswer(Answer answer)
+    {
+        Answer newAnswer = new(Guid.NewGuid(), answer.Text, answer.Images, answer.User);
+        Answers.Add(newAnswer);
+    }
+
 }

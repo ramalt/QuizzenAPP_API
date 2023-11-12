@@ -6,13 +6,22 @@ using QuizzenApp.Shared.Domain;
 
 namespace QuizzenApp.Domain.Entities.AnswerAggregate;
 
-public class Answer(Guid id, AnswerText text, User user, List<AnswerImage> images) : AggregateRoot<AnswerId>
+public class Answer : AggregateRoot<AnswerId>
 {
-    public new AnswerId Id { get; private set; } = id;
-    public AnswerText Text { get; private set; } = text;
-    public List<AnswerImage> Images { get; private set; } = images;
-    public AnswerStatus Status { get; private set; } = AnswerStatus.active;
-    public User User { get; private set; } = user;
+    public new AnswerId Id { get; private set; } 
+    public AnswerText Text { get; private set; } 
+    public List<AnswerImage> Images { get; private set; } 
+    public AnswerStatus Status { get; private set; } 
+    public User User { get; private set; } 
+
+    public Answer(AnswerId id, AnswerText text, List<AnswerImage> images, User user)
+    {
+        Id = id;
+        Text = text;
+        Images = images ?? new List<AnswerImage>();
+        Status = AnswerStatus.active;
+        User = user;
+    }
 
     public void UpdateStatus(AnswerStatus status)
     {
@@ -22,4 +31,12 @@ public class Answer(Guid id, AnswerText text, User user, List<AnswerImage> image
         }
         Status = status;
     }
+
+    public void AddImages(List<AnswerImage> images)
+    {
+        images.ForEach(ai => {
+            Images.Add(ai);
+        });
+    }
+
 }
