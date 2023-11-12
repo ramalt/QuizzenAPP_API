@@ -1,6 +1,6 @@
 using QuizzenApp.Domain.Entities.QuestionAggregate;
 
-namespace QuizzerApp.Application.Repositories;
+namespace QuizzerApp.Application.Common.Interfaces;
 
 public interface IQuestionRepository
 {

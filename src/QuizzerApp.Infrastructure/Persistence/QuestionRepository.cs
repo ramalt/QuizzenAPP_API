@@ -1,10 +1,10 @@
 using Microsoft.EntityFrameworkCore;
 using QuizzenApp.Domain.Entities.QuestionAggregate;
-using QuizzerApp.Application.Repositories;
+using QuizzerApp.Application.Common.Interfaces;
 using QuizzerApp.Infrastructure.Contracts;
 using QuizzerApp.Infrastructure.EFCore.Contexts;
 
-namespace QuizzerApp.Infrastructure.Repositories;
+namespace QuizzerApp.Infrastructure.Persistence;
 
 public class QuestionRepository(QuizzerAppContext context) : RepositoryBase<Question>(context) , IQuestionRepository
 {
