@@ -18,7 +18,7 @@ public class Question(Guid id, QuestionTitle title, QuestionDescription descript
     public List<Answer>? Answers { get; private set; }
     public User User { get; private set; } = user;
 
-        public void UpdateStatus(QuestionStatus status)
+    public void UpdateStatus(QuestionStatus status)
     {
         if (!Enum.IsDefined(typeof(QuestionStatus), status))
         {
