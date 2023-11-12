@@ -9,6 +9,7 @@ public static class Extensions
 {
     public static void UseSqlServer(this IServiceCollection services, IConfiguration config)
     {
-        services.AddDbContext<QuizzerAppContext>(context => context.UseSqlServer("TODO: Add Connection string from API appsettings"));
+        var sqlServerOptions = config.GetSection("SqlServer");
+        services.AddDbContext<QuizzerAppContext>(context => context.UseSqlServer(sqlServerOptions["ConnectionString"]));
     }
 }

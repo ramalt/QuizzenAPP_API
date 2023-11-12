@@ -7,7 +7,7 @@ public class AnswerModel
     public List<AnswerImageModel> Images { get; set; }
     public AnswerStatusModel Status { get; set; }
 
-    public Guid UserId { get; set; }
+    public string UserId { get; set; }
     public UserModel User { get; set; }
 
     public Guid QuestionId { get; set; }
@@ -23,7 +23,7 @@ public enum AnswerStatusModel
 
 public class AnswerImageModel
 {
-    // public Guid Id { get; set; }
+    public Guid Id { get; set; }
     public string Url { get; set; }
     public Guid AnswerId { get; set; }
 }

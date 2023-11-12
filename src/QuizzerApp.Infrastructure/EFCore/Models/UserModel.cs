@@ -4,12 +4,6 @@ namespace QuizzerApp.Infrastructure.EFCore.Models;
 
 public class UserModel : IdentityUser
 {
-    public UserModel(string userName, UserProfileImage profilePic, Gender gender) : base(userName)
-    {
-        ProfilePic = profilePic;
-        Gender = gender;
-    }
-
     public UserProfileImage ProfilePic { get; private set; }
     public Gender Gender { get; private set; }
 

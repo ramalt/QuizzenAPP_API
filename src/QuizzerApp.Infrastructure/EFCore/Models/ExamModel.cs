@@ -12,6 +12,7 @@ public class ExamModel
 
 public class ExamTopicModel
 {
+    public Guid Id { get; set; }
     public string Name { get; set; }
     public Guid ExamId { get; set; }
     public ExamModel Exam { get; set; }

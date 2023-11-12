@@ -20,7 +20,13 @@ public class QuestionConfiguration : IEntityTypeConfiguration<QuestionModel>
 
         builder.HasOne(q => q.User)
             .WithMany(u => u.Questions)
-            .HasForeignKey(q => q.UserId);
+            .HasForeignKey(q => q.UserId)
+            .IsRequired();
+
+        //  builder.Property(u => u.Id)
+        //     .ValueGeneratedOnAdd()
+        //     .IsRequired()
+        //     .HasColumnType("uniqueidentifier");
         
         builder.HasMany(q => q.Answers)
             .WithOne(a => a.Question)
@@ -46,13 +52,19 @@ public class AnswerConfiguration : IEntityTypeConfiguration<AnswerModel>
             .WithMany(u => u.Answers)
             .HasForeignKey(a => a.UserId);
 
+            //      builder.Property(u => u.Id)
+            // .ValueGeneratedOnAdd()
+            // .IsRequired()
+            // .HasColumnType("uniqueidentifier");
+
         builder.HasOne(a => a.Question)
             .WithMany(q => q.Answers)
             .HasForeignKey(a => a.QuestionId);
 
         builder.HasMany(a => a.Images)
             .WithOne()
-            .HasForeignKey(ai => ai.AnswerId);
+            .HasForeignKey(ai => ai.AnswerId)
+            .IsRequired();
 
     }
 }
@@ -61,7 +73,7 @@ public class AnswerImageModelConfiguration : IEntityTypeConfiguration<AnswerImag
 {
     public void Configure(EntityTypeBuilder<AnswerImageModel> builder)
     {
-        // builder.HasKey(ai => ai.Id);
+        builder.HasKey(ai => ai.Id);
         // builder.Property(ai => ai.Url).IsRequired();
 
         builder.Property(ai => ai.Url)
@@ -91,6 +103,7 @@ public class ExamTopicModelConfiguration : IEntityTypeConfiguration<ExamTopicMod
 {
     public void Configure(EntityTypeBuilder<ExamTopicModel> builder)
     {
+        builder.HasKey(et => et.Id);
           builder.HasOne(et => et.Exam)
                .WithMany(e => e.Topics)
                .HasForeignKey(et => et.ExamId)
@@ -103,7 +116,11 @@ public class UserModelConfiguration : IEntityTypeConfiguration<UserModel>
 {
     public void Configure(EntityTypeBuilder<UserModel> builder)
     {
-        builder.HasKey(u => u.Id);
+        // builder.HasKey(u => u.Id);
+
+  builder.Property(u => u.Id)
+            .ValueGeneratedOnAdd()
+            .HasColumnType("varchar(255)"); 
 
         builder.OwnsOne(u => u.ProfilePic);
 

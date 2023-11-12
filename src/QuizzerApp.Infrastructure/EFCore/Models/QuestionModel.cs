@@ -13,7 +13,7 @@ public class QuestionModel
     public Guid ExamId { get; set; }
     public ExamModel Exam { get; set; }
 
-    public Guid UserId { get; set; }
+    public string UserId { get; set; }
     public UserModel User { get; set; }
 }
 
