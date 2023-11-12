@@ -422,7 +422,7 @@ namespace QuizzerApp.Infrastructure.EFCore.Migrations
                     b.HasOne("QuizzerApp.Infrastructure.EFCore.Models.QuestionModel", "Question")
                         .WithMany("Answers")
                         .HasForeignKey("QuestionId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("QuizzerApp.Infrastructure.EFCore.Models.UserModel", "User")

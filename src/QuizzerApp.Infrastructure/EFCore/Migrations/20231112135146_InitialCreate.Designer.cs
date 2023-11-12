@@ -12,7 +12,7 @@ using QuizzerApp.Infrastructure.EFCore.Contexts;
 namespace QuizzerApp.Infrastructure.EFCore.Migrations
 {
     [DbContext(typeof(QuizzerAppContext))]
-    [Migration("20231112131645_InitialCreate")]
+    [Migration("20231112135146_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -425,7 +425,7 @@ namespace QuizzerApp.Infrastructure.EFCore.Migrations
                     b.HasOne("QuizzerApp.Infrastructure.EFCore.Models.QuestionModel", "Question")
                         .WithMany("Answers")
                         .HasForeignKey("QuestionId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("QuizzerApp.Infrastructure.EFCore.Models.UserModel", "User")

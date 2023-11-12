@@ -12,7 +12,11 @@
 *.user
 *.userosscache
 *.sln.docstates
+<<<<<<< HEAD
 .vscode
+=======
+*.vscode
+>>>>>>> b29d76d (- Infrastructure: Migrations cascade exception fix.)
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs

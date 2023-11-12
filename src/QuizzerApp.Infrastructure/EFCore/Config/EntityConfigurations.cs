@@ -22,11 +22,6 @@ public class QuestionConfiguration : IEntityTypeConfiguration<QuestionModel>
             .WithMany(u => u.Questions)
             .HasForeignKey(q => q.UserId)
             .IsRequired();
-
-        //  builder.Property(u => u.Id)
-        //     .ValueGeneratedOnAdd()
-        //     .IsRequired()
-        //     .HasColumnType("uniqueidentifier");
         
         builder.HasMany(q => q.Answers)
             .WithOne(a => a.Question)
@@ -52,14 +47,10 @@ public class AnswerConfiguration : IEntityTypeConfiguration<AnswerModel>
             .WithMany(u => u.Answers)
             .HasForeignKey(a => a.UserId);
 
-            //      builder.Property(u => u.Id)
-            // .ValueGeneratedOnAdd()
-            // .IsRequired()
-            // .HasColumnType("uniqueidentifier");
-
         builder.HasOne(a => a.Question)
             .WithMany(q => q.Answers)
-            .HasForeignKey(a => a.QuestionId);
+            .HasForeignKey(a => a.QuestionId)
+            .OnDelete(DeleteBehavior.NoAction);
 
         builder.HasMany(a => a.Images)
             .WithOne()
@@ -74,7 +65,6 @@ public class AnswerImageModelConfiguration : IEntityTypeConfiguration<AnswerImag
     public void Configure(EntityTypeBuilder<AnswerImageModel> builder)
     {
         builder.HasKey(ai => ai.Id);
-        // builder.Property(ai => ai.Url).IsRequired();
 
         builder.Property(ai => ai.Url)
         .IsRequired();
@@ -116,7 +106,6 @@ public class UserModelConfiguration : IEntityTypeConfiguration<UserModel>
 {
     public void Configure(EntityTypeBuilder<UserModel> builder)
     {
-        // builder.HasKey(u => u.Id);
 
   builder.Property(u => u.Id)
             .ValueGeneratedOnAdd()
