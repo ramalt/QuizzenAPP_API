@@ -261,7 +261,7 @@ namespace QuizzerApp.Infrastructure.EFCore.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Answers", (string)null);
+                    b.ToTable("Answers");
                 });
 
             modelBuilder.Entity("QuizzenApp.Domain.Entities.AnswerAggregate.ValueObjects.AnswerImage", b =>
@@ -318,7 +318,7 @@ namespace QuizzerApp.Infrastructure.EFCore.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Questions", (string)null);
+                    b.ToTable("Questions");
                 });
 
             modelBuilder.Entity("QuizzenApp.Domain.Entities.QuestionAggregate.ValueObjects.QuestionImage", b =>

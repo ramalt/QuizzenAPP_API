@@ -1,6 +1,6 @@
 namespace QuizzenApp.Domain.Entities.ExamAggregate;
 
-public record Exam(string examType, string topic)
+public record Exam(string ExamType, string Topic)
 {
 
     public static Exam Create(string value)
@@ -11,7 +11,7 @@ public record Exam(string examType, string topic)
 
     public override string ToString()
     {
-        return $"{examType}-{topic}";
+        return $"{ExamType}-{Topic}";
     }
 
 

@@ -11,14 +11,12 @@ public record QuestionDescription
     {
         int textMaxLimit = 500;
         if (string.IsNullOrWhiteSpace(value))
-        {
             throw new EmptyValueException(nameof(value));
-        }
+
 
         if (value.Length > textMaxLimit)
-        {
             throw new QuestionOverLimitException(type: typeof(QuestionDescription), textMaxLimit.ToString());
-        }
+
         Value = value;
     }
 

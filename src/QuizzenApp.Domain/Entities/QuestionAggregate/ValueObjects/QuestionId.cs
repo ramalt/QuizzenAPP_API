@@ -9,9 +9,8 @@ public record QuestionId
     public QuestionId(Guid value)
     {
         if (value == Guid.Empty)
-        {
             throw new EmptyValueException(nameof(QuestionId));
-        }
+
         Value = value;
     }
 

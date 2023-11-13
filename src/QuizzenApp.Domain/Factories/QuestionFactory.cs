@@ -11,7 +11,7 @@ public class QuestionFactory : IQuestionFactory
     {
         Exam exam = Exam.Create(examType);
         User owner = new(user.UserName, user.ProfilePic, user.Gender);
-        return new (Guid.NewGuid(), title, description, images ,exam,  owner );
+        return new(Guid.NewGuid(), title, description, images, exam, owner);
     }
 
 }

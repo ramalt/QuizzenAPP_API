@@ -6,9 +6,9 @@ using QuizzenApp.Domain.Enums;
 
 namespace QuizzenApp.Domain.Entities.UserAggregate;
 
-public class User : IdentityUser 
+public class User : IdentityUser
 {
-    public User(){}
+    public User() { }
     public User(string userName, UserProfileImage profilePic, Gender gender) : base(userName)
     {
         ProfilePic = profilePic;
@@ -17,6 +17,6 @@ public class User : IdentityUser
 
     public UserProfileImage ProfilePic { get; private set; }
     public Gender Gender { get; private set; }
-    public ICollection<Question> Questions { get; set; }
-    public ICollection<Answer> Answers { get; set; }
+    public ICollection<Question> Questions { get; private set; }
+    public ICollection<Answer> Answers { get; private set; }
 }

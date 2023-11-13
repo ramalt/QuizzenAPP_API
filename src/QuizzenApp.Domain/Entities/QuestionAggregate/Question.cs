@@ -10,31 +10,30 @@ namespace QuizzenApp.Domain.Entities.QuestionAggregate;
 
 public class Question : AggregateRoot<QuestionId>
 {
-    public new QuestionId Id { get; private set; } 
-    public QuestionTitle Title { get; private set; } 
-    public QuestionDescription Description { get; private set; } 
-    public Exam Exam { get; private set; } 
-    public QuestionStatus Status { get; private set; } 
-    public List<Answer>? Answers { get; private set; }
+    public new QuestionId Id { get; private set; }
+    public QuestionTitle Title { get; private set; }
+    public QuestionDescription Description { get; private set; }
+    public Exam Exam { get; private set; }
+    public QuestionStatus Status { get; private set; }
+    public List<Answer> Answers;
 
-    public List<QuestionImage> Images = new();
+    public List<QuestionImage> Images;
     public string UserId { get; private set; }
-    public User User { get; private set; } 
+    public User User { get; private set; }
     public DateTime CreatedDate { get; private set; }
     public DateTime UpdatedDate { get; private set; }
 
     public void UpdateStatus(QuestionStatus status)
     {
         if (!Enum.IsDefined(typeof(QuestionStatus), status))
-        {
             throw new InvalidStatusException(typeof(QuestionStatus), status);
-        }
+
         Status = status;
     }
 
-    public Question(){}
+    public Question() { }
 
-    public Question(Guid id, QuestionTitle title, QuestionDescription description,List<QuestionImage> images , Exam exam, User user)
+    public Question(Guid id, QuestionTitle title, QuestionDescription description, List<QuestionImage> images, Exam exam, User user)
     {
         Id = id;
         Title = title;
@@ -45,7 +44,7 @@ public class Question : AggregateRoot<QuestionId>
         Images = images ?? new List<QuestionImage>();
         CreatedDate = DateTime.Now;
         UpdatedDate = DateTime.Now;
-        Answers = new List<Answer>();
+        Answers = new();
     }
 
     public void AddAnswer(Answer answer)
@@ -57,9 +56,8 @@ public class Question : AggregateRoot<QuestionId>
 
     public void AddImages(List<QuestionImage> images)
     {
-        images.ForEach(qi => {
-            Images.Add(qi);
-        });
+        images.ForEach(qi => Images.Add(qi));
+        UpdatedDate = DateTime.Now;
     }
 
 }

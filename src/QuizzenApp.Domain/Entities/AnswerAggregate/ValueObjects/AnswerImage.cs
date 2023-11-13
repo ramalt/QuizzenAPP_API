@@ -11,11 +11,11 @@ public class AnswerImage
     public AnswerImage(AnswerImageId id, string url)
     {
         Id = id;
-        Url = url;   
+        Url = url;
     }
 
     public AnswerImage()
     {
-        
+
     }
 }

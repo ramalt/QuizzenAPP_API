@@ -6,7 +6,7 @@ namespace QuizzerApp.Infrastructure.Contracts;
 
 public abstract class RepositoryBase<T> where T : class
 {
-        private readonly QuizzerAppContext _context;
+    private readonly QuizzerAppContext _context;
 
     protected RepositoryBase(QuizzerAppContext context)
     {

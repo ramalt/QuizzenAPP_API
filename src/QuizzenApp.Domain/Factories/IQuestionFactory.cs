@@ -1,4 +1,3 @@
-using QuizzenApp.Domain.Entities.ExamAggregate;
 using QuizzenApp.Domain.Entities.QuestionAggregate;
 using QuizzenApp.Domain.Entities.QuestionAggregate.ValueObjects;
 using QuizzenApp.Domain.Entities.UserAggregate;

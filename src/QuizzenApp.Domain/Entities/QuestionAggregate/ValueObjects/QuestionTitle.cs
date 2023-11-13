@@ -5,7 +5,7 @@ namespace QuizzenApp.Domain.Entities.QuestionAggregate.ValueObjects;
 
 public record QuestionTitle
 {
-    public string Value { get; init; }    
+    public string Value { get; init; }
     public QuestionTitle(string value)
     {
         int valueMaxLength = 200;
@@ -13,8 +13,8 @@ public record QuestionTitle
             throw new EmptyValueException(nameof(QuestionTitle));
 
         if (value.Length > valueMaxLength)
-            throw new QuestionOverLimitException(nameof(QuestionTitle), valueMaxLength.ToString()); 
-        
+            throw new QuestionOverLimitException(nameof(QuestionTitle), valueMaxLength.ToString());
+
         Value = value;
     }
 

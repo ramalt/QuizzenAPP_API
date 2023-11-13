@@ -4,7 +4,7 @@ namespace QuizzenApp.Domain.Entities.AnswerAggregate.ValueObjects;
 
 public record AnswerId
 {
-    public Guid Value { get; init; }    
+    public Guid Value { get; init; }
 
     public AnswerId(Guid value)
     {

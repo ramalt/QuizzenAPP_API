@@ -1,4 +1,5 @@
 using QuizzenApp.Domain.Exceptions.Common;
+using QuizzenApp.Domain.Exceptions.QuestionExceptions;
 
 namespace QuizzenApp.Domain.Entities.AnswerAggregate.ValueObjects;
 
@@ -9,13 +10,10 @@ public record AnswerText
     public AnswerText(string value)
     {
         if (string.IsNullOrWhiteSpace(value))
-        {
             throw new EmptyValueException(nameof(AnswerText));
 
-        }
         Value = value;
     }
-
 
     public static implicit operator string(AnswerText text) => text.Value;
     public static implicit operator AnswerText(string value) => new(value);
