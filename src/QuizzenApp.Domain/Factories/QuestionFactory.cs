@@ -7,12 +7,11 @@ namespace QuizzenApp.Domain.Factories;
 
 public class QuestionFactory : IQuestionFactory
 {
-    public Question Create(QuestionTitle title, Exam examType, QuestionDescription description, User user)
+    public Question Create(QuestionTitle title, string examType, QuestionDescription description, User user, List<QuestionImage> images)
     {
-        Exam exam = new(examType.Id, examType.Name, examType.Topics);
-        QuestionDescription questionDesc = new(description.Text, description.Images);
+        Exam exam = Exam.Create(examType);
         User owner = new(user.UserName, user.ProfilePic, user.Gender);
-        return new (Guid.NewGuid(), title, questionDesc, exam,  user );
+        return new (Guid.NewGuid(), title, description, images ,exam,  owner );
     }
 
 }

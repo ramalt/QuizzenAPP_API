@@ -1,4 +1,6 @@
 using QuizzenApp.Domain.Entities.AnswerAggregate.ValueObjects;
+using QuizzenApp.Domain.Entities.QuestionAggregate;
+using QuizzenApp.Domain.Entities.QuestionAggregate.ValueObjects;
 using QuizzenApp.Domain.Entities.UserAggregate;
 using QuizzenApp.Domain.Enums;
 using QuizzenApp.Domain.Exceptions.AnswerExceptions;
@@ -12,15 +14,26 @@ public class Answer : AggregateRoot<AnswerId>
     public AnswerText Text { get; private set; } 
     public List<AnswerImage> Images { get; private set; } 
     public AnswerStatus Status { get; private set; } 
+
+    public string UserId { get; private set; }
     public User User { get; private set; } 
 
-    public Answer(AnswerId id, AnswerText text, List<AnswerImage> images, User user)
+    public QuestionId QuestionId { get; set; }
+    public virtual Question Question { get; set; }
+
+    public DateTime CreatedDate { get; private set; }
+    public DateTime UpdatedDate { get; private set; }
+
+    public Answer(){}
+
+    public Answer(AnswerId id, AnswerText text, List<AnswerImage> images, User user, Guid questionId)
     {
         Id = id;
         Text = text;
         Images = images ?? new List<AnswerImage>();
         Status = AnswerStatus.active;
         User = user;
+        QuestionId = questionId;
     }
 
     public void UpdateStatus(AnswerStatus status)

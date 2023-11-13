@@ -5,29 +5,25 @@ namespace QuizzenApp.Domain.Entities.QuestionAggregate.ValueObjects;
 
 public record QuestionDescription
 {
-    public string Text { get; init; }
-    public List<QuestionImage> Images { get; init; }
+    public string Value { get; init; }
 
-    public QuestionDescription(string text, List<QuestionImage> images)
+    public QuestionDescription(string value)
     {
         int textMaxLimit = 500;
-        if (string.IsNullOrWhiteSpace(text))
+        if (string.IsNullOrWhiteSpace(value))
         {
-            throw new EmptyValueException(nameof(Text));
+            throw new EmptyValueException(nameof(value));
         }
 
-        if (text.Length > textMaxLimit)
+        if (value.Length > textMaxLimit)
         {
             throw new QuestionOverLimitException(type: typeof(QuestionDescription), textMaxLimit.ToString());
         }
-        Text = text;
-        Images = images ?? new List<QuestionImage>();
+        Value = value;
     }
 
-    public void AddImages(List<QuestionImage> images)
-    {
-        images.ForEach(qi => {
-            Images.Add(qi);
-        });
-    }
+    public static implicit operator string(QuestionDescription text) => text.Value;
+    public static implicit operator QuestionDescription(string value) => new(value);
+
+
 }

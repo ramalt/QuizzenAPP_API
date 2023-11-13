@@ -229,31 +229,13 @@ namespace QuizzerApp.Infrastructure.EFCore.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("QuizzerApp.Infrastructure.EFCore.Models.AnswerImageModel", b =>
+            modelBuilder.Entity("QuizzenApp.Domain.Entities.AnswerAggregate.Answer", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("AnswerId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Url")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AnswerId");
-
-                    b.ToTable("AnswerImageModel");
-                });
-
-            modelBuilder.Entity("QuizzerApp.Infrastructure.EFCore.Models.AnswerModel", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<Guid>("QuestionId")
                         .HasColumnType("uniqueidentifier");
@@ -265,6 +247,9 @@ namespace QuizzerApp.Infrastructure.EFCore.Migrations
                     b.Property<string>("Text")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("UpdatedDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("UserId")
                         .IsRequired()
@@ -279,60 +264,51 @@ namespace QuizzerApp.Infrastructure.EFCore.Migrations
                     b.ToTable("Answers", (string)null);
                 });
 
-            modelBuilder.Entity("QuizzerApp.Infrastructure.EFCore.Models.ExamModel", b =>
+            modelBuilder.Entity("QuizzenApp.Domain.Entities.AnswerAggregate.ValueObjects.AnswerImage", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("Name")
+                    b.Property<Guid>("AnswerId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Url")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Exams");
+                    b.HasIndex("AnswerId");
+
+                    b.ToTable("AnswerImage");
                 });
 
-            modelBuilder.Entity("QuizzerApp.Infrastructure.EFCore.Models.ExamTopicModel", b =>
+            modelBuilder.Entity("QuizzenApp.Domain.Entities.QuestionAggregate.Question", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("ExamId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ExamId");
-
-                    b.ToTable("ExamTopicModel");
-                });
-
-            modelBuilder.Entity("QuizzerApp.Infrastructure.EFCore.Models.QuestionModel", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid>("ExamId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("Exam")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Status")
-                        .HasColumnType("int");
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("UpdatedDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("UserId")
                         .IsRequired()
@@ -340,21 +316,39 @@ namespace QuizzerApp.Infrastructure.EFCore.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ExamId");
-
                     b.HasIndex("UserId");
 
                     b.ToTable("Questions", (string)null);
                 });
 
-            modelBuilder.Entity("QuizzerApp.Infrastructure.EFCore.Models.UserModel", b =>
+            modelBuilder.Entity("QuizzenApp.Domain.Entities.QuestionAggregate.ValueObjects.QuestionImage", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("QuestionId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Url")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("QuestionId");
+
+                    b.ToTable("QuestionImage");
+                });
+
+            modelBuilder.Entity("QuizzenApp.Domain.Entities.UserAggregate.User", b =>
                 {
                     b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUser");
 
                     b.Property<int>("Gender")
                         .HasColumnType("int");
 
-                    b.HasDiscriminator().HasValue("UserModel");
+                    b.HasDiscriminator().HasValue("User");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -408,24 +402,15 @@ namespace QuizzerApp.Infrastructure.EFCore.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("QuizzerApp.Infrastructure.EFCore.Models.AnswerImageModel", b =>
+            modelBuilder.Entity("QuizzenApp.Domain.Entities.AnswerAggregate.Answer", b =>
                 {
-                    b.HasOne("QuizzerApp.Infrastructure.EFCore.Models.AnswerModel", null)
-                        .WithMany("Images")
-                        .HasForeignKey("AnswerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("QuizzerApp.Infrastructure.EFCore.Models.AnswerModel", b =>
-                {
-                    b.HasOne("QuizzerApp.Infrastructure.EFCore.Models.QuestionModel", "Question")
+                    b.HasOne("QuizzenApp.Domain.Entities.QuestionAggregate.Question", "Question")
                         .WithMany("Answers")
                         .HasForeignKey("QuestionId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
-                    b.HasOne("QuizzerApp.Infrastructure.EFCore.Models.UserModel", "User")
+                    b.HasOne("QuizzenApp.Domain.Entities.UserAggregate.User", "User")
                         .WithMany("Answers")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -436,77 +421,75 @@ namespace QuizzerApp.Infrastructure.EFCore.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("QuizzerApp.Infrastructure.EFCore.Models.ExamTopicModel", b =>
+            modelBuilder.Entity("QuizzenApp.Domain.Entities.AnswerAggregate.ValueObjects.AnswerImage", b =>
                 {
-                    b.HasOne("QuizzerApp.Infrastructure.EFCore.Models.ExamModel", "Exam")
-                        .WithMany("Topics")
-                        .HasForeignKey("ExamId")
+                    b.HasOne("QuizzenApp.Domain.Entities.AnswerAggregate.Answer", "Answer")
+                        .WithMany("Images")
+                        .HasForeignKey("AnswerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Exam");
+                    b.Navigation("Answer");
                 });
 
-            modelBuilder.Entity("QuizzerApp.Infrastructure.EFCore.Models.QuestionModel", b =>
+            modelBuilder.Entity("QuizzenApp.Domain.Entities.QuestionAggregate.Question", b =>
                 {
-                    b.HasOne("QuizzerApp.Infrastructure.EFCore.Models.ExamModel", "Exam")
-                        .WithMany("Questions")
-                        .HasForeignKey("ExamId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("QuizzerApp.Infrastructure.EFCore.Models.UserModel", "User")
+                    b.HasOne("QuizzenApp.Domain.Entities.UserAggregate.User", "User")
                         .WithMany("Questions")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Exam");
-
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("QuizzerApp.Infrastructure.EFCore.Models.UserModel", b =>
+            modelBuilder.Entity("QuizzenApp.Domain.Entities.QuestionAggregate.ValueObjects.QuestionImage", b =>
                 {
-                    b.OwnsOne("QuizzerApp.Infrastructure.EFCore.Models.UserProfileImage", "ProfilePic", b1 =>
+                    b.HasOne("QuizzenApp.Domain.Entities.QuestionAggregate.Question", "Question")
+                        .WithMany("Images")
+                        .HasForeignKey("QuestionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Question");
+                });
+
+            modelBuilder.Entity("QuizzenApp.Domain.Entities.UserAggregate.User", b =>
+                {
+                    b.OwnsOne("QuizzenApp.Domain.Entities.UserAggregate.ValueObjects.UserProfileImage", "ProfilePic", b1 =>
                         {
-                            b1.Property<string>("UserModelId")
+                            b1.Property<string>("UserId")
                                 .HasColumnType("varchar(255)");
 
                             b1.Property<string>("Url")
                                 .IsRequired()
                                 .HasColumnType("nvarchar(max)");
 
-                            b1.HasKey("UserModelId");
+                            b1.HasKey("UserId");
 
                             b1.ToTable("AspNetUsers");
 
                             b1.WithOwner()
-                                .HasForeignKey("UserModelId");
+                                .HasForeignKey("UserId");
                         });
 
                     b.Navigation("ProfilePic")
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("QuizzerApp.Infrastructure.EFCore.Models.AnswerModel", b =>
+            modelBuilder.Entity("QuizzenApp.Domain.Entities.AnswerAggregate.Answer", b =>
                 {
                     b.Navigation("Images");
                 });
 
-            modelBuilder.Entity("QuizzerApp.Infrastructure.EFCore.Models.ExamModel", b =>
-                {
-                    b.Navigation("Questions");
-
-                    b.Navigation("Topics");
-                });
-
-            modelBuilder.Entity("QuizzerApp.Infrastructure.EFCore.Models.QuestionModel", b =>
+            modelBuilder.Entity("QuizzenApp.Domain.Entities.QuestionAggregate.Question", b =>
                 {
                     b.Navigation("Answers");
+
+                    b.Navigation("Images");
                 });
 
-            modelBuilder.Entity("QuizzerApp.Infrastructure.EFCore.Models.UserModel", b =>
+            modelBuilder.Entity("QuizzenApp.Domain.Entities.UserAggregate.User", b =>
                 {
                     b.Navigation("Answers");
 

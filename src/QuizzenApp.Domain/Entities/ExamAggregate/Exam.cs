@@ -1,19 +1,18 @@
-using QuizzenApp.Domain.Entities.ExamAggregate.ValueObjects;
-using QuizzenApp.Shared.Domain;
-
 namespace QuizzenApp.Domain.Entities.ExamAggregate;
 
-public class Exam : AggregateRoot<ExamId>
+public record Exam(string examType, string topic)
 {
-    public new ExamId Id { get; private set; }
-    public string Name { get; private set; }
-    public List<ExamTopic> Topics { get; private set; }
 
-    public Exam(Guid id, string name, List<ExamTopic> topics)
+    public static Exam Create(string value)
     {
-        Id = id;
-        Name = name;
-        Topics = topics;
+        var splitLocalization = value.Split(',');
+        return new(splitLocalization.First(), splitLocalization.Last());
     }
+
+    public override string ToString()
+    {
+        return $"{examType}-{topic}";
+    }
+
 
 }

@@ -1,16 +1,21 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
 namespace QuizzenApp.Domain.Entities.AnswerAggregate.ValueObjects;
 
 public class AnswerImage
 {
-    public string Url { get; init; }
+    public AnswerImageId Id { get; private set; }
+    public string Url { get; set; }
 
-    public AnswerImage(string url)
+    public AnswerId AnswerId { get; set; }
+    public Answer Answer { get; set; }
+
+    public AnswerImage(AnswerImageId id, string url)
     {
+        Id = id;
         Url = url;   
+    }
+
+    public AnswerImage()
+    {
+        
     }
 }

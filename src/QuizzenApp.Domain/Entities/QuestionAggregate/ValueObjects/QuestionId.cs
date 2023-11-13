@@ -15,6 +15,6 @@ public record QuestionId
         Value = value;
     }
 
-        public static implicit operator Guid(QuestionId id) => id.Value;
+    public static implicit operator Guid(QuestionId id) => id.Value;
     public static implicit operator QuestionId(Guid value) => new(value);
 }
