@@ -8,7 +8,7 @@ namespace QuizzerApp.Infrastructure.Persistence;
 
 public class QuestionRepository(QuizzerAppContext context) : RepositoryBase<Question>(context) , IQuestionRepository
 {
-    public void CreateAsync(Question question) => Create(question);
+    public async Task CreateAsync(Question question) => Create(question);
     public void DeleteAsync(Question question) => Delete(question);
     public void UpdateAsync(Question question) => Update(question);
     public async Task<List<Question>> GetAllAsync() => FindAll(false).OrderBy(b => b.Id).ToList();
