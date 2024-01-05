@@ -12,6 +12,7 @@ public static class Extensions
     {
         services.UseSqlServer(config);
 
-        services.AddScoped<IQuestionRepository, QuestionRepository>();
+        // services.AddScoped<IQuestionRepository, QuestionRepository>();
+        services.AddScoped<IRepositoryManager, RepositoryManager>();
     }
 }

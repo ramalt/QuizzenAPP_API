@@ -1,3 +1,4 @@
+using System.Runtime.CompilerServices;
 using MediatR;
 using QuizzerApp.Application.Common.Interfaces;
 using Entity = QuizzenApp.Domain.Entities;
@@ -6,11 +7,11 @@ namespace QuizzerApp.Application.Features.Commands.Question.CreateQuestion;
 
 public class CreateQuestionCommandHandler : IRequestHandler<CreateQuestionCommand, bool>
 {
-    private readonly IQuestionRepository _repository;
+    private readonly IRepositoryManager _manager;
 
-    public CreateQuestionCommandHandler(IQuestionRepository repository)
+    public CreateQuestionCommandHandler(IRepositoryManager manager)
     {
-        _repository = repository;
+        _manager = manager;
     }
 
     public async Task<bool> Handle(CreateQuestionCommand request, CancellationToken cancellationToken)
@@ -22,7 +23,8 @@ public class CreateQuestionCommandHandler : IRequestHandler<CreateQuestionComman
                                        exam: request.Exam,
                                        userId: request.UserId);
 
-        await _repository.CreateAsync(question);
+        await _manager.Question.CreateAsync(question);
+        await _manager.SaveAsync();
 
         return true;
 

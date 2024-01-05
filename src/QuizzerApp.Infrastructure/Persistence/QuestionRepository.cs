@@ -13,5 +13,5 @@ public class QuestionRepository(QuizzerAppContext context) : RepositoryBase<Ques
     public void UpdateAsync(Question question) => Update(question);
     public async Task<List<Question>> GetAllAsync() => FindAll(false).OrderBy(b => b.Id).ToList();
     public async Task<Question> GetAsync(Guid id) => await FindByCondition(q => q.Id.Value == id, false).FirstOrDefaultAsync();
-    public async Task SaveChangesAsync() => await Save();
+    
 }

@@ -25,5 +25,4 @@ public abstract class RepositoryBase<T> where T : class
 
     public void Update(T entity) => _context.Set<T>().Update(entity);
 
-    public Task Save() =>  _context.SaveChangesAsync();
 }

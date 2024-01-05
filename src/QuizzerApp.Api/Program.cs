@@ -8,9 +8,9 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddControllers();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddApplication();
 
 builder.Services.AddInfrastructure(builder.Configuration);
+builder.Services.AddApplication();
 
 
 // builder.Services.Configure<RequestLocalizationOptions>(options =>
