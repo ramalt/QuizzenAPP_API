@@ -19,9 +19,8 @@ public class CreateQuestionCommandHandler : IRequestHandler<CreateQuestionComman
         Entity.QuestionAggregate.Question question = new(id: Guid.NewGuid(),
                                        title: request.Title,
                                        description: request.Description,
-                                       images: request.Images,
                                        exam: request.Exam,
-                                       user: null);
+                                       userId: request.UserId);
 
         await _repository.CreateAsync(question);
 

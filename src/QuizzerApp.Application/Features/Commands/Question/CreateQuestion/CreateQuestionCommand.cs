@@ -8,7 +8,6 @@ public record CreateQuestionCommand(Guid Id,
                                     string Title,
                                     string Description,
                                     Exam Exam,
-                                    List<QuestionImage> Images,
                                     string UserId) : IRequest<bool>
 {
 
