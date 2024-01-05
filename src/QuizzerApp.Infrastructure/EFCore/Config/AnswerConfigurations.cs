@@ -41,10 +41,10 @@ public class AnswerConfiguration : IEntityTypeConfiguration<Answer>
             .IsRequired();
 
         // IMAGES
-        builder.HasMany(a => a.Images)
-            .WithOne(ai => ai.Answer)
-            .HasForeignKey(ai => ai.AnswerId)
-            .OnDelete(DeleteBehavior.Cascade);
+        // builder.HasMany(a => a.Images)
+        //     .WithOne(ai => ai.Answer)
+        //     .HasForeignKey(ai => ai.AnswerId)
+        //     .OnDelete(DeleteBehavior.Cascade);
 
         builder.Property(a => a.CreatedDate).IsRequired();
         builder.Property(a => a.UpdatedDate).IsRequired();
@@ -52,22 +52,22 @@ public class AnswerConfiguration : IEntityTypeConfiguration<Answer>
     }
 }
 
-public class AnswerImageConfiguration : IEntityTypeConfiguration<AnswerImage>
-{
-    public void Configure(EntityTypeBuilder<AnswerImage> builder)
-    {
-        builder.Property(ai => ai.Id)
-            .HasConversion(
-                id => id.Value,
-                value => new AnswerImageId(value))
-            .IsRequired();
+// public class AnswerImageConfiguration : IEntityTypeConfiguration<AnswerImage>
+// {
+//     public void Configure(EntityTypeBuilder<AnswerImage> builder)
+//     {
+//         builder.Property(ai => ai.Id)
+//             .HasConversion(
+//                 id => id.Value,
+//                 value => new AnswerImageId(value))
+//             .IsRequired();
 
-        builder.Property(ai => ai.Url)
-        .IsRequired();
+//         builder.Property(ai => ai.Url)
+//         .IsRequired();
 
-        builder.HasOne(ai => ai.Answer)
-           .WithMany(a => a.Images)
-           .HasForeignKey(ai => ai.AnswerId)
-           .OnDelete(DeleteBehavior.Cascade);
-    }
-}
+//         builder.HasOne(ai => ai.Answer)
+//            .WithMany(a => a.Images)
+//            .HasForeignKey(ai => ai.AnswerId)
+//            .OnDelete(DeleteBehavior.Cascade);
+//     }
+// }

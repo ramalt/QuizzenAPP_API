@@ -2,7 +2,7 @@ namespace QuizzenApp.Domain.Enums;
 
 public enum AnswerStatus
 {
-    active,
-    approved,
-    deleted
+    active = 1,
+    approved = 0,
+    deleted = -1
 }

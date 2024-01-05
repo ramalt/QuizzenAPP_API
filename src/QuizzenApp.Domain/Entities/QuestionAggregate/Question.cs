@@ -15,9 +15,9 @@ public class Question : AggregateRoot<QuestionId>
     public QuestionDescription Description { get; private set; }
     public Exam Exam { get; private set; }
     public QuestionStatus Status { get; private set; }
-    public List<Answer> Answers;
+    public ICollection<Answer> Answers;
 
-    public List<QuestionImage> Images;
+    // public List<QuestionImage> Images;
     public string UserId { get; private set; }
     public User User { get; private set; }
     public DateTime CreatedDate { get; private set; }
@@ -33,31 +33,30 @@ public class Question : AggregateRoot<QuestionId>
 
     public Question() { }
 
-    public Question(Guid id, QuestionTitle title, QuestionDescription description, List<QuestionImage> images, Exam exam, User user)
+    public Question(Guid id, QuestionTitle title, QuestionDescription description, Exam exam, string userId)
     {
         Id = id;
         Title = title;
         Description = description;
         Exam = exam;
-        User = user;
+        UserId = userId;
         Status = QuestionStatus.active;
-        Images = images ?? new List<QuestionImage>();
+        // Images = images ?? new List<QuestionImage>();
         CreatedDate = DateTime.Now;
         UpdatedDate = DateTime.Now;
-        Answers = new();
     }
 
-    public void AddAnswer(Answer answer)
-    {
-        Answer newAnswer = new(Guid.NewGuid(), answer.Text, answer.Images, answer.User, answer.QuestionId);
-        Answers.Add(newAnswer);
-    }
+    // public void AddAnswer(Answer answer)
+    // {
+    //     Answer newAnswer = new(Guid.NewGuid(), answer.Text, answer.Images, answer.User, answer.QuestionId);
+    //     Answers.Add(newAnswer);
+    // }
 
 
-    public void AddImages(List<QuestionImage> images)
-    {
-        images.ForEach(qi => Images.Add(qi));
-        UpdatedDate = DateTime.Now;
-    }
+    // public void AddImages(List<QuestionImage> images)
+    // {
+    //     images.ForEach(qi => Images.Add(qi));
+    //     UpdatedDate = DateTime.Now;
+    // }
 
 }
