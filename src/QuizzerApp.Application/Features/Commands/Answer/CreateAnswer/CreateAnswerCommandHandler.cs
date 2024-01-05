@@ -17,8 +17,10 @@ public class CreateAnswerCommandHandler : IRequestHandler<CreateAnswerCommand, b
                                     userId: request.userId,
                                     questionId: request.questionId);
 
-        //TODO: save answer here.
+        await _manager.Answer.CreateAsync(answer: answer);
 
+        await _manager.SaveAsync();
+        
         return true;
     }
 }
