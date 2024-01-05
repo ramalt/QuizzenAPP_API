@@ -1,4 +1,3 @@
-using System.Runtime.CompilerServices;
 using MediatR;
 using QuizzerApp.Application.Common.Interfaces;
 using Entity = QuizzenApp.Domain.Entities;
@@ -21,13 +20,12 @@ public class CreateQuestionCommandHandler : IRequestHandler<CreateQuestionComman
                                        title: request.Title,
                                        description: request.Description,
                                        exam: request.Exam,
-                                       userId: request.UserId);
+                                       userId: "eccc7700-820e-46b8-99fc-836508448602");
 
         await _manager.Question.CreateAsync(question);
         await _manager.SaveAsync();
 
         return true;
-
 
     }
 }
