@@ -4,7 +4,8 @@ namespace QuizzerApp.Application.Common.Interfaces;
 
 public interface IRepositoryManager
 {
-    public IQuestionRepository Question { get; }   
+    public IQuestionRepository Question { get; }
+    public IUserRepository User { get; }
 
-    public Task SaveAsync(); 
+    public Task SaveAsync();
 }
