@@ -264,25 +264,6 @@ namespace QuizzerApp.Infrastructure.EFCore.Migrations
                     b.ToTable("Answers");
                 });
 
-            modelBuilder.Entity("QuizzenApp.Domain.Entities.AnswerAggregate.ValueObjects.AnswerImage", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("AnswerId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Url")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AnswerId");
-
-                    b.ToTable("AnswerImage");
-                });
-
             modelBuilder.Entity("QuizzenApp.Domain.Entities.QuestionAggregate.Question", b =>
                 {
                     b.Property<Guid>("Id")
@@ -319,26 +300,6 @@ namespace QuizzerApp.Infrastructure.EFCore.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Questions");
-                });
-
-            modelBuilder.Entity("QuizzenApp.Domain.Entities.QuestionAggregate.ValueObjects.QuestionImage", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("QuestionId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Url")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("QuestionId");
-
-                    b.ToTable("QuestionImage");
                 });
 
             modelBuilder.Entity("QuizzenApp.Domain.Entities.UserAggregate.User", b =>
@@ -421,17 +382,6 @@ namespace QuizzerApp.Infrastructure.EFCore.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("QuizzenApp.Domain.Entities.AnswerAggregate.ValueObjects.AnswerImage", b =>
-                {
-                    b.HasOne("QuizzenApp.Domain.Entities.AnswerAggregate.Answer", "Answer")
-                        .WithMany("Images")
-                        .HasForeignKey("AnswerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Answer");
-                });
-
             modelBuilder.Entity("QuizzenApp.Domain.Entities.QuestionAggregate.Question", b =>
                 {
                     b.HasOne("QuizzenApp.Domain.Entities.UserAggregate.User", "User")
@@ -443,50 +393,9 @@ namespace QuizzerApp.Infrastructure.EFCore.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("QuizzenApp.Domain.Entities.QuestionAggregate.ValueObjects.QuestionImage", b =>
-                {
-                    b.HasOne("QuizzenApp.Domain.Entities.QuestionAggregate.Question", "Question")
-                        .WithMany("Images")
-                        .HasForeignKey("QuestionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Question");
-                });
-
-            modelBuilder.Entity("QuizzenApp.Domain.Entities.UserAggregate.User", b =>
-                {
-                    b.OwnsOne("QuizzenApp.Domain.Entities.UserAggregate.ValueObjects.UserProfileImage", "ProfilePic", b1 =>
-                        {
-                            b1.Property<string>("UserId")
-                                .HasColumnType("varchar(255)");
-
-                            b1.Property<string>("Url")
-                                .IsRequired()
-                                .HasColumnType("nvarchar(max)");
-
-                            b1.HasKey("UserId");
-
-                            b1.ToTable("AspNetUsers");
-
-                            b1.WithOwner()
-                                .HasForeignKey("UserId");
-                        });
-
-                    b.Navigation("ProfilePic")
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("QuizzenApp.Domain.Entities.AnswerAggregate.Answer", b =>
-                {
-                    b.Navigation("Images");
-                });
-
             modelBuilder.Entity("QuizzenApp.Domain.Entities.QuestionAggregate.Question", b =>
                 {
                     b.Navigation("Answers");
-
-                    b.Navigation("Images");
                 });
 
             modelBuilder.Entity("QuizzenApp.Domain.Entities.UserAggregate.User", b =>

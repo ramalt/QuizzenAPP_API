@@ -24,4 +24,5 @@ public abstract class RepositoryBase<T> where T : class
         !trackChanges ? _context.Set<T>().Where(expression).AsNoTracking() : _context.Set<T>().Where(expression);
 
     public void Update(T entity) => _context.Set<T>().Update(entity);
+
 }

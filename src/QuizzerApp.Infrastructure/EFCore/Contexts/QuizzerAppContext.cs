@@ -12,9 +12,9 @@ public class QuizzerAppContext(DbContextOptions<QuizzerAppContext> options) : Id
     protected override void OnModelCreating(ModelBuilder builder)
     {
         builder.ApplyConfiguration(new QuestionConfiguration());
-        builder.ApplyConfiguration(new QuestionImageConfiguration());
+        // builder.ApplyConfiguration(new QuestionImageConfiguration());
         builder.ApplyConfiguration(new AnswerConfiguration());
-        builder.ApplyConfiguration(new AnswerImageConfiguration());
+        // builder.ApplyConfiguration(new AnswerImageConfiguration());
         builder.ApplyConfiguration(new UserConfiguration());
 
         base.OnModelCreating(builder);

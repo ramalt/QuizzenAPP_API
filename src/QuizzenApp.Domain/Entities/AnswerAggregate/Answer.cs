@@ -13,7 +13,7 @@ public sealed class Answer : AggregateRoot<AnswerId>
     public new AnswerId Id { get; private set; }
     public AnswerText Text { get; private set; }
     public AnswerStatus Status { get; private set; }
-    public List<AnswerImage> Images;
+    // public List<AnswerImage> Images;
 
     public string UserId { get; private set; }
     public User User { get; private set; }
@@ -26,13 +26,13 @@ public sealed class Answer : AggregateRoot<AnswerId>
 
     public Answer() { }
 
-    public Answer(AnswerId id, AnswerText text, List<AnswerImage> images, User user, Guid questionId)
+    public Answer(AnswerId id, AnswerText text, string userId, Guid questionId)
     {
         Id = id;
         Text = text;
-        Images = images ?? new List<AnswerImage>();
+        // Images = images ?? new List<AnswerImage>();
         Status = AnswerStatus.active;
-        User = user;
+        UserId = userId;
         QuestionId = questionId;
     }
 
@@ -44,10 +44,10 @@ public sealed class Answer : AggregateRoot<AnswerId>
         Status = status;
     }
 
-    public void AddImages(List<AnswerImage> images)
-    {
-        images.ForEach(ai => Images.Add(ai));
-        UpdatedDate = DateTime.Now;
-    }
+    // public void AddImages(List<AnswerImage> images)
+    // {
+    //     images.ForEach(ai => Images.Add(ai));
+    //     UpdatedDate = DateTime.Now;
+    // }
 
 }

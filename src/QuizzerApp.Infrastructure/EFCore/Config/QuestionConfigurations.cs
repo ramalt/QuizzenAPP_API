@@ -50,10 +50,10 @@ public class QuestionConfiguration : IEntityTypeConfiguration<Question>
             .OnDelete(DeleteBehavior.Cascade);
 
         // IMAGES
-        builder.HasMany(q => q.Images)
-            .WithOne()
-            .HasForeignKey(qi => qi.QuestionId)
-            .OnDelete(DeleteBehavior.Cascade);
+        // builder.HasMany(q => q.Images)
+        //     .WithOne()
+        //     .HasForeignKey(qi => qi.QuestionId)
+        //     .OnDelete(DeleteBehavior.Cascade);
 
 
         builder.Property(q => q.CreatedDate).IsRequired();
@@ -63,26 +63,26 @@ public class QuestionConfiguration : IEntityTypeConfiguration<Question>
 
 }
 
-public class QuestionImageConfiguration : IEntityTypeConfiguration<QuestionImage>
-{
-    public void Configure(EntityTypeBuilder<QuestionImage> builder)
-    {
-        builder.Property(qi => qi.Id)
-            .HasConversion(
-                id => id.Value,
-                value => new QuestionImageId(value))
-            .ValueGeneratedOnAdd()
-            .IsRequired();
+// public class QuestionImageConfiguration : IEntityTypeConfiguration<QuestionImage>
+// {
+//     public void Configure(EntityTypeBuilder<QuestionImage> builder)
+//     {
+//         builder.Property(qi => qi.Id)
+//             .HasConversion(
+//                 id => id.Value,
+//                 value => new QuestionImageId(value))
+//             .ValueGeneratedOnAdd()
+//             .IsRequired();
 
-        builder.Property(qi => qi.Url)
-            .IsRequired();
+//         builder.Property(qi => qi.Url)
+//             .IsRequired();
 
-        builder.HasOne(qi => qi.Question)
-            .WithMany(q => q.Images)
-            .HasForeignKey(qi => qi.QuestionId)
-            .OnDelete(DeleteBehavior.Cascade);
-    }
-}
+//         builder.HasOne(qi => qi.Question)
+//             .WithMany(q => q.Images)
+//             .HasForeignKey(qi => qi.QuestionId)
+//             .OnDelete(DeleteBehavior.Cascade);
+//     }
+// }
 
 
 

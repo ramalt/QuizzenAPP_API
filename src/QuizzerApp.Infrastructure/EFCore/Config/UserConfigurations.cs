@@ -13,7 +13,7 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
             .ValueGeneratedOnAdd()
             .HasColumnType("varchar(255)");
 
-        builder.OwnsOne(u => u.ProfilePic);
+        // builder.OwnsOne(u => u.ProfilePic);
 
         builder.HasMany(u => u.Questions)
             .WithOne(q => q.User)

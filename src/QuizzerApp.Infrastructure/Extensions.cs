@@ -9,5 +9,8 @@ public static class Extensions
     public static void AddInfrastructure(this IServiceCollection services, IConfiguration config)
     {
         services.UseSqlServer(config);
+        // services.AddScoped<IQuestionRepository, QuestionRepository>();
+        services.ConfigureIdentity();
+
     }
 }

@@ -1,7 +1,11 @@
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using QuizzenApp.Domain.Entities.UserAggregate;
+using QuizzerApp.Application.Common.Interfaces;
 using QuizzerApp.Infrastructure.EFCore.Contexts;
+using QuizzerApp.Infrastructure.Persistence;
 
 namespace QuizzerApp.Infrastructure.EFCore;
 
@@ -11,5 +15,15 @@ public static class Extensions
     {
         var sqlServerOptions = config.GetSection("SqlServer");
         services.AddDbContext<QuizzerAppContext>(context => context.UseSqlServer(sqlServerOptions["ConnectionString"]));
+    }
+
+    public static void ConfigureIdentity(this IServiceCollection services)
+    {
+                        
+        services.AddIdentity<User, IdentityRole>()
+            .AddEntityFrameworkStores<QuizzerAppContext>()
+            .AddDefaultTokenProviders();
+            
+        services.AddScoped<IRepositoryManager, RepositoryManager>();
     }
 }
