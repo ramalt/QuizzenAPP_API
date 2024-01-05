@@ -1,5 +1,6 @@
 using System.Reflection;
 using Microsoft.Extensions.DependencyInjection;
+using QuizzerApp.Application.Common.Interfaces;
 
 namespace QuizzerApp.Application;
 

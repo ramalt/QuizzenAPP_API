@@ -10,4 +10,6 @@ public interface IQuestionRepository
     void UpdateAsync(Question question);
     void DeleteAsync(Question question);
 
+    Task SaveChangesAsync();
+
 }

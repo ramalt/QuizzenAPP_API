@@ -1,6 +1,5 @@
 using MediatR;
 using QuizzenApp.Domain.Entities.ExamAggregate;
-using QuizzenApp.Domain.Entities.QuestionAggregate.ValueObjects;
 
 namespace QuizzerApp.Application.Features.Commands.Question;
 
