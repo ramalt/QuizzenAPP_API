@@ -1,32 +1,29 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using QuizzerApp.Application.Features.Commands.Question;
+using QuizzerApp.Application.Features.Commands.Answer.CreateAnswer;
 
 namespace QuizzerApp.Api.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class QuestionController : ControllerBase
+public class AnswerController : ControllerBase
 {
     private readonly ISender _sender;
 
-    public QuestionController(ISender sender)
+    public AnswerController(ISender sender)
     {
         _sender = sender;
     }
 
-
     [HttpPost]
-    public async Task<ActionResult> CreateQuestion(CreateQuestionCommand command)
+    public async Task<IActionResult> CreateAnswer(CreateAnswerCommand command)
     {
-
         var res = await _sender.Send(command);
 
         if (res)
             return StatusCode(201);
 
         throw new Exception();
-
-
     }
+
 }
