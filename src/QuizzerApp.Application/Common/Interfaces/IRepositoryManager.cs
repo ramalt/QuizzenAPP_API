@@ -6,6 +6,7 @@ public interface IRepositoryManager
 {
     public IQuestionRepository Question { get; }
     public IUserRepository User { get; }
+    public IAnswerRepository Answer { get; }
 
     public Task SaveAsync();
 }
