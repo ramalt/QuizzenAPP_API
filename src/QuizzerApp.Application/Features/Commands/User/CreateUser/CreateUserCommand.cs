@@ -3,9 +3,10 @@ using QuizzenApp.Domain.Enums;
 
 namespace QuizzerApp.Application.Features.Commands.User.CreateUser;
 
-public record CreateUserCommand(string firstName,
-                                string lastName,
-                                string email,
-                                string password,
-                                string userName,
-                                Gender gender) : IRequest<bool>;
+public record CreateUserCommand(string FirstName,
+                                string LastName,
+                                string Email,
+                                string Password,
+                                string UserName,
+                                Gender Gender,
+                                Guid ExamId) : IRequest<bool>;
