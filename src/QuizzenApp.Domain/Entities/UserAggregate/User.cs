@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Identity;
 using QuizzenApp.Domain.Entities.AnswerAggregate;
+using QuizzenApp.Domain.Entities.ExamAggregate;
 using QuizzenApp.Domain.Entities.QuestionAggregate;
 using QuizzenApp.Domain.Enums;
 
@@ -15,6 +16,11 @@ public class User : IdentityUser
     }
 
     // public UserProfileImage ProfilePic { get; private set; }
+    public string FirstName { get; set; }
+    public string LastName { get; set; }
+    public Guid ExamId { get; set; }
+    public Exam Exam { get; set; }
+
     public Gender Gender { get; private set; }
     public ICollection<Question> Questions { get; private set; }
     public ICollection<Answer> Answers { get; private set; }

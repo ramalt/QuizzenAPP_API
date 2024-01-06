@@ -16,12 +16,16 @@ public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, bool>
 
     public async Task<bool> Handle(CreateUserCommand request, CancellationToken cancellationToken)
     {
-        Entity.User user = new Entity.User(userName: request.userName, gender: request.gender)
+        Entity.User user = new Entity.User(userName: request.UserName, gender: request.Gender)
         {
-            Email = request.email,
+            Email = request.Email,
+            FirstName = request.FirstName,
+            LastName = request.LastName,
+            ExamId = request.ExamId
+            
         };
 
-        var res = await _userManager.CreateAsync(user: user, password: request.password);
+        var res = await _userManager.CreateAsync(user: user, password: request.Password);
         if (!res.Succeeded)
             throw new Exception("WTF, user creation exception");
 
