@@ -264,6 +264,66 @@ namespace QuizzerApp.Infrastructure.EFCore.Migrations
                     b.ToTable("Answers");
                 });
 
+            modelBuilder.Entity("QuizzenApp.Domain.Entities.ExamAggregate.Exam", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Exams");
+                });
+
+            modelBuilder.Entity("QuizzenApp.Domain.Entities.ExamAggregate.Subject", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("ExamId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ExamId");
+
+                    b.ToTable("Subjects");
+                });
+
+            modelBuilder.Entity("QuizzenApp.Domain.Entities.ExamAggregate.Topic", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("ExamId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("SubjectId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ExamId");
+
+                    b.HasIndex("SubjectId");
+
+                    b.ToTable("Topics");
+                });
+
             modelBuilder.Entity("QuizzenApp.Domain.Entities.QuestionAggregate.Question", b =>
                 {
                     b.Property<Guid>("Id")
@@ -276,17 +336,22 @@ namespace QuizzerApp.Infrastructure.EFCore.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Exam")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<Guid>("ExamId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Status")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<Guid>("SubjectId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("TopicId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("UpdatedDate")
                         .HasColumnType("datetime2");
@@ -297,6 +362,12 @@ namespace QuizzerApp.Infrastructure.EFCore.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("ExamId");
+
+                    b.HasIndex("SubjectId");
+
+                    b.HasIndex("TopicId");
+
                     b.HasIndex("UserId");
 
                     b.ToTable("Questions");
@@ -306,8 +377,21 @@ namespace QuizzerApp.Infrastructure.EFCore.Migrations
                 {
                     b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUser");
 
+                    b.Property<Guid>("ExamId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("Gender")
                         .HasColumnType("int");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasIndex("ExamId");
 
                     b.HasDiscriminator().HasValue("User");
                 });
@@ -382,15 +466,101 @@ namespace QuizzerApp.Infrastructure.EFCore.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("QuizzenApp.Domain.Entities.ExamAggregate.Subject", b =>
+                {
+                    b.HasOne("QuizzenApp.Domain.Entities.ExamAggregate.Exam", "Exam")
+                        .WithMany("Subjects")
+                        .HasForeignKey("ExamId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Exam");
+                });
+
+            modelBuilder.Entity("QuizzenApp.Domain.Entities.ExamAggregate.Topic", b =>
+                {
+                    b.HasOne("QuizzenApp.Domain.Entities.ExamAggregate.Exam", "Exam")
+                        .WithMany("Topics")
+                        .HasForeignKey("ExamId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("QuizzenApp.Domain.Entities.ExamAggregate.Subject", "Subject")
+                        .WithMany("Topics")
+                        .HasForeignKey("SubjectId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Exam");
+
+                    b.Navigation("Subject");
+                });
+
             modelBuilder.Entity("QuizzenApp.Domain.Entities.QuestionAggregate.Question", b =>
                 {
+                    b.HasOne("QuizzenApp.Domain.Entities.ExamAggregate.Exam", "Exam")
+                        .WithMany("Questions")
+                        .HasForeignKey("ExamId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("QuizzenApp.Domain.Entities.ExamAggregate.Subject", "Subject")
+                        .WithMany("Questions")
+                        .HasForeignKey("SubjectId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("QuizzenApp.Domain.Entities.ExamAggregate.Topic", "Topic")
+                        .WithMany("Questions")
+                        .HasForeignKey("TopicId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("QuizzenApp.Domain.Entities.UserAggregate.User", "User")
                         .WithMany("Questions")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.Navigation("Exam");
+
+                    b.Navigation("Subject");
+
+                    b.Navigation("Topic");
+
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("QuizzenApp.Domain.Entities.UserAggregate.User", b =>
+                {
+                    b.HasOne("QuizzenApp.Domain.Entities.ExamAggregate.Exam", "Exam")
+                        .WithMany()
+                        .HasForeignKey("ExamId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Exam");
+                });
+
+            modelBuilder.Entity("QuizzenApp.Domain.Entities.ExamAggregate.Exam", b =>
+                {
+                    b.Navigation("Questions");
+
+                    b.Navigation("Subjects");
+
+                    b.Navigation("Topics");
+                });
+
+            modelBuilder.Entity("QuizzenApp.Domain.Entities.ExamAggregate.Subject", b =>
+                {
+                    b.Navigation("Questions");
+
+                    b.Navigation("Topics");
+                });
+
+            modelBuilder.Entity("QuizzenApp.Domain.Entities.ExamAggregate.Topic", b =>
+                {
+                    b.Navigation("Questions");
                 });
 
             modelBuilder.Entity("QuizzenApp.Domain.Entities.QuestionAggregate.Question", b =>

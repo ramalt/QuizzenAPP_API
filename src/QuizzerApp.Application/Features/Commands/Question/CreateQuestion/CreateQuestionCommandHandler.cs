@@ -17,10 +17,12 @@ public class CreateQuestionCommandHandler : IRequestHandler<CreateQuestionComman
     {
 
         Entity.QuestionAggregate.Question question = new(id: Guid.NewGuid(),
-                                       title: request.Title,
-                                       description: request.Description,
-                                       exam: request.Exam,
-                                       userId: "eccc7700-820e-46b8-99fc-836508448602");
+                                                        title: request.Title,
+                                                        description: request.Description,
+                                                        examId: request.ExamId,
+                                                        subjectId: request.SubjectId,
+                                                        topicId: request.TopicId,
+                                                        userId: "eccc7700-820e-46b8-99fc-836508448602");
 
         await _manager.Question.CreateAsync(question);
         await _manager.SaveAsync();

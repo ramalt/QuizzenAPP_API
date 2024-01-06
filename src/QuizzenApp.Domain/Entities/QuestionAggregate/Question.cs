@@ -13,11 +13,21 @@ public class Question : AggregateRoot<QuestionId>
     public new QuestionId Id { get; private set; }
     public QuestionTitle Title { get; private set; }
     public QuestionDescription Description { get; private set; }
-    public Exam Exam { get; private set; }
+
     public QuestionStatus Status { get; private set; }
     public ICollection<Answer> Answers;
 
     // public List<QuestionImage> Images;
+
+
+    public Guid ExamId { get; private set; }
+    public Exam Exam { get; private set; }
+
+    public Guid SubjectId { get; set; }
+    public Subject Subject { get; set; }
+
+    public Guid TopicId { get; set; }
+    public Topic Topic { get; set; }
     public string UserId { get; private set; }
     public User User { get; private set; }
     public DateTime CreatedDate { get; private set; }
@@ -33,12 +43,14 @@ public class Question : AggregateRoot<QuestionId>
 
     public Question() { }
 
-    public Question(Guid id, QuestionTitle title, QuestionDescription description, Exam exam, string userId)
+    public Question(Guid id, QuestionTitle title, QuestionDescription description, Guid examId, Guid subjectId, Guid topicId, string userId)
     {
         Id = id;
         Title = title;
         Description = description;
-        Exam = exam;
+        ExamId = examId;
+        SubjectId = subjectId;
+        TopicId = topicId;
         UserId = userId;
         Status = QuestionStatus.active;
         // Images = images ?? new List<QuestionImage>();
