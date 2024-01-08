@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using QuizzerApp.Application.Features.Commands.Question;
 using QuizzerApp.Application.Features.Queries.Question.ReadQuestionById;
 using QuizzerApp.Application.Features.Queries.Question.ReadQuestionByUserId;
+using QuizzerApp.Application.Features.Queries.Question.ReadQuestions;
 
 namespace QuizzerApp.Api.Controllers;
 
@@ -29,6 +30,16 @@ public class QuestionController : ControllerBase
 
         throw new Exception();
 
+
+    }
+
+    [HttpGet]
+    public async Task<ActionResult> GetAllQuestions([FromQuery] string? exam, [FromQuery] string? subject, [FromQuery] string? topic)
+    {
+        ReadQuestionQuery query = new(Exam: exam, Subject: subject, Topic: topic);
+        var res = await _sender.Send(query);
+
+        return Ok(res);
 
     }
 

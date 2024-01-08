@@ -12,7 +12,9 @@ public class QuestionRepository(QuizzerAppContext context) : RepositoryBase<Ques
     public async Task CreateAsync(Question question) => Create(question);
     public void DeleteAsync(Question question) => Delete(question);
     public void UpdateAsync(Question question) => Update(question);
-    public async Task<List<Question>> GetAllAsync() => FindAll(false).OrderBy(b => b.Id).ToList();
+    public async Task<List<Question>> GetAllAsync() => FindAll(false).ToList();
     public async Task<Question> GetAsync(Guid id) => await FindByCondition(q => q.Id == new QuestionId(id), false).FirstOrDefaultAsync();
     public async Task<List<Question>> GetAllByUserIdAsync(string userId) => FindAll(false).OrderBy(q => q.UserId).ToList();
+
+    public IQueryable<Question> GetQueriable() => Queriable();
 }

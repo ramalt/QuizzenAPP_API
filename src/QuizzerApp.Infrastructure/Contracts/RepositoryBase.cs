@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
 using QuizzerApp.Infrastructure.EFCore.Contexts;
@@ -23,6 +24,21 @@ public abstract class RepositoryBase<T> where T : class
     public IQueryable<T> FindByCondition(Expression<Func<T, bool>> expression, bool trackChanges) =>
         !trackChanges ? _context.Set<T>().Where(expression).AsNoTracking() : _context.Set<T>().AsQueryable().Where(expression);
 
+    // public async Task<List<T>> GetFilteredAsync(params Expression<Func<T, bool>>[] filters)
+    // {
+    //     var query = Queriable();
+
+    //     foreach (var filter in filters)
+    //     {
+    //         Console.WriteLine( filter is null);
+    //         if (filter is not null)
+    //             query = query.Where(filter);
+    //     }
+
+    //     return await query.ToListAsync();
+    // }
     public void Update(T entity) => _context.Set<T>().Update(entity);
+
+    public virtual IQueryable<T> Queriable() => _context.Set<T>().AsQueryable();
 
 }

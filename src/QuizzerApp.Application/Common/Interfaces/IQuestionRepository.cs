@@ -6,6 +6,8 @@ public interface IQuestionRepository
 {
     Task<List<Question>> GetAllAsync();
     Task<List<Question>> GetAllByUserIdAsync(string userId);
+
+    IQueryable<Question> GetQueriable();
     Task<Question> GetAsync(Guid id);
     Task CreateAsync(Question question);
     void UpdateAsync(Question question);
