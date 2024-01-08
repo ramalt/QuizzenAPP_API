@@ -11,4 +11,6 @@ public interface IAnswerRepository
     Task CreateAsync(Answer answer);
     void UpdateAsync(Answer answer);
     void DeleteAsync(Answer answer);
+
+    IQueryable<Answer> GetQueriable();
 }

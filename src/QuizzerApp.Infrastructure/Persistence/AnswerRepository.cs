@@ -29,6 +29,8 @@ public class AnswerRepository(QuizzerAppContext context) : RepositoryBase<Answer
         throw new NotImplementedException();
     }
 
+    public IQueryable<Answer> GetQueriable() => Queriable();
+
     public void UpdateAsync(Answer answer)
     {
         throw new NotImplementedException();
