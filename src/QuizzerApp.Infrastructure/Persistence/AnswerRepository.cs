@@ -22,6 +22,8 @@ public class AnswerRepository(QuizzerAppContext context) : RepositoryBase<Answer
 
     public async Task<List<Answer>> GetAllByQuestionIdAsync(Guid questionId) => FindAll(false).OrderBy(a => a.QuestionId == new QuestionId(questionId)).ToList();
 
+    public async Task<List<Answer>> GetAllByUserIdAsync(string userId) => FindAll(false).OrderBy(a => a.UserId == userId).ToList();
+
     public Task<Answer> GetAsync(Guid id)
     {
         throw new NotImplementedException();
