@@ -1,4 +1,5 @@
 using QuizzenApp.Domain.Entities.AnswerAggregate;
+using QuizzenApp.Domain.Entities.QuestionAggregate.ValueObjects;
 using QuizzerApp.Application.Common.Interfaces;
 using QuizzerApp.Infrastructure.Contracts;
 using QuizzerApp.Infrastructure.EFCore.Contexts;
@@ -18,6 +19,8 @@ public class AnswerRepository(QuizzerAppContext context) : RepositoryBase<Answer
     {
         throw new NotImplementedException();
     }
+
+    public async Task<List<Answer>> GetAllByQuestionIdAsync(Guid questionId) => FindAll(false).OrderBy(a => a.QuestionId == new QuestionId(questionId)).ToList();
 
     public Task<Answer> GetAsync(Guid id)
     {

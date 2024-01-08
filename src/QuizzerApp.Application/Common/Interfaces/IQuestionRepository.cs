@@ -1,3 +1,4 @@
+using QuizzenApp.Domain.Entities.AnswerAggregate;
 using QuizzenApp.Domain.Entities.QuestionAggregate;
 
 namespace QuizzerApp.Application.Common.Interfaces;

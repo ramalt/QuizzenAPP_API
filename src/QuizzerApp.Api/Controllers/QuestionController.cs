@@ -1,6 +1,7 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using QuizzerApp.Application.Features.Commands.Question;
+using QuizzerApp.Application.Features.Queries.Question.ReadQuestionById;
 
 namespace QuizzerApp.Api.Controllers;
 
@@ -29,4 +30,15 @@ public class QuestionController : ControllerBase
 
 
     }
+
+    [HttpGet("{id}")]
+    public async Task<ActionResult> GetQuestionById([FromRoute] Guid id)
+    {
+        ReadQuestionByIdQuery query = new(QuestionId: id);
+        var res = await _sender.Send(query);
+
+        return Ok(res);
+
+    }
+
 }

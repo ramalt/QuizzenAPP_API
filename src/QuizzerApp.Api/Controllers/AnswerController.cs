@@ -1,6 +1,7 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using QuizzerApp.Application.Features.Commands.Answer.CreateAnswer;
+using QuizzerApp.Application.Features.Queries.Answer.ReadAnswersByQuestionId;
 
 namespace QuizzerApp.Api.Controllers;
 
@@ -24,6 +25,17 @@ public class AnswerController : ControllerBase
             return StatusCode(201);
 
         throw new Exception();
+    }
+
+    [HttpGet("{questionId}")]
+    public async Task<IActionResult> GetAnswersByQuestion(Guid questionId)
+    {
+        ReadAnsersByQuestionIdQuery query = new(QuestionId: questionId);
+
+        var res = await _sender.Send(query);
+
+        return Ok(res);
+
     }
 
 }
