@@ -28,7 +28,7 @@ public class AnswerController : ControllerBase
         throw new Exception();
     }
 
-    [HttpGet("/q/{questionId}")]
+    [HttpGet("q/{questionId}")]
     public async Task<IActionResult> GetAnswersByQuestion(Guid questionId)
     {
         ReadAnsersByQuestionIdQuery query = new(QuestionId: questionId);
@@ -39,7 +39,7 @@ public class AnswerController : ControllerBase
 
     }
 
-    [HttpGet("/u/{userId}")]
+    [HttpGet("u/{userId}")]
     public async Task<IActionResult> GetAnswersByUser(string userId)
     {
         ReadAnswersByUserIdQuery query = new(UserId: userId);
