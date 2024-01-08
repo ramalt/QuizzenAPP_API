@@ -1,6 +1,7 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using QuizzerApp.Application.Features.Commands.Answer.CreateAnswer;
+using QuizzerApp.Application.Features.Queries.Answer.ReadAnswerById;
 using QuizzerApp.Application.Features.Queries.Answer.ReadAnswers;
 using QuizzerApp.Application.Features.Queries.Answer.ReadAnswersByQuestionId;
 using QuizzerApp.Application.Features.Queries.Answer.ReadAnswersByUserId;
@@ -33,6 +34,17 @@ public class AnswerController : ControllerBase
     public async Task<IActionResult> GetAnswers([FromQuery] string? questionId, string? userId)
     {
         ReadAnswersQuery query = new(QuestionId: questionId, userId: userId);
+
+        var res = await _sender.Send(query);
+
+        return Ok(res);
+
+    }
+
+    [HttpGet("{id}")]
+    public async Task<IActionResult> GetAnswerById([FromRoute] Guid id)
+    {
+        ReadAnswerByIdQuery query = new(AnswerId: id);
 
         var res = await _sender.Send(query);
 

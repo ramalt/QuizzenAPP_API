@@ -1,4 +1,6 @@
+using Microsoft.EntityFrameworkCore;
 using QuizzenApp.Domain.Entities.AnswerAggregate;
+using QuizzenApp.Domain.Entities.AnswerAggregate.ValueObjects;
 using QuizzenApp.Domain.Entities.QuestionAggregate.ValueObjects;
 using QuizzerApp.Application.Common.Interfaces;
 using QuizzerApp.Infrastructure.Contracts;
@@ -24,10 +26,7 @@ public class AnswerRepository(QuizzerAppContext context) : RepositoryBase<Answer
 
     public async Task<List<Answer>> GetAllByUserIdAsync(string userId) => FindAll(false).OrderBy(a => a.UserId == userId).ToList();
 
-    public Task<Answer> GetAsync(Guid id)
-    {
-        throw new NotImplementedException();
-    }
+    public async Task<Answer> GetAsync(Guid id) => await FindByCondition(q => q.Id == new AnswerId(id), false).FirstOrDefaultAsync();
 
     public IQueryable<Answer> GetQueriable() => Queriable();
 

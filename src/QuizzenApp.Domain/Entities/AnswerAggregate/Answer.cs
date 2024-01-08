@@ -34,6 +34,8 @@ public sealed class Answer : AggregateRoot<AnswerId>
         Status = AnswerStatus.active;
         UserId = userId;
         QuestionId = questionId;
+        CreatedDate = DateTime.Now;
+        UpdatedDate = DateTime.Now;
     }
 
     public void UpdateStatus(AnswerStatus status)
