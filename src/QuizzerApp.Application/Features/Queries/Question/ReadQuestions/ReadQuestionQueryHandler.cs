@@ -27,6 +27,10 @@ public class ReadQuestionQueryHandler : IRequestHandler<ReadQuestionQuery, List<
         if (!string.IsNullOrEmpty(request.Topic))
             query = query.Where(q => string.Equals(q.Topic.Name, request.Topic));
 
+        if(!string.IsNullOrEmpty(request.UserId))
+            query = query.Where(q => string.Equals(q.UserId, request.UserId));
+
+
         var questions = await query.ToListAsync();
 
         List<QuestionDto> res = new();

@@ -34,9 +34,9 @@ public class QuestionController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<ActionResult> GetAllQuestions([FromQuery] string? exam, [FromQuery] string? subject, [FromQuery] string? topic)
+    public async Task<ActionResult> GetAllQuestions([FromQuery] string? exam, [FromQuery] string? subject, [FromQuery] string? topic, string? userId)
     {
-        ReadQuestionQuery query = new(Exam: exam, Subject: subject, Topic: topic);
+        ReadQuestionQuery query = new(Exam: exam, Subject: subject, Topic: topic, UserId: userId);
         var res = await _sender.Send(query);
 
         return Ok(res);
@@ -53,16 +53,6 @@ public class QuestionController : ControllerBase
 
     }
 
-
-    [HttpGet("u/{userId}")]
-    public async Task<ActionResult> GetQuestionByUserId([FromRoute] string userId)
-    {
-        ReadQuestionsByUserIdQuery query = new(UserId: userId);
-        var res = await _sender.Send(query);
-
-        return Ok(res);
-
-    }
 
 
 }
