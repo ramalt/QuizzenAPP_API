@@ -18,6 +18,8 @@ public class QuizzerAppContext(DbContextOptions<QuizzerAppContext> options) : Id
         builder.ApplyConfiguration(new ExamConfigurations());
         builder.ApplyConfiguration(new SubjectConfigurations());
         builder.ApplyConfiguration(new TopicConfigurations());
+        builder.ApplyConfiguration(new AnswerVoteConfigurations());
+        builder.ApplyConfiguration(new QuestionVoteConfiguration());
 
         // builder.ApplyConfiguration(new QuestionImageConfiguration());
         // builder.ApplyConfiguration(new AnswerImageConfiguration());
@@ -31,4 +33,6 @@ public class QuizzerAppContext(DbContextOptions<QuizzerAppContext> options) : Id
     public DbSet<Exam> Exams { get; set; }
     public DbSet<Subject> Subjects { get; set; }
     public DbSet<Topic> Topics { get; set; }
+    public DbSet<AnswerVote> AnswerVotes { get; set; }
+    public DbSet<QuestionVote> QuestionVotes { get; set; }
 }
