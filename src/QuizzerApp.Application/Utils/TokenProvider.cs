@@ -19,7 +19,7 @@ public class TokenProvider
 
 
 
-        public async Task<TokenDto> Generate(User user)
+    public async Task<TokenDto> Generate(User user)
     {
         var signinCredentials = GetSinginCredentials();
         var claims = await GetUserClaims(user);
