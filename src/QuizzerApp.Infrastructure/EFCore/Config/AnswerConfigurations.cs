@@ -1,3 +1,4 @@
+using System.Runtime.Intrinsics.X86;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using QuizzenApp.Domain.Entities.AnswerAggregate;
@@ -52,22 +53,24 @@ public class AnswerConfiguration : IEntityTypeConfiguration<Answer>
     }
 }
 
-// public class AnswerImageConfiguration : IEntityTypeConfiguration<AnswerImage>
-// {
-//     public void Configure(EntityTypeBuilder<AnswerImage> builder)
-//     {
-//         builder.Property(ai => ai.Id)
-//             .HasConversion(
-//                 id => id.Value,
-//                 value => new AnswerImageId(value))
-//             .IsRequired();
+public class AnswerVoteConfigurations : IEntityTypeConfiguration<AnswerVote>
+{
+    public void Configure(EntityTypeBuilder<AnswerVote> builder)
+    {
+        //ID
+        builder.HasKey(av => av.Id);
 
-//         builder.Property(ai => ai.Url)
-//         .IsRequired();
+        //ANSWER
+        builder.HasOne(av => av.Answer)
+        .WithMany(a => a.AnswerVotes)
+        .HasForeignKey(av => av.AnswerId)
+        .OnDelete(DeleteBehavior.Restrict);
 
-//         builder.HasOne(ai => ai.Answer)
-//            .WithMany(a => a.Images)
-//            .HasForeignKey(ai => ai.AnswerId)
-//            .OnDelete(DeleteBehavior.Cascade);
-//     }
-// }
+        //USER
+        builder.HasOne(av => av.User)
+               .WithMany(u => u.AnswerVotes)
+               .HasForeignKey(av => av.UserId)
+               .OnDelete(DeleteBehavior.Restrict);
+
+    }
+}

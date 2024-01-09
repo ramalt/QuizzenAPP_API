@@ -16,6 +16,7 @@ public class Question : AggregateRoot<QuestionId>
 
     public QuestionStatus Status { get; private set; }
     public ICollection<Answer> Answers;
+    public ICollection<QuestionVote> QuestionVotes { get; set; }
 
     // public List<QuestionImage> Images;
 
@@ -30,6 +31,7 @@ public class Question : AggregateRoot<QuestionId>
     public Topic Topic { get; set; }
     public string UserId { get; private set; }
     public User User { get; private set; }
+
     public DateTime CreatedDate { get; private set; }
     public DateTime UpdatedDate { get; private set; }
 

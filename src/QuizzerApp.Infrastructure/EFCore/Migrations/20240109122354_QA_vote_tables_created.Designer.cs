@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using QuizzerApp.Infrastructure.EFCore.Contexts;
 
@@ -11,9 +12,11 @@ using QuizzerApp.Infrastructure.EFCore.Contexts;
 namespace QuizzerApp.Infrastructure.EFCore.Migrations
 {
     [DbContext(typeof(QuizzerAppContext))]
-    partial class QuizzerAppContextModelSnapshot : ModelSnapshot
+    [Migration("20240109122354_QA_vote_tables_created")]
+    partial class QA_vote_tables_created
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

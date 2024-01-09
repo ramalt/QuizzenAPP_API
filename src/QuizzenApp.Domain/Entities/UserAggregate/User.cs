@@ -23,5 +23,8 @@ public class User : IdentityUser
 
     public Gender Gender { get; private set; }
     public ICollection<Question> Questions { get; private set; }
+    public ICollection<QuestionVote> QuestionVotes { get; private set; }
     public ICollection<Answer> Answers { get; private set; }
+    public ICollection<AnswerVote> AnswerVotes { get; private set; }
+
 }
