@@ -37,7 +37,7 @@ public class QuestionConfiguration : IEntityTypeConfiguration<Question>
                .HasForeignKey(q => q.ExamId)
                .OnDelete(DeleteBehavior.NoAction)
                .IsRequired();
-       
+
         // SUBJECAT
         builder.HasOne(q => q.Subject)
                .WithMany(s => s.Questions)
@@ -76,26 +76,26 @@ public class QuestionConfiguration : IEntityTypeConfiguration<Question>
 
 }
 
-// public class QuestionImageConfiguration : IEntityTypeConfiguration<QuestionImage>
-// {
-//     public void Configure(EntityTypeBuilder<QuestionImage> builder)
-//     {
-//         builder.Property(qi => qi.Id)
-//             .HasConversion(
-//                 id => id.Value,
-//                 value => new QuestionImageId(value))
-//             .ValueGeneratedOnAdd()
-//             .IsRequired();
+public class QuestionVoteConfiguration : IEntityTypeConfiguration<QuestionVote>
+{
+    public void Configure(EntityTypeBuilder<QuestionVote> builder)
+    {
+        //ID
+        builder.HasKey(qv => qv.Id);
 
-//         builder.Property(qi => qi.Url)
-//             .IsRequired();
+        //QUESTION
+        builder.HasOne(qv => qv.Question)
+               .WithMany(q => q.QuestionVotes)
+               .HasForeignKey(qv => qv.QuestionId)
+               .OnDelete(DeleteBehavior.Restrict);
 
-//         builder.HasOne(qi => qi.Question)
-//             .WithMany(q => q.Images)
-//             .HasForeignKey(qi => qi.QuestionId)
-//             .OnDelete(DeleteBehavior.Cascade);
-//     }
-// }
+        //USER
+        builder.HasOne(qv => qv.User)
+               .WithMany(u => u.QuestionVotes)
+               .HasForeignKey(qv => qv.UserId)
+               .OnDelete(DeleteBehavior.Restrict);
+    }
+}
 
 
 

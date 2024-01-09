@@ -21,6 +21,8 @@ public sealed class Answer : AggregateRoot<AnswerId>
     public QuestionId QuestionId { get; private set; }
     public Question Question { get; private set; }
 
+    public ICollection<AnswerVote> AnswerVotes { get; set; }
+
     public DateTime CreatedDate { get; private set; }
     public DateTime UpdatedDate { get; private set; }
 
