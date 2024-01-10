@@ -11,7 +11,10 @@ public class CreateQuestionVoteCommandHandler : IRequestHandler<CreateQuestionVo
     {
         QuestionUpVoteEvent @event = new(request.QuestionId, request.UserId);
 
-        QProvider.SendMessage(exchangeName: QConstants.VOTE_EXCHANE, exchangeType: QConstants.DEFAULT_EXCHANGE_TYPE, queueName: QConstants.CREATE_QUESTION_VOTE_QUEUE, obj: @event);
+        QProvider.SendMessage(exchangeName: QConstants.VOTE_EXCHANE,
+                              exchangeType: QConstants.DEFAULT_EXCHANGE_TYPE,
+                              queueName: QConstants.CREATE_QUESTION_VOTE_QUEUE,
+                              obj: @event);
 
         return await Task.FromResult(true);
     }
