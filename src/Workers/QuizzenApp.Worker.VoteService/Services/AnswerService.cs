@@ -1,65 +1,58 @@
 using Dapper;
 using Microsoft.Data.SqlClient;
-using QuizzenApp.Shared.Events.Question;
+using QuizzenApp.Shared.Events.Answer;
 
 namespace QuizzenApp.Worker.VoteService.Services;
 
-public class QuestionService
+public class AnswerService
 {
     private readonly string _connStr;
 
-    public QuestionService(string connStr)
+    public AnswerService(string connStr)
     {
         _connStr = connStr;
     }
 
-    public async Task<bool> CreateQuestionVote(QuestionUpVoteEvent @event)
+    public async Task<bool> CreateAnswerVote(CreateAnswerUpVoteEvent @event)
     {
         using var connection = new SqlConnection(_connStr);
 
-        var existingVote = await connection.QueryFirstOrDefaultAsync("SELECT * FROM QuestionVotes WHERE QuestionId = @QuestionId AND UserId = @UserId", new
+        var existingVote = await connection.QueryFirstOrDefaultAsync("SELECT * FROM AnswerVotes WHERE AnswerId = @AnswerId AND UserId = @UserId", new
         {
-            @event.QuestionId,
+            @event.AnswerId,
             @event.UserId
         });
 
         if (existingVote is not null)
             return false;
+
         try
         {
-            await connection.ExecuteAsync("INSERT INTO QuestionVotes (Id, QuestionId, UserId, VoteType, CreatedDate) VALUES(@Id, @QuestionId, @UserId, @VoteType, @CreatedDate)", new
+            await connection.ExecuteAsync("INSERT INTO AnswerVotes (Id, AnswerId, UserId, VoteType, CreatedDate) VALUES(@Id, @AnswerId, @UserId, @VoteType, @CreatedDate)", new
             {
                 Id = Guid.NewGuid(),
-                QuestionId = @event.QuestionId,
+                AnswerId = @event.AnswerId,
                 UserId = @event.UserId,
                 VoteType = 1,
                 CreatedDate = DateTime.Now
             });
-
-
         }
         catch (Exception e)
         {
             throw new Exception(e.Message);
-
-
         }
 
 
         return true;
-
-
-
-
     }
 
-    public async Task<bool> DeleteQuestionVote(DeleteQuestionVoteEvent @event)
+    public async Task<bool> DeleteAnswerVote(DeleteAnswerVoteEvent @event)
     {
         using var connection = new SqlConnection(_connStr);
 
-        var existingVote = await connection.QueryFirstOrDefaultAsync("SELECT * FROM QuestionVotes WHERE QuestionId = @QuestionId AND UserId = @UserId", new
+        var existingVote = await connection.QueryFirstOrDefaultAsync("SELECT * FROM AnswerVotes WHERE AnswerId = @AnswerId AND UserId = @UserId", new
         {
-            @event.QuestionId,
+            @event.AnswerId,
             @event.UserId
         });
 
@@ -68,10 +61,10 @@ public class QuestionService
 
         try
         {
-            await connection.ExecuteAsync("DELETE FROM QuestionVotes WHERE QuestionId = @QuestionId AND UserId = @UserId", new
+            await connection.ExecuteAsync("DELETE FROM AnswerVotes WHERE AnswerId = @AnswerId AND UserId = @UserId", new
             {
                 Id = Guid.NewGuid(),
-                QuestionId = @event.QuestionId,
+                AnswerId = @event.AnswerId,
                 UserId = @event.UserId,
             });
 

@@ -1,7 +1,9 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using QuizzenApp.Shared.Events.Answer;
 using QuizzerApp.Application.Features.Commands.Answer.CreateAnswer;
 using QuizzerApp.Application.Features.Commands.Answer.CreateAnswerVote;
+using QuizzerApp.Application.Features.Commands.Answer.DeleteAnswerVote;
 using QuizzerApp.Application.Features.Queries.Answer.ReadAnswerById;
 using QuizzerApp.Application.Features.Queries.Answer.ReadAnswers;
 using QuizzerApp.Application.Features.Queries.Answer.ReadAnswersByQuestionId;
@@ -54,14 +56,14 @@ public class AnswerController : ControllerBase
     }
 
     [HttpPost("vote")]
-    public async Task<IActionResult> QuestionUpVote([FromQuery] CreateAnswerVoteCommand command)
+    public async Task<IActionResult> AnswerUpVote([FromQuery] CreateAnswerVoteCommand command)
     {
         var res = await _sender.Send(command);
         return StatusCode(201);
     }
 
     [HttpDelete("vote")]
-    public async Task<IActionResult> DeleteQuestionVote([FromQuery] CreateAnswerVoteCommand command)
+    public async Task<IActionResult> DeleteAnswerVote([FromQuery] DeleteAnswerVoteCommand command)
     {
         var res = await _sender.Send(command);
         return StatusCode(201);
