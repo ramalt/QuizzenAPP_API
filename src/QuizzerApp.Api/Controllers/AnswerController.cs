@@ -1,6 +1,7 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using QuizzerApp.Application.Features.Commands.Answer.CreateAnswer;
+using QuizzerApp.Application.Features.Commands.Answer.CreateAnswerVote;
 using QuizzerApp.Application.Features.Queries.Answer.ReadAnswerById;
 using QuizzerApp.Application.Features.Queries.Answer.ReadAnswers;
 using QuizzerApp.Application.Features.Queries.Answer.ReadAnswersByQuestionId;
@@ -50,6 +51,20 @@ public class AnswerController : ControllerBase
 
         return Ok(res);
 
+    }
+
+    [HttpPost("vote")]
+    public async Task<IActionResult> QuestionUpVote([FromQuery] CreateAnswerVoteCommand command)
+    {
+        var res = await _sender.Send(command);
+        return StatusCode(201);
+    }
+
+    [HttpDelete("vote")]
+    public async Task<IActionResult> DeleteQuestionVote([FromQuery] CreateAnswerVoteCommand command)
+    {
+        var res = await _sender.Send(command);
+        return StatusCode(201);
     }
 
 
