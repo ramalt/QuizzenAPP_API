@@ -6,7 +6,7 @@ public class QConstants
     public const string DEFAULT_EXCHANGE_TYPE = "direct";
 
     // EXCHANGE
-    public const string VOTE_EXCHANE = "vote";
+    public const string VOTE_EXCHANE = "question.vote";
 
     //QUEUE
     public const string CREATE_QUESTION_VOTE_QUEUE = "create_question_vote";

@@ -15,7 +15,7 @@ public static class QProvider
                                            .Model;
 
         var body = Encoding.UTF8.GetBytes(JsonSerializer.Serialize(obj));
-        
+
         //publish message on channel
         channel.BasicPublish(exchange: exchangeName,
                              routingKey: queueName,
@@ -47,6 +47,30 @@ public static class QProvider
         consumer.Model.QueueDeclare(queue: queueName, durable: false, exclusive: false, autoDelete: false, null);
 
         consumer.Model.QueueBind(queue: queueName, exchange: exchangeName, routingKey: queueName);
+
+        return consumer;
+    }
+
+    public static EventingBasicConsumer Receive<T>(this EventingBasicConsumer consumer, Action<T> action)
+    {
+        consumer.Received += (m, EventArgs) =>
+        {
+            var body = EventArgs.Body.ToArray();
+            var message = Encoding.UTF8.GetString(body);
+
+            var model = JsonSerializer.Deserialize<T>(message);
+
+            action(model);
+
+            consumer.Model.BasicAck(EventArgs.DeliveryTag, false);
+        };
+
+        return consumer;
+    }
+
+    public static EventingBasicConsumer StartConsuming(this EventingBasicConsumer consumer, string queueName)
+    {
+        consumer.Model.BasicConsume(queue: queueName, autoAck: false, consumer: consumer);
 
         return consumer;
     }
