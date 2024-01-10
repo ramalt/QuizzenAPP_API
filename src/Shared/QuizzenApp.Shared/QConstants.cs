@@ -11,5 +11,7 @@ public class QConstants
     //QUEUE
     public const string CREATE_QUESTION_VOTE_QUEUE = "create_question_vote";
     public const string DELETE_QUESTION_VOTE_QUEUE = "delete_question_vote";
+    public const string CREATE_ANSWER_VOTE_QUEUE = "create_question_vote";
+    public const string DELETE_ANSWER_VOTE_QUEUE = "delete_question_vote";
 
 }
