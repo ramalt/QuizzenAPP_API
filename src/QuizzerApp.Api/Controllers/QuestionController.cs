@@ -40,7 +40,7 @@ public class QuestionController : ControllerBase
         ReadQuestionQuery query = new(Exam: exam, Subject: subject, Topic: topic, UserId: userId);
         var res = await _sender.Send(query);
 
-        return Ok(res);
+        return  Ok(res);
 
     }
 
