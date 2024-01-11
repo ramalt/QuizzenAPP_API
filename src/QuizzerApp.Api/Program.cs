@@ -19,9 +19,20 @@ builder.Services.AddApplication();
 //     options.SupportedCultures = new List<CultureInfo> { new CultureInfo("en-US") };
 //     options.SupportedUICultures = new List<CultureInfo> { new CultureInfo("en-US") };
 // });
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowSpecificOrigin",
+        builder => builder
+            .WithOrigins("http://localhost:3000")
+            .AllowAnyMethod()
+            .AllowAnyHeader());
+});
+
+// Configure metodunda
 
 
 var app = builder.Build();
+app.UseCors("AllowSpecificOrigin");
 
 if (app.Environment.IsDevelopment())
 {
