@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using QuizzenApp.Domain.Entities.QuestionAggregate.ValueObjects;
 using QuizzerApp.Application.Common.Interfaces;
 using QuizzerApp.Application.Dtos.Answer;
+using QuizzerApp.Application.Dtos.User;
 
 namespace QuizzerApp.Application.Features.Queries.Answer.ReadAnswers;
 
@@ -24,13 +25,10 @@ public class ReadAnswersQueryHandler : IRequestHandler<ReadAnswersQuery, List<An
 
         if (!string.IsNullOrEmpty(request.userId))
         {
-            var userId = request.userId;
+            query = query.Where(a => a.UserId == request.userId);
 
-            query = query.Where(a => a.UserId == userId);
         }
-
-        var answers = await query.ToListAsync(cancellationToken);
-
+        var answers = await query.Include(a => a.User).ToListAsync(cancellationToken);
 
         List<AnswerDto> res = new();
 
@@ -40,7 +38,10 @@ public class ReadAnswersQueryHandler : IRequestHandler<ReadAnswersQuery, List<An
                 Id: a.Id,
                 Text: a.Text,
                 Status: a.Status,
-                UserId: a.UserId,
+                User: new UserDto(a.User.Id,
+                                  a.User.UserName,
+                                  a.User.FirstName,
+                                  a.User.LastName),
                 QuestionId: a.QuestionId.Value.ToString(),
                 CreatedDate: a.CreatedDate,
                 UpdatedDate: a.UpdatedDate
