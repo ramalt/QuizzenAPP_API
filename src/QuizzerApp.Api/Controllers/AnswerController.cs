@@ -1,13 +1,10 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using QuizzenApp.Shared.Events.Answer;
 using QuizzerApp.Application.Features.Commands.Answer.CreateAnswer;
 using QuizzerApp.Application.Features.Commands.Answer.CreateAnswerVote;
 using QuizzerApp.Application.Features.Commands.Answer.DeleteAnswerVote;
 using QuizzerApp.Application.Features.Queries.Answer.ReadAnswerById;
 using QuizzerApp.Application.Features.Queries.Answer.ReadAnswers;
-using QuizzerApp.Application.Features.Queries.Answer.ReadAnswersByQuestionId;
-using QuizzerApp.Application.Features.Queries.Answer.ReadAnswersByUserId;
 
 namespace QuizzerApp.Api.Controllers;
 

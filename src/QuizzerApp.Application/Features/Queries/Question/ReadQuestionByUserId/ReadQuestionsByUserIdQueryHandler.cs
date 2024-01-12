@@ -1,6 +1,9 @@
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using QuizzerApp.Application.Common.Interfaces;
+using QuizzerApp.Application.Dtos.Exam;
 using QuizzerApp.Application.Dtos.Question;
+using QuizzerApp.Application.Dtos.User;
 
 namespace QuizzerApp.Application.Features.Queries.Question.ReadQuestionByUserId;
 
@@ -15,9 +18,21 @@ public class ReadQuestionsByUserIdQueryHandler : IRequestHandler<ReadQuestionsBy
 
     public async Task<List<QuestionDto>> Handle(ReadQuestionsByUserIdQuery request, CancellationToken cancellationToken)
     {
-        var userQuestions = await _manager.Question.GetAllByUserIdAsync(request.UserId);
+        // var userQuestions = await _manager.Question.GetAllByUserIdAsync(request.UserId);
+        var query = _manager.Question.GetQueriable();
+
+        var userQuestions = await query.Include(q => q.User)
+                   .Include(q => q.Exam)
+                   .Include(q => q.Subject)
+                   .Include(q => q.Topic)
+                   .Where(q => q.UserId == request.UserId)
+                   .ToListAsync(cancellationToken);
+
 
         List<QuestionDto> res = new();
+
+
+
 
         userQuestions.ForEach(uq =>
         {
@@ -27,10 +42,11 @@ public class ReadQuestionsByUserIdQueryHandler : IRequestHandler<ReadQuestionsBy
                 Title: uq.Title,
                 Description: uq.Description,
                 Status: uq.Status.ToString(),
-                ownerId: uq.UserId,
-                ExamId: uq.ExamId,
-                SubjectId: uq.SubjectId,
-                TopicId: uq.TopicId,
+                User: new UserDto(uq.UserId,
+                                  uq.User.UserName,
+                                  uq.User.FirstName,
+                                  uq.User.LastName),
+                Tags: new ExamDto(uq.Exam.Name, uq.Subject.Name, uq.Topic.Name),
                 CreatedDate: uq.CreatedDate
             ));
         });

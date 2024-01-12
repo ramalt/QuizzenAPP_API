@@ -1,7 +1,9 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using QuizzerApp.Application.Common.Interfaces;
+using QuizzerApp.Application.Dtos.Exam;
 using QuizzerApp.Application.Dtos.Question;
+using QuizzerApp.Application.Dtos.User;
 
 namespace QuizzerApp.Application.Features.Queries.Question.ReadQuestions;
 
@@ -27,11 +29,15 @@ public class ReadQuestionQueryHandler : IRequestHandler<ReadQuestionQuery, List<
         if (!string.IsNullOrEmpty(request.Topic))
             query = query.Where(q => string.Equals(q.Topic.Name, request.Topic));
 
-        if(!string.IsNullOrEmpty(request.UserId))
+        if (!string.IsNullOrEmpty(request.UserId))
             query = query.Where(q => string.Equals(q.UserId, request.UserId));
 
 
-        var questions = await query.ToListAsync();
+        var questions = await query.Include(q => q.User)
+                                   .Include(q => q.Exam)
+                                   .Include(q => q.Subject)
+                                   .Include(q => q.Topic)
+                                   .ToListAsync(cancellationToken: cancellationToken);
 
         List<QuestionDto> res = new();
 
@@ -43,10 +49,11 @@ public class ReadQuestionQueryHandler : IRequestHandler<ReadQuestionQuery, List<
                 Title: q.Title,
                 Description: q.Description,
                 Status: q.Status.ToString(),
-                ownerId: q.UserId,
-                ExamId: q.ExamId,
-                SubjectId: q.SubjectId,
-                TopicId: q.TopicId,
+                User: new UserDto(q.UserId,
+                                  q.User.UserName,
+                                  q.User.FirstName,
+                                  q.User.LastName),
+                Tags: new ExamDto(q.Exam.Name, q.Subject.Name, q.Topic.Name),
                 CreatedDate: q.CreatedDate
             ));
         });
