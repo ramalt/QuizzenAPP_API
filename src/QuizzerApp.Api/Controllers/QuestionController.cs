@@ -1,5 +1,6 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using QuizzenApp.PhotoStock.Services;
 using QuizzerApp.Application.Features.Commands.Question;
 using QuizzerApp.Application.Features.Commands.Question.CreateQuestionVote;
 using QuizzerApp.Application.Features.Commands.Question.DeleteQuestionVote;
@@ -13,10 +14,12 @@ namespace QuizzerApp.Api.Controllers;
 public class QuestionController : ControllerBase
 {
     private readonly ISender _sender;
+    private readonly IPhotoService _photo;
 
-    public QuestionController(ISender sender)
+    public QuestionController(ISender sender, IPhotoService photo)
     {
         _sender = sender;
+        _photo = photo;
     }
 
 
@@ -40,7 +43,7 @@ public class QuestionController : ControllerBase
         ReadQuestionQuery query = new(Exam: exam, Subject: subject, Topic: topic, UserId: userId);
         var res = await _sender.Send(query);
 
-        return  Ok(res);
+        return Ok(res);
 
     }
 

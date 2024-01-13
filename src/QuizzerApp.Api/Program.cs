@@ -1,6 +1,7 @@
 using System.Reflection;
 using QuizzerApp.Infrastructure;
 using QuizzerApp.Application;
+using QuizzenApp.PhotoStock.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,6 +12,8 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddApplication();
+
+builder.Services.AddScoped<IPhotoService, PhotoService>();
 
 
 // builder.Services.Configure<RequestLocalizationOptions>(options =>
