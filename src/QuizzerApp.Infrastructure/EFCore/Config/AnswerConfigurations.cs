@@ -42,10 +42,10 @@ public class AnswerConfiguration : IEntityTypeConfiguration<Answer>
             .IsRequired();
 
         // IMAGES
-        // builder.HasMany(a => a.Images)
-        //     .WithOne(ai => ai.Answer)
-        //     .HasForeignKey(ai => ai.AnswerId)
-        //     .OnDelete(DeleteBehavior.Cascade);
+        builder.HasMany(a => a.Images)
+            .WithOne(ai => ai.Answer)
+            .HasForeignKey(ai => ai.AnswerId)
+            .OnDelete(DeleteBehavior.Cascade);
 
         builder.Property(a => a.CreatedDate).IsRequired();
         builder.Property(a => a.UpdatedDate).IsRequired();
@@ -74,3 +74,20 @@ public class AnswerVoteConfigurations : IEntityTypeConfiguration<AnswerVote>
 
     }
 }
+
+public class AnswerImageConfigurations : IEntityTypeConfiguration<AnswerImage>
+{
+    public void Configure(EntityTypeBuilder<AnswerImage> builder)
+    {
+        //ID
+        builder.HasKey(ai => ai.Id);
+
+        //QUESTION
+        builder.HasOne(ai => ai.Answer)
+               .WithMany(q => q.Images)
+               .HasForeignKey(ai => ai.AnswerId)
+               .OnDelete(DeleteBehavior.Restrict);
+
+    }
+}
+

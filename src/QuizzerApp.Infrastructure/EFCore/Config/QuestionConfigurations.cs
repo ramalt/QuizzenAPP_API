@@ -62,11 +62,11 @@ public class QuestionConfiguration : IEntityTypeConfiguration<Question>
                .HasForeignKey(a => a.QuestionId)
                .OnDelete(DeleteBehavior.Cascade);
 
-        // IMAGES
-        // builder.HasMany(q => q.Images)
-        //     .WithOne()
-        //     .HasForeignKey(qi => qi.QuestionId)
-        //     .OnDelete(DeleteBehavior.Cascade);
+        //IMAGES
+        builder.HasMany(q => q.Images)
+            .WithOne()
+            .HasForeignKey(qi => qi.QuestionId)
+            .OnDelete(DeleteBehavior.Cascade);
 
 
         builder.Property(q => q.CreatedDate).IsRequired();
@@ -97,6 +97,21 @@ public class QuestionVoteConfiguration : IEntityTypeConfiguration<QuestionVote>
     }
 }
 
+public class QuestionImageConfigurations : IEntityTypeConfiguration<QuestionImage>
+{
+    public void Configure(EntityTypeBuilder<QuestionImage> builder)
+    {
+        //ID
+        builder.HasKey(qi => qi.Id);
+
+        //QUESTION
+        builder.HasOne(qi => qi.Question)
+               .WithMany(q => q.Images)
+               .HasForeignKey(qi => qi.QuestionId)
+               .OnDelete(DeleteBehavior.Restrict);
+
+    }
+}
 
 
 

@@ -21,8 +21,8 @@ public class QuizzerAppContext(DbContextOptions<QuizzerAppContext> options) : Id
         builder.ApplyConfiguration(new AnswerVoteConfigurations());
         builder.ApplyConfiguration(new QuestionVoteConfiguration());
 
-        // builder.ApplyConfiguration(new QuestionImageConfiguration());
-        // builder.ApplyConfiguration(new AnswerImageConfiguration());
+        builder.ApplyConfiguration(new QuestionImageConfigurations());
+        builder.ApplyConfiguration(new AnswerImageConfigurations());
 
         base.OnModelCreating(builder);
     }

@@ -17,9 +17,7 @@ public class Question : AggregateRoot<QuestionId>
     public QuestionStatus Status { get; private set; }
     public ICollection<Answer> Answers;
     public ICollection<QuestionVote> QuestionVotes { get; set; }
-
-    // public List<QuestionImage> Images;
-
+    public ICollection<QuestionImage> Images;
 
     public Guid ExamId { get; private set; }
     public Exam Exam { get; private set; }
@@ -55,22 +53,8 @@ public class Question : AggregateRoot<QuestionId>
         TopicId = topicId;
         UserId = userId;
         Status = QuestionStatus.active;
-        // Images = images ?? new List<QuestionImage>();
         CreatedDate = DateTime.Now;
         UpdatedDate = DateTime.Now;
     }
-
-    // public void AddAnswer(Answer answer)
-    // {
-    //     Answer newAnswer = new(Guid.NewGuid(), answer.Text, answer.Images, answer.User, answer.QuestionId);
-    //     Answers.Add(newAnswer);
-    // }
-
-
-    // public void AddImages(List<QuestionImage> images)
-    // {
-    //     images.ForEach(qi => Images.Add(qi));
-    //     UpdatedDate = DateTime.Now;
-    // }
 
 }

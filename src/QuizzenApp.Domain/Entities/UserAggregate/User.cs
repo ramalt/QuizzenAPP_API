@@ -16,6 +16,7 @@ public class User : IdentityUser
     }
 
     // public UserProfileImage ProfilePic { get; private set; }
+    public string? ProfileImg {get; set;}
     public string FirstName { get; set; }
     public string LastName { get; set; }
     public Guid ExamId { get; set; }
