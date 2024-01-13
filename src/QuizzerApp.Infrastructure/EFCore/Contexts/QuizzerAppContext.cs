@@ -35,4 +35,6 @@ public class QuizzerAppContext(DbContextOptions<QuizzerAppContext> options) : Id
     public DbSet<Topic> Topics { get; set; }
     public DbSet<AnswerVote> AnswerVotes { get; set; }
     public DbSet<QuestionVote> QuestionVotes { get; set; }
+    public DbSet<QuestionImage> QuestionImages { get; set; }
+    public DbSet<AnswerImage> AnswerImages { get; set; }
 }
