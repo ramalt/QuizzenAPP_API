@@ -52,6 +52,7 @@ public class Question : AggregateRoot<QuestionId>
         SubjectId = subjectId;
         TopicId = topicId;
         UserId = userId;
+        // Images = images ?? new List<QuestionImage>();
         Status = QuestionStatus.active;
         CreatedDate = DateTime.Now;
         UpdatedDate = DateTime.Now;

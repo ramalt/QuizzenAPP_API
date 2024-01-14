@@ -2,6 +2,7 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using QuizzenApp.PhotoStock.Services;
 using QuizzerApp.Application.Features.Commands.Question;
+using QuizzerApp.Application.Features.Commands.Question.CreateQuestionImage;
 using QuizzerApp.Application.Features.Commands.Question.CreateQuestionVote;
 using QuizzerApp.Application.Features.Commands.Question.DeleteQuestionVote;
 using QuizzerApp.Application.Features.Queries.Question.ReadQuestionById;
@@ -68,6 +69,16 @@ public class QuestionController : ControllerBase
     public async Task<IActionResult> DeleteQuestionVote([FromQuery] DeleteQuestionVoteCommand command)
     {
         var res = await _sender.Send(command);
+        return StatusCode(201);
+    }
+
+    [HttpPost("img")]
+    public async Task<IActionResult> AddQuestionImage(IFormFile Image, Guid questionId)
+    {
+        CreateQuestionImageCommand commnad = new(Image, questionId);
+
+        var res = await _sender.Send(commnad);
+
         return StatusCode(201);
     }
 

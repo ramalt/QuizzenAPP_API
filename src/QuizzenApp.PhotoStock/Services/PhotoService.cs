@@ -5,19 +5,14 @@ namespace QuizzenApp.PhotoStock.Services;
 
 public class PhotoService : IPhotoService
 {
-    private readonly IWebHostEnvironment _webHostEnvironment;
     private const string ROOTPATH = "../QuizzenApp.PhotoStock/wwwroot";
 
-    public PhotoService(IWebHostEnvironment webHostEnvironment)
-    {
-        _webHostEnvironment = webHostEnvironment ?? throw new ArgumentNullException(nameof(webHostEnvironment));
-    }
 
-    public async Task<string?> SaveQuestionPhoto(IFormFile file, string questionId, CancellationToken cancellationToken)
+    public async Task<string?> SaveQuestionPhoto(IFormFile file, string imgId, CancellationToken cancellationToken)
     {
         if (file is not null && file.Length > 0)
         {
-            var path = ROOTPATH + "/q/" + questionId + ".jpg";
+            var path = ROOTPATH + "/q/" + imgId + ".jpg";
 
 
             using Stream stream = new FileStream(path, FileMode.Create);

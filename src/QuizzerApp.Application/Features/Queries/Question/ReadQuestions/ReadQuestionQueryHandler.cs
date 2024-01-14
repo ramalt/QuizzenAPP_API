@@ -1,7 +1,9 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using QuizzenApp.Domain.Entities.QuestionAggregate;
 using QuizzerApp.Application.Common.Interfaces;
 using QuizzerApp.Application.Dtos.Exam;
+using QuizzerApp.Application.Dtos.Image;
 using QuizzerApp.Application.Dtos.Question;
 using QuizzerApp.Application.Dtos.User;
 
@@ -39,27 +41,21 @@ public class ReadQuestionQueryHandler : IRequestHandler<ReadQuestionQuery, List<
                                    .Include(q => q.Topic)
                                    .ToListAsync(cancellationToken: cancellationToken);
 
-        List<QuestionDto> res = new();
 
-        questions.ForEach(q =>
-        {
+        return questions.Select(q => new QuestionDto
+        (
+            Id: q.Id,
+            Title: q.Title,
+            Description: q.Description,
+            Status: q.Status.ToString(),
+            User: new UserDto(q.UserId, q.User.UserName, q.User.FirstName, q.User.LastName,
+            profileImg: "https://i.scdn.co/image/ab67616d0000b273d64517a4059310eeb0a889c3"),
+            Images: _manager.Photo.GetDbQuestionImgPaths(q.Id.Value)
+                        .Select(img => new ImageDto(img.ImgPath))
+                        .ToList(),
+            Tags: new ExamDto(q.Exam.Name, q.Subject.Name, q.Topic.Name),
+            CreatedDate: q.CreatedDate
+        )).ToList();
 
-            res.Add(new QuestionDto(
-                Id: q.Id,
-                Title: q.Title,
-                Description: q.Description,
-                Status: q.Status.ToString(),
-                User: new UserDto(q.UserId,
-                                  q.User.UserName,
-                                  q.User.FirstName,
-                                  q.User.LastName,
-                                  profileImg: "https://i.scdn.co/image/ab67616d0000b273d64517a4059310eeb0a889c3"
-                                  ),
-                Tags: new ExamDto(q.Exam.Name, q.Subject.Name, q.Topic.Name),
-                CreatedDate: q.CreatedDate
-            ));
-        });
-
-        return res;
     }
 }

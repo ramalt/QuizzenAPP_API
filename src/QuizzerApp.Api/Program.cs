@@ -1,7 +1,7 @@
 using System.Reflection;
 using QuizzerApp.Infrastructure;
 using QuizzerApp.Application;
-using QuizzenApp.PhotoStock.Services;
+using QuizzenApp.PhotoStock;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,16 +12,9 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddApplication();
+builder.Services.AddPhotoServices();
 
-builder.Services.AddScoped<IPhotoService, PhotoService>();
 
-
-// builder.Services.Configure<RequestLocalizationOptions>(options =>
-// {
-//     options.DefaultRequestCulture = new RequestCulture("en-US");
-//     options.SupportedCultures = new List<CultureInfo> { new CultureInfo("en-US") };
-//     options.SupportedUICultures = new List<CultureInfo> { new CultureInfo("en-US") };
-// });
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowSpecificOrigin",
@@ -30,8 +23,6 @@ builder.Services.AddCors(options =>
             .AllowAnyMethod()
             .AllowAnyHeader());
 });
-
-// Configure metodunda
 
 
 var app = builder.Build();

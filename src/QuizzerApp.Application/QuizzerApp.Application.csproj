@@ -3,6 +3,8 @@
   <ItemGroup>
     <!-- <ProjectReference Include="..\QuizzerApp.Infrastructure\QuizzerApp.Infrastructure.csproj" /> -->
     <ProjectReference Include="..\QuizzenApp.Domain\QuizzenApp.Domain.csproj" />
+    <ProjectReference Include="..\QuizzenApp.PhotoStock\QuizzenApp.PhotoStock.csproj" />
+
   </ItemGroup>
 
   <ItemGroup>
