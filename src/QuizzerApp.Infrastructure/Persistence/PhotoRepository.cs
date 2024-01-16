@@ -39,7 +39,7 @@ public class PhotoRepository : IPhotoRepository
     public async Task AddUserImageAsync(string userId, Guid imgId)
     {
 
-        string path = "http://localhost:5173/a/" + imgId.ToString() + ".jpg";
+        string path = "http://localhost:5173/u/" + imgId.ToString() + ".jpg";
 
         var dbUser = await _context.Users.FirstOrDefaultAsync(u => u.Id == userId);
 
