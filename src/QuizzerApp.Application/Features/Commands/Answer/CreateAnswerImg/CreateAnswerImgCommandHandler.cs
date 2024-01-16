@@ -17,6 +17,8 @@ public class CreateAnswerImgCommandHandler : IRequestHandler<CreateAnswerImgComm
 
     public async Task<bool> Handle(CreateAnswerImgCommand request, CancellationToken cancellationToken)
     {
+        //TODO: Check is answer exist
+
         var imgId = Guid.NewGuid();
 
         await _photo.SaveAnswerPhoto(request.Img, imgId.ToString(), cancellationToken);
