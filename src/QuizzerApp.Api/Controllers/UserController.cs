@@ -1,5 +1,6 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using QuizzerApp.Application.Features.Commands.User.CreateUserImage;
 
 namespace QuizzerApp.Api.Controllers;
 
@@ -20,5 +21,13 @@ public class UserController : ControllerBase
         return Ok("TODO:");
     }
 
+    [HttpPost("img")]
+    public async Task<IActionResult> AddUserImage(IFormFile Image, string userId)
+    {
+        CreateUserImageCommand commnad = new(Image, userId);
 
+        var res = await _sender.Send(commnad);
+
+        return StatusCode(201);
+    }
 }

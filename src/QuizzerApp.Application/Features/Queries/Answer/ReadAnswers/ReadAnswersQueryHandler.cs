@@ -55,7 +55,7 @@ public class ReadAnswersQueryHandler : IRequestHandler<ReadAnswersQuery, List<An
             Status: a.Status,
             User: new UserDto(a.UserId, a.User.UserName, a.User.FirstName, a.User.LastName,
             profileImg: "https://i.scdn.co/image/ab67616d0000b273d64517a4059310eeb0a889c3"),
-            QuestionId: a.QuestionId.ToString(),
+            QuestionId: a.QuestionId.ToString(), // FIXME: .value
             Images: _manager.Photo.GetDbAnswerImgPaths(a.Id.Value)
                                   .Select(img => new ImageDto(Url: img.ImgPath))
                                   .ToList(),

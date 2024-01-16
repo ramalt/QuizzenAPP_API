@@ -9,6 +9,7 @@ public interface IPhotoRepository
 {
     Task AddQuestionImageAsync(QuestionId questionId, Guid imgId);
     Task AddAnswerImageAsync(AnswerId answerId, Guid imgId);
+    Task AddUserImageAsync(string userId, Guid imgId);
     Task DeleteQuestionImageAsync(Guid ImageId);
     List<QuestionImage> GetDbQuestionImgPaths(Guid questionId);
     List<AnswerImage> GetDbAnswerImgPaths(Guid answerId);

@@ -37,11 +37,11 @@ public class PhotoService : IPhotoService
         return true;
     }
 
-    public async Task<string?> SaveUserPhoto(IFormFile file, string userId, CancellationToken cancellationToken)
+    public async Task<string?> SaveUserPhoto(IFormFile file, string imgId, CancellationToken cancellationToken)
     {
         if (file is not null && file.Length > 0)
         {
-            var path = ROOTPATH + "/u/" + userId + ".jpg";
+            var path = ROOTPATH + "/u/" + imgId + ".jpg";
 
 
             using Stream stream = new FileStream(path, FileMode.Create);

@@ -48,7 +48,7 @@ public class ReadQuestionQueryHandler : IRequestHandler<ReadQuestionQuery, List<
             Description: q.Description,
             Status: q.Status.ToString(),
             User: new UserDto(q.UserId, q.User.UserName, q.User.FirstName, q.User.LastName,
-            profileImg: "https://i.scdn.co/image/ab67616d0000b273d64517a4059310eeb0a889c3"),
+            profileImg: q.User.ProfileImg),
             Images: _manager.Photo.GetDbQuestionImgPaths(q.Id.Value)
                         .Select(img => new ImageDto(img.ImgPath))
                         .ToList(),
