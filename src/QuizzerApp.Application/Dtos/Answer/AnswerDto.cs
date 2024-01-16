@@ -8,7 +8,7 @@ public record AnswerDto(Guid Id,
                         string Text,
                         AnswerStatus Status,
                         UserDto User,
-                        string QuestionId,
+                        Guid QuestionId,
                         List<ImageDto> Images,
                         DateTime CreatedDate,
                         DateTime UpdatedDate);
