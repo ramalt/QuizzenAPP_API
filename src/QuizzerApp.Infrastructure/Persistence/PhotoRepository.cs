@@ -1,4 +1,6 @@
 using Microsoft.EntityFrameworkCore;
+using QuizzenApp.Domain.Entities.AnswerAggregate;
+using QuizzenApp.Domain.Entities.AnswerAggregate.ValueObjects;
 using QuizzenApp.Domain.Entities.QuestionAggregate;
 using QuizzenApp.Domain.Entities.QuestionAggregate.ValueObjects;
 using QuizzerApp.Application.Common.Interfaces;
@@ -36,4 +38,9 @@ public class PhotoRepository : IPhotoRepository
 
     }
 
+    public List<AnswerImage> GetDbAnswerImgPaths(Guid answerId)
+    {
+        return _context.AnswerImages.Where(ai => ai.AnswerId == new AnswerId(answerId)).ToList();
+
+    }
 }

@@ -1,6 +1,5 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using QuizzenApp.Domain.Entities.QuestionAggregate;
 using QuizzerApp.Application.Common.Interfaces;
 using QuizzerApp.Application.Dtos.Exam;
 using QuizzerApp.Application.Dtos.Image;

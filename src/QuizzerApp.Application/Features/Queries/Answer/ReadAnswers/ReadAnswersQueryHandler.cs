@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using QuizzenApp.Domain.Entities.QuestionAggregate.ValueObjects;
 using QuizzerApp.Application.Common.Interfaces;
 using QuizzerApp.Application.Dtos.Answer;
+using QuizzerApp.Application.Dtos.Image;
 using QuizzerApp.Application.Dtos.User;
 
 namespace QuizzerApp.Application.Features.Queries.Answer.ReadAnswers;
@@ -30,24 +31,36 @@ public class ReadAnswersQueryHandler : IRequestHandler<ReadAnswersQuery, List<An
         }
         var answers = await query.Include(a => a.User).ToListAsync(cancellationToken);
 
-        List<AnswerDto> res = new();
+        // List<AnswerDto> res = new();
 
-        answers.ForEach(a =>
-        {
-            res.Add(new AnswerDto(
-                Id: a.Id,
-                Text: a.Text,
-                Status: a.Status,
-                User: new UserDto(a.User.Id,
-                                  a.User.UserName,
-                                  a.User.FirstName,
-                                  a.User.LastName),
-                QuestionId: a.QuestionId.Value.ToString(),
-                CreatedDate: a.CreatedDate,
-                UpdatedDate: a.UpdatedDate
-            ));
-        });
+        // answers.ForEach(a =>
+        // {
+        //     res.Add(new AnswerDto(
+        //         Id: a.Id,
+        //         Text: a.Text,
+        //         Status: a.Status,
+        //         User: new UserDto(a.User.Id,
+        //                           a.User.UserName,
+        //                           a.User.FirstName,
+        //                           a.User.LastName),
+        //         QuestionId: a.QuestionId.Value.ToString(),
+        //         CreatedDate: a.CreatedDate,
+        //         UpdatedDate: a.UpdatedDate
+        //     ));
+        // });
 
-        return res;
+        return answers.Select(a => new AnswerDto(
+            Id: a.Id,
+            Text: a.Text,
+            Status: a.Status,
+            User: new UserDto(a.UserId, a.User.UserName, a.User.FirstName, a.User.LastName,
+            profileImg: "https://i.scdn.co/image/ab67616d0000b273d64517a4059310eeb0a889c3"),
+            QuestionId: a.QuestionId.ToString(),
+            Images: _manager.Photo.GetDbAnswerImgPaths(a.Id.Value)
+                                  .Select(img => new ImageDto(Url: img.ImgPath))
+                                  .ToList(),
+            CreatedDate: a.CreatedDate,
+            UpdatedDate: a.UpdatedDate
+        )).ToList();
     }
 }
