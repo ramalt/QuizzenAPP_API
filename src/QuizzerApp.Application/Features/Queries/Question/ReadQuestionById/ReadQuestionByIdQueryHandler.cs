@@ -1,6 +1,7 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using QuizzenApp.Domain.Entities.QuestionAggregate.ValueObjects;
+using QuizzenApp.Domain.Entities.UserAggregate;
 using QuizzerApp.Application.Common.Interfaces;
 using QuizzerApp.Application.Dtos.Exam;
 using QuizzerApp.Application.Dtos.Image;
@@ -47,7 +48,8 @@ public class ReadQuestionQueryHandler : IRequestHandler<ReadQuestionByIdQuery, Q
                 User: new UserDto(dbQuestion.UserId,
                                   dbQuestion.User.UserName,
                                   dbQuestion.User.FirstName,
-                                  dbQuestion.User.LastName),
+                                  dbQuestion.User.LastName,
+                                  profileImg: dbQuestion.User.ProfileImg),
                 Tags: new ExamDto(dbQuestion.Exam.Name, dbQuestion.Subject.Name, dbQuestion.Topic.Name),
                 Images: qImgs,
                 CreatedDate: dbQuestion.CreatedDate);
