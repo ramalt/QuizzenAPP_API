@@ -58,11 +58,11 @@ public class PhotoService : IPhotoService
         throw new NotImplementedException();
     }
 
-    public async Task<string?> SaveAnswerPhoto(IFormFile file, string answerId, CancellationToken cancellationToken)
+    public async Task<string?> SaveAnswerPhoto(IFormFile file, string imgId, CancellationToken cancellationToken)
     {
         if (file is not null && file.Length > 0)
         {
-            var path = ROOTPATH + "/a/" + answerId + ".jpg";
+            var path = ROOTPATH + "/a/" + imgId + ".jpg";
 
 
             using Stream stream = new FileStream(path, FileMode.Create);

@@ -26,6 +26,16 @@ public class PhotoRepository : IPhotoRepository
 
         await _context.SaveChangesAsync();
     }
+    public async Task AddAnswerImageAsync(AnswerId answerId, Guid imgId)
+    {
+
+        string path = "http://localhost:5173/a/" + imgId.ToString() + ".jpg";
+
+        AnswerImage qImage = new(imgId, answerId, path);
+        await _context.AnswerImages.AddAsync(qImage);
+
+        await _context.SaveChangesAsync();
+    }
     public async Task DeleteQuestionImageAsync(Guid imageId)
     {
         var dbImage = await _context.QuestionImages.FirstOrDefaultAsync(i => i.Id == imageId);
