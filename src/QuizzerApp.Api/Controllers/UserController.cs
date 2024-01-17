@@ -1,6 +1,7 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using QuizzerApp.Application.Features.Commands.User.CreateUserImage;
+using QuizzerApp.Application.Features.Queries.User;
 
 namespace QuizzerApp.Api.Controllers;
 
@@ -19,6 +20,15 @@ public class UserController : ControllerBase
     public async Task<IActionResult> Me()
     {
         return Ok("TODO:");
+    }
+
+    [HttpGet("{id}")]
+    public async Task<IActionResult> GetUserById([FromRoute] string id)
+    {
+        GetUserDataQuery query = new(id);
+
+        var res = await _sender.Send(query);
+        return Ok(res);
     }
 
     [HttpPost("img")]
