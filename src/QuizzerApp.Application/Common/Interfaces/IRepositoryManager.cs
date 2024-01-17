@@ -1,5 +1,3 @@
-using System.Reflection.PortableExecutable;
-
 namespace QuizzerApp.Application.Common.Interfaces;
 
 public interface IRepositoryManager
@@ -8,6 +6,7 @@ public interface IRepositoryManager
     public IUserRepository User { get; }
     public IAnswerRepository Answer { get; }
     public IPhotoRepository Photo { get; }
+    public IExamRepository Exam { get; }
 
     public Task SaveAsync();
 }
