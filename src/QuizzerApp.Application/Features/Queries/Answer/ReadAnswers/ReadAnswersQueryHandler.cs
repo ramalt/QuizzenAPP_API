@@ -31,23 +31,6 @@ public class ReadAnswersQueryHandler : IRequestHandler<ReadAnswersQuery, List<An
         }
         var answers = await query.Include(a => a.User).ToListAsync(cancellationToken);
 
-        // List<AnswerDto> res = new();
-
-        // answers.ForEach(a =>
-        // {
-        //     res.Add(new AnswerDto(
-        //         Id: a.Id,
-        //         Text: a.Text,
-        //         Status: a.Status,
-        //         User: new UserDto(a.User.Id,
-        //                           a.User.UserName,
-        //                           a.User.FirstName,
-        //                           a.User.LastName),
-        //         QuestionId: a.QuestionId.Value.ToString(),
-        //         CreatedDate: a.CreatedDate,
-        //         UpdatedDate: a.UpdatedDate
-        //     ));
-        // });
 
         return answers.Select(a => new AnswerDto(
             Id: a.Id,

@@ -1,7 +1,6 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using QuizzenApp.Domain.Entities.QuestionAggregate.ValueObjects;
-using QuizzenApp.Domain.Entities.UserAggregate;
 using QuizzerApp.Application.Common.Interfaces;
 using QuizzerApp.Application.Dtos.Exam;
 using QuizzerApp.Application.Dtos.Image;
@@ -28,17 +27,7 @@ public class ReadQuestionQueryHandler : IRequestHandler<ReadQuestionByIdQuery, Q
                            .Include(q => q.Exam)
                            .Include(q => q.Subject)
                            .Include(q => q.Topic)
-                           .Include(q => q.Images)
                            .FirstOrDefaultAsync(q => q.Id == new QuestionId(request.QuestionId), cancellationToken);
-
-
-        List<ImageDto> qImgs = new();
-        var dbQImgs = dbQuestion.Images.Where(qi => qi.QuestionId == new QuestionId(request.QuestionId));
-
-        foreach (var img in dbQImgs)
-            qImgs.Add(new ImageDto(Url: img.ImgPath));
-
-
 
 
         QuestionDto res = new(Id: dbQuestion.Id,
@@ -51,7 +40,9 @@ public class ReadQuestionQueryHandler : IRequestHandler<ReadQuestionByIdQuery, Q
                                   dbQuestion.User.LastName,
                                   profileImg: dbQuestion.User.ProfileImg),
                 Tags: new ExamDto(dbQuestion.Exam.Name, dbQuestion.Subject.Name, dbQuestion.Topic.Name),
-                Images: qImgs,
+                Images: _manager.Photo.GetDbQuestionImgPaths(dbQuestion.Id.Value)
+                                      .Select(img => new ImageDto(img.ImgPath))
+                                      .ToList(),
                 CreatedDate: dbQuestion.CreatedDate);
 
         return res;
