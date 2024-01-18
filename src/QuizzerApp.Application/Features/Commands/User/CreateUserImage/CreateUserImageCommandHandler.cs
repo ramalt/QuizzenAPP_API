@@ -18,8 +18,12 @@ public class CreateUserImageCommandHandler : IRequestHandler<CreateUserImageComm
 
     public async Task Handle(CreateUserImageCommand request, CancellationToken cancellationToken)
     {
+        var dbU = _manager.User.CheckIsExist(request.UserId);
+        if (!dbU) throw new NotFoundException("User", request.UserId);
+
         var imgId = Guid.NewGuid();
         string? imgPath = await _photo.SaveUserPhoto(request.Img, imgId.ToString(), cancellationToken);
+
 
         if (string.IsNullOrEmpty(imgPath)) throw new PhotoSaveException("User");
 

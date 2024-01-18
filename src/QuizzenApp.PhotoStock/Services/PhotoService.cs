@@ -8,6 +8,7 @@ public class PhotoService : IPhotoService
     private const string ROOTPATH = "../QuizzenApp.PhotoStock/wwwroot";
 
 
+
     public async Task<string?> SaveQuestionPhoto(IFormFile file, string imgId, CancellationToken cancellationToken)
     {
         if (file is not null && file.Length > 0)
@@ -19,7 +20,8 @@ public class PhotoService : IPhotoService
 
             await file.CopyToAsync(stream, cancellationToken);
 
-            return path;
+            string res = "/q/" + imgId + ".jpg";
+            return res;
         }
         return null;
     }
@@ -48,7 +50,10 @@ public class PhotoService : IPhotoService
 
             await file.CopyToAsync(stream, cancellationToken);
 
-            return path;
+            string res = "/u/" + imgId + ".jpg";
+            return res;
+
+
         }
         return null;
     }
@@ -69,7 +74,8 @@ public class PhotoService : IPhotoService
 
             await file.CopyToAsync(stream, cancellationToken);
 
-            return path;
+            string res = "/a/" + imgId + ".jpg";
+            return res;
         }
         return null;
     }
