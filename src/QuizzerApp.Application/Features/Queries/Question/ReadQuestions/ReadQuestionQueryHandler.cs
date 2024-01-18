@@ -1,5 +1,6 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using QuizzenApp.Shared.Dto;
 using QuizzerApp.Application.Common.Interfaces;
 using QuizzerApp.Application.Dtos.Exam;
 using QuizzerApp.Application.Dtos.Image;
@@ -8,7 +9,7 @@ using QuizzerApp.Application.Dtos.User;
 
 namespace QuizzerApp.Application.Features.Queries.Question.ReadQuestions;
 
-public class ReadQuestionQueryHandler : IRequestHandler<ReadQuestionQuery, List<QuestionDto>>
+public class ReadQuestionQueryHandler : IRequestHandler<ReadQuestionQuery, Response<List<QuestionDto>>>
 {
     private readonly IRepositoryManager _manager;
 
@@ -17,12 +18,12 @@ public class ReadQuestionQueryHandler : IRequestHandler<ReadQuestionQuery, List<
         _manager = manager;
     }
 
-    public async Task<List<QuestionDto>> Handle(ReadQuestionQuery request, CancellationToken cancellationToken)
+    public async Task<Response<List<QuestionDto>>> Handle(ReadQuestionQuery request, CancellationToken cancellationToken)
     {
         var query = _manager.Question.GetQueriable();
 
         if (!string.IsNullOrEmpty(request.Exam))
-            query = query.Where(q => string.Equals(q.Exam.Name, request.Exam));
+            query = query.Where(q => string.Equals(q.Exam.Name, request.Exam)) ?? query;
 
         if (!string.IsNullOrEmpty(request.Subject))
             query = query.Where(q => string.Equals(q.Subject.Name, request.Subject));
@@ -41,7 +42,7 @@ public class ReadQuestionQueryHandler : IRequestHandler<ReadQuestionQuery, List<
                                    .ToListAsync(cancellationToken: cancellationToken);
 
 
-        return questions.Select(q => new QuestionDto
+        var res = questions.Select(q => new QuestionDto
         (
             Id: q.Id,
             Title: q.Title,
@@ -56,5 +57,6 @@ public class ReadQuestionQueryHandler : IRequestHandler<ReadQuestionQuery, List<
             CreatedDate: q.CreatedDate
         )).ToList();
 
+        return new Response<List<QuestionDto>>(res);
     }
 }

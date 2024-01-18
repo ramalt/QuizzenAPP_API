@@ -1,6 +1,7 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using QuizzenApp.Domain.Entities.QuestionAggregate.ValueObjects;
+using QuizzenApp.Shared.Dto;
 using QuizzerApp.Application.Common.Interfaces;
 using QuizzerApp.Application.Dtos.Answer;
 using QuizzerApp.Application.Dtos.Image;
@@ -8,7 +9,7 @@ using QuizzerApp.Application.Dtos.User;
 
 namespace QuizzerApp.Application.Features.Queries.Answer.ReadAnswers;
 
-public class ReadAnswersQueryHandler : IRequestHandler<ReadAnswersQuery, List<AnswerDto>>
+public class ReadAnswersQueryHandler : IRequestHandler<ReadAnswersQuery, Response<List<AnswerDto>>>
 {
     private readonly IRepositoryManager _manager;
 
@@ -17,7 +18,7 @@ public class ReadAnswersQueryHandler : IRequestHandler<ReadAnswersQuery, List<An
         _manager = manager;
     }
 
-    public async Task<List<AnswerDto>> Handle(ReadAnswersQuery request, CancellationToken cancellationToken)
+    public async Task<Response<List<AnswerDto>>> Handle(ReadAnswersQuery request, CancellationToken cancellationToken)
     {
         var query = _manager.Answer.GetQueriable();
 
@@ -32,7 +33,7 @@ public class ReadAnswersQueryHandler : IRequestHandler<ReadAnswersQuery, List<An
         var answers = await query.Include(a => a.User).ToListAsync(cancellationToken);
 
 
-        return answers.Select(a => new AnswerDto(
+        var res = answers.Select(a => new AnswerDto(
             Id: a.Id,
             Text: a.Text,
             Status: a.Status,
@@ -45,5 +46,7 @@ public class ReadAnswersQueryHandler : IRequestHandler<ReadAnswersQuery, List<An
             CreatedDate: a.CreatedDate,
             UpdatedDate: a.UpdatedDate
         )).ToList();
+
+        return new Response<List<AnswerDto>>(res);
     }
 }

@@ -1,7 +1,7 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using QuizzerApp.Application.Features.Commands.User.CreateUserImage;
-using QuizzerApp.Application.Features.Queries.User;
+using QuizzerApp.Application.Features.Queries.User.GetUserDataById;
 
 namespace QuizzerApp.Api.Controllers;
 
@@ -36,8 +36,8 @@ public class UserController : ControllerBase
     {
         CreateUserImageCommand commnad = new(Image, userId);
 
-        var res = await _sender.Send(commnad);
+        await _sender.Send(commnad);
 
-        return StatusCode(201);
+        return StatusCode(204);
     }
 }

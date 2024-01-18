@@ -29,10 +29,7 @@ public class AuthController : ControllerBase
     {
         var res = await _sender.Send(command);
 
-        if (!res)
-            throw new Exception();
-
-        return StatusCode(201);
+        return Ok(res);
     }
 
 

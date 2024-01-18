@@ -25,10 +25,7 @@ public class AnswerController : ControllerBase
     {
         var res = await _sender.Send(command);
 
-        if (res)
-            return StatusCode(201);
-
-        throw new Exception();
+        return Ok(res);
     }
 
     [HttpGet]
@@ -56,14 +53,14 @@ public class AnswerController : ControllerBase
     [HttpPost("vote")]
     public async Task<IActionResult> AnswerUpVote([FromQuery] CreateAnswerVoteCommand command)
     {
-        var res = await _sender.Send(command);
+        await _sender.Send(command);
         return StatusCode(201);
     }
 
     [HttpDelete("vote")]
     public async Task<IActionResult> DeleteAnswerVote([FromQuery] DeleteAnswerVoteCommand command)
     {
-        var res = await _sender.Send(command);
+        await _sender.Send(command);
         return StatusCode(201);
     }
 
@@ -72,9 +69,9 @@ public class AnswerController : ControllerBase
     {
         CreateAnswerImgCommand commnad = new(Image, answerId);
 
-        var res = await _sender.Send(commnad);
+        await _sender.Send(commnad);
 
-        return StatusCode(201);
+        return StatusCode(204);
     }
 
 

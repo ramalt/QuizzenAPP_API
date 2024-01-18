@@ -1,6 +1,7 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using QuizzenApp.Domain.Entities.QuestionAggregate.ValueObjects;
+using QuizzenApp.Shared.Dto;
 using QuizzerApp.Application.Common.Interfaces;
 using QuizzerApp.Application.Dtos.Exam;
 using QuizzerApp.Application.Dtos.Image;
@@ -9,7 +10,7 @@ using QuizzerApp.Application.Dtos.User;
 
 namespace QuizzerApp.Application.Features.Queries.Question.ReadQuestionById;
 
-public class ReadQuestionQueryHandler : IRequestHandler<ReadQuestionByIdQuery, QuestionDto>
+public class ReadQuestionQueryHandler : IRequestHandler<ReadQuestionByIdQuery, Response<QuestionDto>>
 {
     private readonly IRepositoryManager _manager;
 
@@ -18,7 +19,7 @@ public class ReadQuestionQueryHandler : IRequestHandler<ReadQuestionByIdQuery, Q
         _manager = manager;
     }
 
-    public async Task<QuestionDto> Handle(ReadQuestionByIdQuery request, CancellationToken cancellationToken)
+    public async Task<Response<QuestionDto>> Handle(ReadQuestionByIdQuery request, CancellationToken cancellationToken)
     {
 
         var query = _manager.Question.GetQueriable();
@@ -28,6 +29,8 @@ public class ReadQuestionQueryHandler : IRequestHandler<ReadQuestionByIdQuery, Q
                            .Include(q => q.Subject)
                            .Include(q => q.Topic)
                            .FirstOrDefaultAsync(q => q.Id == new QuestionId(request.QuestionId), cancellationToken);
+
+        if (dbQuestion is null) throw new Exception("Question Not found");
 
 
         QuestionDto res = new(Id: dbQuestion.Id,
@@ -45,6 +48,6 @@ public class ReadQuestionQueryHandler : IRequestHandler<ReadQuestionByIdQuery, Q
                                       .ToList(),
                 CreatedDate: dbQuestion.CreatedDate);
 
-        return res;
+        return new Response<QuestionDto>(res);
     }
 }

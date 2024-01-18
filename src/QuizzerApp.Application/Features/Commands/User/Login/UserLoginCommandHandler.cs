@@ -1,12 +1,13 @@
 using MediatR;
 using Microsoft.AspNetCore.Identity;
+using QuizzenApp.Shared.Dto;
 using QuizzerApp.Application.Dtos.Auth;
 using QuizzerApp.Application.Utils;
 using Model = QuizzenApp.Domain.Entities.UserAggregate;
 
 namespace QuizzerApp.Application.Features.Commands.User.Login;
 
-public class UserLoginCommandHandler : IRequestHandler<UserLoginCommand, TokenDto>
+public class UserLoginCommandHandler : IRequestHandler<UserLoginCommand, Response<TokenDto>>
 {
     private readonly TokenProvider _tokenProvider;
     private readonly UserManager<Model.User> _manager;
@@ -18,7 +19,7 @@ public class UserLoginCommandHandler : IRequestHandler<UserLoginCommand, TokenDt
         _manager = manager;
     }
 
-    public async Task<TokenDto> Handle(UserLoginCommand request, CancellationToken cancellationToken)
+    public async Task<Response<TokenDto>> Handle(UserLoginCommand request, CancellationToken cancellationToken)
     {
         //check db User
         var dbUser = await _manager.FindByEmailAsync(request.Email);
@@ -35,6 +36,6 @@ public class UserLoginCommandHandler : IRequestHandler<UserLoginCommand, TokenDt
         // generate token
         var token = await _tokenProvider.Generate(dbUser);
 
-        return token;
+        return new Response<TokenDto>(token);
     }
 }

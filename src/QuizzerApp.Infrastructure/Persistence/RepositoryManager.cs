@@ -30,5 +30,6 @@ public class RepositoryManager : IRepositoryManager
 
     public IExamRepository Exam => _examRepository.Value;
 
-    public Task SaveAsync() => _context.SaveChangesAsync();
+    public async Task<bool> SaveAsync() => await _context.SaveChangesAsync() > 0;
+
 }

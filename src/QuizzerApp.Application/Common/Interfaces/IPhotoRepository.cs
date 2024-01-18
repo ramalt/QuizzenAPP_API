@@ -7,9 +7,9 @@ namespace QuizzerApp.Application.Common.Interfaces;
 
 public interface IPhotoRepository
 {
-    Task AddQuestionImageAsync(QuestionId questionId, Guid imgId);
-    Task AddAnswerImageAsync(AnswerId answerId, Guid imgId);
-    Task AddUserImageAsync(string userId, Guid imgId);
+    Task<bool> AddQuestionImageAsync(QuestionId questionId, Guid imgId, string imgPath);
+    Task<bool> AddAnswerImageAsync(AnswerId answerId, Guid imgId, string imgPath);
+    Task<bool> AddUserImageAsync(string userId, Guid imgId, string imgPath);
     Task DeleteQuestionImageAsync(Guid ImageId);
     List<QuestionImage> GetDbQuestionImgPaths(Guid questionId);
     List<AnswerImage> GetDbAnswerImgPaths(Guid answerId);

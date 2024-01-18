@@ -3,12 +3,11 @@ using Microsoft.AspNetCore.Identity;
 using Model = QuizzenApp.Domain.Entities.UserAggregate;
 using QuizzerApp.Application.Dtos.User;
 using QuizzerApp.Application.Common.Interfaces;
+using QuizzenApp.Shared.Dto;
 
-namespace QuizzerApp.Application.Features.Queries.User;
+namespace QuizzerApp.Application.Features.Queries.User.GetUserDataById;
 
-public record GetUserDataQuery(string Id) : IRequest<UserDataDto>;
-
-public class GetUserDataQueryHandler : IRequestHandler<GetUserDataQuery, UserDataDto>
+public class GetUserDataQueryHandler : IRequestHandler<GetUserDataQuery, Response<UserDataDto>>
 {
     private readonly UserManager<Model.User> _userManager;
     private readonly IRepositoryManager _manager;
@@ -19,7 +18,7 @@ public class GetUserDataQueryHandler : IRequestHandler<GetUserDataQuery, UserDat
         _manager = manager;
     }
 
-    public async Task<UserDataDto> Handle(GetUserDataQuery request, CancellationToken cancellationToken)
+    public async Task<Response<UserDataDto>> Handle(GetUserDataQuery request, CancellationToken cancellationToken)
     {
         Model.User? dbUser = await _userManager.FindByIdAsync(request.Id);
 
@@ -36,6 +35,6 @@ public class GetUserDataQueryHandler : IRequestHandler<GetUserDataQuery, UserDat
                                ProfileImg: dbUser.ProfileImg ?? null);
 
 
-        return res;
+        return new Response<UserDataDto>(res);
     }
 }

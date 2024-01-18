@@ -4,7 +4,7 @@ using QuizzerApp.Application.Common.Interfaces;
 
 namespace QuizzerApp.Application.Features.Commands.Answer.CreateAnswerImg;
 
-public class CreateAnswerImgCommandHandler : IRequestHandler<CreateAnswerImgCommand, bool>
+public class CreateAnswerImgCommandHandler : IRequestHandler<CreateAnswerImgCommand>
 {
     private readonly IRepositoryManager _manager;
     private readonly IPhotoService _photo;
@@ -15,16 +15,20 @@ public class CreateAnswerImgCommandHandler : IRequestHandler<CreateAnswerImgComm
         _manager = manager;
     }
 
-    public async Task<bool> Handle(CreateAnswerImgCommand request, CancellationToken cancellationToken)
+    public async Task Handle(CreateAnswerImgCommand request, CancellationToken cancellationToken)
     {
         //TODO: Check is answer exist
 
         var imgId = Guid.NewGuid();
 
-        await _photo.SaveAnswerPhoto(request.Img, imgId.ToString(), cancellationToken);
+        string? imgPath = await _photo.SaveAnswerPhoto(request.Img, imgId.ToString(), cancellationToken);
 
-        await _manager.Photo.AddAnswerImageAsync(request.AnswerId, imgId);
+        if (string.IsNullOrEmpty(imgPath)) throw new Exception("Image cannot save");
 
-        return true;
+        var res = await _manager.Photo.AddAnswerImageAsync(request.AnswerId, imgId, imgPath);
+
+        if (!res) throw new Exception("An error occured while saving photo to db");
+
+
     }
 }

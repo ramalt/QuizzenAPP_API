@@ -1,6 +1,7 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using QuizzenApp.Domain.Entities.AnswerAggregate.ValueObjects;
+using QuizzenApp.Shared.Dto;
 using QuizzerApp.Application.Common.Interfaces;
 using QuizzerApp.Application.Dtos.Answer;
 using QuizzerApp.Application.Dtos.Image;
@@ -8,7 +9,7 @@ using QuizzerApp.Application.Dtos.User;
 
 namespace QuizzerApp.Application.Features.Queries.Answer.ReadAnswerById;
 
-public class ReadAnswerByIdQueryHandler : IRequestHandler<ReadAnswerByIdQuery, AnswerDto>
+public class ReadAnswerByIdQueryHandler : IRequestHandler<ReadAnswerByIdQuery, Response<AnswerDto>>
 {
     private readonly IRepositoryManager _manager;
 
@@ -17,7 +18,7 @@ public class ReadAnswerByIdQueryHandler : IRequestHandler<ReadAnswerByIdQuery, A
         _manager = manager;
     }
 
-    public async Task<AnswerDto> Handle(ReadAnswerByIdQuery request, CancellationToken cancellationToken)
+    public async Task<Response<AnswerDto>> Handle(ReadAnswerByIdQuery request, CancellationToken cancellationToken)
     {
 
         var query = _manager.Answer.GetQueriable();
@@ -41,6 +42,6 @@ public class ReadAnswerByIdQueryHandler : IRequestHandler<ReadAnswerByIdQuery, A
             UpdatedDate: answer.UpdatedDate
         );
 
-        return res;
+        return new Response<AnswerDto>(res);
     }
 }

@@ -5,9 +5,9 @@ using QuizzenApp.Shared.Infrastructure;
 
 namespace QuizzerApp.Application.Features.Commands.Answer.CreateAnswerVote;
 
-public class CreateAnswerVoteCommandHandler : IRequestHandler<CreateAnswerVoteCommand, bool>
+public class CreateAnswerVoteCommandHandler : IRequestHandler<CreateAnswerVoteCommand>
 {
-    public async Task<bool> Handle(CreateAnswerVoteCommand request, CancellationToken cancellationToken)
+    public async Task Handle(CreateAnswerVoteCommand request, CancellationToken cancellationToken)
     {
         CreateAnswerUpVoteEvent @event = new(AnswerId: request.AnswerId, UserId: request.UserId);
 
@@ -16,6 +16,5 @@ public class CreateAnswerVoteCommandHandler : IRequestHandler<CreateAnswerVoteCo
                       queueName: QConstants.CREATE_ANSWER_VOTE_QUEUE,
                       obj: @event);
 
-        return await Task.FromResult(true);
     }
 }

@@ -8,5 +8,5 @@ public interface IRepositoryManager
     public IPhotoRepository Photo { get; }
     public IExamRepository Exam { get; }
 
-    public Task SaveAsync();
+    public Task<bool> SaveAsync();
 }
