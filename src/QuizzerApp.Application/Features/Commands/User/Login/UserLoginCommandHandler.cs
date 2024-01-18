@@ -1,6 +1,7 @@
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using QuizzenApp.Shared.Dto;
+using QuizzenApp.Shared.Exceptions;
 using QuizzerApp.Application.Dtos.Auth;
 using QuizzerApp.Application.Utils;
 using Model = QuizzenApp.Domain.Entities.UserAggregate;
@@ -25,12 +26,12 @@ public class UserLoginCommandHandler : IRequestHandler<UserLoginCommand, Respons
         var dbUser = await _manager.FindByEmailAsync(request.Email);
 
         if (dbUser is null)
-            throw new Exception("User Not Found With Email");
+            throw new NotFoundException("user", request.Email);
         // Check Pass
         bool isPasswordCorrect = await _manager.CheckPasswordAsync(dbUser, request.Password);
 
         if (!isPasswordCorrect)
-            throw new Exception("Email or password incorrect.");
+            throw new WrongSigninCredentialsException();
         // is confirmed
 
         // generate token

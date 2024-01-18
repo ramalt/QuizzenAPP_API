@@ -2,6 +2,7 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using QuizzenApp.Domain.Entities.QuestionAggregate.ValueObjects;
 using QuizzenApp.Shared.Dto;
+using QuizzenApp.Shared.Exceptions;
 using QuizzerApp.Application.Common.Interfaces;
 using QuizzerApp.Application.Dtos.Exam;
 using QuizzerApp.Application.Dtos.Image;
@@ -30,7 +31,7 @@ public class ReadQuestionQueryHandler : IRequestHandler<ReadQuestionByIdQuery, R
                            .Include(q => q.Topic)
                            .FirstOrDefaultAsync(q => q.Id == new QuestionId(request.QuestionId), cancellationToken);
 
-        if (dbQuestion is null) throw new Exception("Question Not found");
+        if (dbQuestion is null) throw new NotFoundException("Question", request.QuestionId.ToString());
 
 
         QuestionDto res = new(Id: dbQuestion.Id,

@@ -1,5 +1,6 @@
 using MediatR;
 using QuizzenApp.PhotoStock.Services;
+using QuizzenApp.Shared.Exceptions;
 using QuizzerApp.Application.Common.Interfaces;
 
 namespace QuizzerApp.Application.Features.Commands.Answer.CreateAnswerImg;
@@ -17,17 +18,16 @@ public class CreateAnswerImgCommandHandler : IRequestHandler<CreateAnswerImgComm
 
     public async Task Handle(CreateAnswerImgCommand request, CancellationToken cancellationToken)
     {
-        //TODO: Check is answer exist
 
         var imgId = Guid.NewGuid();
 
         string? imgPath = await _photo.SaveAnswerPhoto(request.Img, imgId.ToString(), cancellationToken);
 
-        if (string.IsNullOrEmpty(imgPath)) throw new Exception("Image cannot save");
+        if (string.IsNullOrEmpty(imgPath)) throw new PhotoSaveException("Answer");
 
         var res = await _manager.Photo.AddAnswerImageAsync(request.AnswerId, imgId, imgPath);
 
-        if (!res) throw new Exception("An error occured while saving photo to db");
+        if (!res) throw new DbPhotoSaveException();
 
 
     }

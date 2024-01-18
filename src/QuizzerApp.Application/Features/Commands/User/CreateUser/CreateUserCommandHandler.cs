@@ -1,6 +1,7 @@
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using QuizzenApp.Shared.Dto;
+using QuizzenApp.Shared.Exceptions;
 using Entity = QuizzenApp.Domain.Entities.UserAggregate;
 
 namespace QuizzerApp.Application.Features.Commands.User.CreateUser;
@@ -17,8 +18,10 @@ public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, Respo
 
     public async Task<Response<string>> Handle(CreateUserCommand request, CancellationToken cancellationToken)
     {
-        //TODO: Check is user exist?
-        
+        var dbUser = await _userManager.FindByEmailAsync(request.Email);
+
+        if (dbUser is not null) throw new AlreadyExistException(request.Email);
+
         Entity.User user = new Entity.User(userName: request.UserName, gender: request.Gender)
         {
             Email = request.Email,
@@ -31,7 +34,7 @@ public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, Respo
         var res = await _userManager.CreateAsync(user: user, password: request.Password);
 
         if (!res.Succeeded)
-            throw new Exception("WTF, user creation exception");
+            throw new IdentityException(res.Errors.Select(e => e.Description).ToList());
 
 
         return new Response<string>(user.Id);

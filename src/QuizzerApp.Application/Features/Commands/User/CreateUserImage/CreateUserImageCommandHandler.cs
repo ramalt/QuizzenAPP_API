@@ -1,5 +1,6 @@
 using MediatR;
 using QuizzenApp.PhotoStock.Services;
+using QuizzenApp.Shared.Exceptions;
 using QuizzerApp.Application.Common.Interfaces;
 
 namespace QuizzerApp.Application.Features.Commands.User.CreateUserImage;
@@ -20,11 +21,11 @@ public class CreateUserImageCommandHandler : IRequestHandler<CreateUserImageComm
         var imgId = Guid.NewGuid();
         string? imgPath = await _photo.SaveUserPhoto(request.Img, imgId.ToString(), cancellationToken);
 
-        if (string.IsNullOrEmpty(imgPath)) throw new Exception("User Photo save error");
+        if (string.IsNullOrEmpty(imgPath)) throw new PhotoSaveException("User");
 
         var res = await _manager.Photo.AddUserImageAsync(request.UserId, imgId, imgPath);
 
-        if (!res) throw new Exception("user img save errro");
+        if (!res) throw new DbPhotoSaveException();
 
     }
 }

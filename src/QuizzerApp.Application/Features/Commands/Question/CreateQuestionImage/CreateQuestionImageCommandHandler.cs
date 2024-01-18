@@ -1,5 +1,6 @@
 using MediatR;
 using QuizzenApp.PhotoStock.Services;
+using QuizzenApp.Shared.Exceptions;
 using QuizzerApp.Application.Common.Interfaces;
 
 namespace QuizzerApp.Application.Features.Commands.Question.CreateQuestionImage;
@@ -21,7 +22,7 @@ public class CreateQuestionImageCommandHandler : IRequestHandler<CreateQuestionI
         // save image to photostock
         string? imgPath = await _photo.SaveQuestionPhoto(request.Img, imgId.ToString(), cancellationToken);
 
-        if (string.IsNullOrEmpty(imgPath)) throw new Exception("Image cannot save");
+        if (string.IsNullOrEmpty(imgPath)) throw new PhotoSaveException("Question");
 
 
         var res = await _manager.Photo.AddQuestionImageAsync(request.QuestionId, imgId, imgPath);

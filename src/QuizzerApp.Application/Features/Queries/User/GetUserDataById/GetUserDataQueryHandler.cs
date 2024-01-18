@@ -4,6 +4,7 @@ using Model = QuizzenApp.Domain.Entities.UserAggregate;
 using QuizzerApp.Application.Dtos.User;
 using QuizzerApp.Application.Common.Interfaces;
 using QuizzenApp.Shared.Dto;
+using QuizzenApp.Shared.Exceptions;
 
 namespace QuizzerApp.Application.Features.Queries.User.GetUserDataById;
 
@@ -22,9 +23,10 @@ public class GetUserDataQueryHandler : IRequestHandler<GetUserDataQuery, Respons
     {
         Model.User? dbUser = await _userManager.FindByIdAsync(request.Id);
 
+        if (dbUser is null) throw new NotFoundException("User", request.Id);
+
         var exam = await _manager.User.GetUserExamAsync(dbUser.ExamId);
 
-        //TODO: check is user exist
 
         var res = new UserDataDto(Id: dbUser.Id,
                                FirstName: dbUser.FirstName,

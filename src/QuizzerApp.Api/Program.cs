@@ -2,6 +2,7 @@ using System.Reflection;
 using QuizzerApp.Infrastructure;
 using QuizzerApp.Application;
 using QuizzenApp.PhotoStock;
+using QuizzerApp.Api;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -37,6 +38,8 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.MapControllers();
+
+app.ConfigureExceptionHandling();
 
 
 app.Run();
