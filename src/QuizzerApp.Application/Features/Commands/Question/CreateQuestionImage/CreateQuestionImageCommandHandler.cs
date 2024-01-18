@@ -27,7 +27,7 @@ public class CreateQuestionImageCommandHandler : IRequestHandler<CreateQuestionI
 
         var res = await _manager.Photo.AddQuestionImageAsync(request.QuestionId, imgId, imgPath);
 
-        if (!res) throw new Exception("An error occured while saving photo to db");
+        if (!res) throw new DbPhotoSaveException();
 
     }
 }
