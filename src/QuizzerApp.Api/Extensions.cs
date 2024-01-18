@@ -52,6 +52,7 @@ public static class Extensions
 
                         default:
                             response.Error = contextFeature.Error.Message;
+                            response.InnerException = contextFeature.Error.InnerException;
                             break;
                     }
 

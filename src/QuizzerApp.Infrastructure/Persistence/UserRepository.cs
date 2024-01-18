@@ -11,6 +11,9 @@ public class UserRepository(QuizzerAppContext context) : RepositoryBase<User>(co
 {
     private readonly QuizzerAppContext _context = context;
 
+    public bool CheckIsExist(string userId) => FindByCondition(u => u.Id == userId, false) is not null;
+
+
     public IQueryable<User> GetQueriable() => Queriable();
 
     public async Task<Exam> GetUserExamAsync(Guid examId) => await _context.Exams.FirstOrDefaultAsync(e => e.Id == examId);

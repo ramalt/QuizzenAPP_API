@@ -1,5 +1,6 @@
 using MediatR;
 using QuizzenApp.Shared.Dto;
+using QuizzenApp.Shared.Exceptions;
 using QuizzerApp.Application.Common.Interfaces;
 using Entity = QuizzenApp.Domain.Entities;
 
@@ -16,6 +17,15 @@ public class CreateQuestionCommandHandler : IRequestHandler<CreateQuestionComman
 
     public async Task<Response<Guid>> Handle(CreateQuestionCommand request, CancellationToken cancellationToken)
     {
+        var dbExm = await _manager.Exam.GetExamAsync(request.ExamId);
+        var dbSubj = await _manager.Exam.GetSubjectAsync(request.SubjectId);
+        var dbTopc = await _manager.Exam.GetTopicAsync(request.TopicId);
+        var dbUser = _manager.User.CheckIsExist(request.UserId);
+
+        if (!dbUser) throw new NotFoundException("User", request.UserId);
+        if (dbExm is null) throw new NotFoundException("Exam", request.ExamId.ToString());
+        if (dbSubj is null) throw new NotFoundException("Subject", request.SubjectId.ToString());
+        if (dbTopc is null) throw new NotFoundException("Topic", request.TopicId.ToString());
 
         Entity.QuestionAggregate.Question question = new(id: Guid.NewGuid(),
                                                         title: request.Title,
@@ -29,7 +39,7 @@ public class CreateQuestionCommandHandler : IRequestHandler<CreateQuestionComman
 
         var res = await _manager.SaveAsync();
 
-        if (!res) throw new Exception("Db save exception"); //TODO: create custom error messages
+        if (!res) throw new DbSaveException("Question");
 
         return new Response<Guid>(question.Id.Value);
 

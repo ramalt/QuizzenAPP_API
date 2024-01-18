@@ -10,6 +10,8 @@ public class ErrorResponse
 
     public List<string>? Details { get; set; }
 
+    public Exception? InnerException { get; set; }
+
 
     public override string ToString() => JsonSerializer.Serialize(this);
 
