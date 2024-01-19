@@ -15,6 +15,8 @@ builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddApplication();
 builder.Services.AddPhotoServices();
 
+builder.Services.ConfigureJWT(builder.Configuration);
+
 
 builder.Services.AddCors(options =>
 {
@@ -36,6 +38,9 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseAuthentication();
+app.UseAuthorization();
 
 app.MapControllers();
 
