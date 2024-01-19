@@ -38,6 +38,64 @@ public class TokenProvider
         return new(Token: accessToken, RefreshToken: refreshToken);
     }
 
+    public async Task<TokenDto> RefreshTokenAsync(TokenDto tokenDto)
+    {
+        // Verify the token
+        var claimsPrincipal = VerifyToken(tokenDto.Token);
+
+        // Get User Email from token for user verifications
+        Claim? emailClaim = claimsPrincipal.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Email);
+
+        // Check user by token email
+        var user = await _userManager.FindByEmailAsync(emailClaim.Value);
+
+        if (user is null)
+            throw new Exception("user not found with email adress ");
+
+        // Get User refresh Token
+        var userRefreshToken = await _userManager.GetAuthenticationTokenAsync(user, "", "refresh_token");
+
+        if (string.IsNullOrEmpty(userRefreshToken))
+            throw new Exception("user has not any refresh token yet");
+
+
+        // Verify the refresh token
+        bool correctRefreshToken = string.Equals(userRefreshToken, tokenDto.RefreshToken);
+
+        if (!correctRefreshToken)
+            throw new Exception("Wrong refresh token please enter valid refresh token");
+
+        var newToken = await Generate(user);
+
+        return newToken;
+    }
+
+    private ClaimsPrincipal VerifyToken(string token)
+    {
+        JwtSecurityTokenHandler _tokenHandler = new();
+
+        var jwtSettings = _configuration.GetSection("JwtSettings");
+
+        var tokenValidationParams = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+            ValidIssuer = jwtSettings["issuer"],
+            ValidAudience = jwtSettings["audience"],
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings["secret"])),
+            RequireExpirationTime = true
+        };
+
+        ClaimsPrincipal? principal = _tokenHandler.ValidateToken(token: token, validationParameters: tokenValidationParams, out SecurityToken securityToken);
+
+        if (securityToken is not JwtSecurityToken jwtSecurityToken || !jwtSecurityToken.Header.Alg.Equals(SecurityAlgorithms.HmacSha256, StringComparison.InvariantCultureIgnoreCase))
+            throw new SecurityTokenException("invalid token.");
+
+        return principal;
+    }
+
     private string GenerateRefreshToken()
     {
         return Guid.NewGuid().ToString();

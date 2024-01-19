@@ -1,6 +1,7 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using QuizzerApp.Application.Features.Commands.User.CreateUser;
+using QuizzerApp.Application.Features.Commands.User.GetNewToken;
 using QuizzerApp.Application.Features.Commands.User.Login;
 
 namespace QuizzerApp.Api.Controllers;
@@ -32,5 +33,12 @@ public class AuthController : ControllerBase
         return Ok(res);
     }
 
+    [HttpPost("refresh")]
+    public async Task<IActionResult> GetNewToken(GetNewTokenCommand command)
+    {
+        var res = await _sender.Send(command);
+
+        return Ok(res);
+    }
 
 }
