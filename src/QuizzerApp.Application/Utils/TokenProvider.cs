@@ -1,6 +1,7 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using QuizzenApp.Domain.Entities.UserAggregate;
@@ -11,13 +12,13 @@ namespace QuizzerApp.Application.Utils;
 public class TokenProvider
 {
     private readonly IConfiguration _configuration;
+    private readonly UserManager<User> _userManager;
 
-    public TokenProvider(IConfiguration configuration)
+    public TokenProvider(IConfiguration configuration, UserManager<User> userManager)
     {
         _configuration = configuration;
+        _userManager = userManager;
     }
-
-
 
     public async Task<TokenDto> Generate(User user)
     {
@@ -26,14 +27,20 @@ public class TokenProvider
         var tokenOptions = GenerateTokenOption(claims, signinCredentials);
         var accessToken = new JwtSecurityTokenHandler().WriteToken(tokenOptions);
 
-        // string refreshToken = GenerateRefreshToken();
-        // user.RefreshToken = refreshToken;
-        // user.RefreshTokenExpireDate = DateTime.Now.AddDays(14);
+        string refreshToken = GenerateRefreshToken();
 
-        // await _userManager.UpdateAsync(user);
+        var dbUserToken = await _userManager.GetAuthenticationTokenAsync(user, "", "refresh_token");
+        if (!string.IsNullOrEmpty(dbUserToken))
+            await _userManager.RemoveAuthenticationTokenAsync(user, "", "refresh_token");
 
-        return new(accessToken);
+        await _userManager.SetAuthenticationTokenAsync(user, "", "refresh_token", refreshToken);
 
+        return new(Token: accessToken, RefreshToken: refreshToken);
+    }
+
+    private string GenerateRefreshToken()
+    {
+        return Guid.NewGuid().ToString();
     }
 
     private async Task<List<Claim>> GetUserClaims(User user)
@@ -42,6 +49,7 @@ public class TokenProvider
         {
             new Claim(ClaimTypes.NameIdentifier, user.Id),
             new Claim(ClaimTypes.Email, user.Email),
+            new Claim("examId", user.ExamId.ToString())
         };
 
         return claims;

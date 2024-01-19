@@ -101,6 +101,8 @@ public class QuestionImageConfigurations : IEntityTypeConfiguration<QuestionImag
 {
     public void Configure(EntityTypeBuilder<QuestionImage> builder)
     {
+        builder.ToTable("QuestionImages");
+
         //ID
         builder.HasKey(qi => qi.Id);
 

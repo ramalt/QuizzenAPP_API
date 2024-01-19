@@ -79,6 +79,7 @@ public class AnswerImageConfigurations : IEntityTypeConfiguration<AnswerImage>
 {
     public void Configure(EntityTypeBuilder<AnswerImage> builder)
     {
+        builder.ToTable("AnswerImages");
         //ID
         builder.HasKey(ai => ai.Id);
 

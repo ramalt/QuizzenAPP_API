@@ -284,7 +284,7 @@ namespace QuizzerApp.Infrastructure.EFCore.Migrations
 
                     b.HasIndex("AnswerId");
 
-                    b.ToTable("AnswerImage");
+                    b.ToTable("AnswerImages", (string)null);
                 });
 
             modelBuilder.Entity("QuizzenApp.Domain.Entities.AnswerAggregate.AnswerVote", b =>
@@ -444,7 +444,7 @@ namespace QuizzerApp.Infrastructure.EFCore.Migrations
 
                     b.HasIndex("QuestionId");
 
-                    b.ToTable("QuestionImage");
+                    b.ToTable("QuestionImages", (string)null);
                 });
 
             modelBuilder.Entity("QuizzenApp.Domain.Entities.QuestionAggregate.QuestionVote", b =>
@@ -557,7 +557,7 @@ namespace QuizzerApp.Infrastructure.EFCore.Migrations
                     b.HasOne("QuizzenApp.Domain.Entities.QuestionAggregate.Question", "Question")
                         .WithMany("Answers")
                         .HasForeignKey("QuestionId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("QuizzenApp.Domain.Entities.UserAggregate.User", "User")
