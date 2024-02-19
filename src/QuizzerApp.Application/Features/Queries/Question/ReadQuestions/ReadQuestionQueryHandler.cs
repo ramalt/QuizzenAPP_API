@@ -9,7 +9,7 @@ using QuizzerApp.Application.Dtos.User;
 
 namespace QuizzerApp.Application.Features.Queries.Question.ReadQuestions;
 
-public class ReadQuestionQueryHandler : IRequestHandler<ReadQuestionQuery, Response<List<QuestionDto>>>
+public class ReadQuestionQueryHandler : IRequestHandler<ReadQuestionQuery, List<QuestionDto>>
 {
     private readonly IRepositoryManager _manager;
 
@@ -18,7 +18,7 @@ public class ReadQuestionQueryHandler : IRequestHandler<ReadQuestionQuery, Respo
         _manager = manager;
     }
 
-    public async Task<Response<List<QuestionDto>>> Handle(ReadQuestionQuery request, CancellationToken cancellationToken)
+    public async Task<List<QuestionDto>> Handle(ReadQuestionQuery request, CancellationToken cancellationToken)
     {
         var query = _manager.Question.GetQueriable();
 
@@ -57,6 +57,6 @@ public class ReadQuestionQueryHandler : IRequestHandler<ReadQuestionQuery, Respo
             CreatedDate: q.CreatedDate
         )).ToList();
 
-        return new Response<List<QuestionDto>>(res);
+        return new List<QuestionDto>(res);
     }
 }

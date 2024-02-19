@@ -1,7 +1,5 @@
 using MediatR;
 using Microsoft.AspNetCore.Http;
-using QuizzenApp.PhotoStock.Services;
-using QuizzerApp.Application.Common.Interfaces;
 
 namespace QuizzerApp.Application.Features.Commands.Question.CreateQuestionImage;
 

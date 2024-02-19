@@ -1,5 +1,4 @@
 using MediatR;
-using QuizzenApp.Shared.Dto;
 using QuizzerApp.Application.Dtos.Auth;
 using QuizzerApp.Application.Utils;
 

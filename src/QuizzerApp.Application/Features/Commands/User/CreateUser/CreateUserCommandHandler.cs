@@ -1,12 +1,11 @@
 using MediatR;
 using Microsoft.AspNetCore.Identity;
-using QuizzenApp.Shared.Dto;
 using QuizzenApp.Shared.Exceptions;
 using Entity = QuizzenApp.Domain.Entities.UserAggregate;
 
 namespace QuizzerApp.Application.Features.Commands.User.CreateUser;
 
-public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, Response<string>>
+public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, string>
 {
 
     private readonly UserManager<Entity.User> _userManager;
@@ -16,7 +15,7 @@ public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, Respo
         _userManager = userManager;
     }
 
-    public async Task<Response<string>> Handle(CreateUserCommand request, CancellationToken cancellationToken)
+    public async Task<string> Handle(CreateUserCommand request, CancellationToken cancellationToken)
     {
         var dbUser = await _userManager.FindByEmailAsync(request.Email);
 
@@ -37,6 +36,6 @@ public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, Respo
             throw new IdentityException(res.Errors.Select(e => e.Description).ToList());
 
 
-        return new Response<string>(user.Id);
+        return new string(user.Id);
     }
 }

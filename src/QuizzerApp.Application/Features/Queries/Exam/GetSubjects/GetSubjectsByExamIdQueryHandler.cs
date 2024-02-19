@@ -1,11 +1,10 @@
 using MediatR;
-using QuizzenApp.Shared.Dto;
 using QuizzerApp.Application.Common.Interfaces;
 using QuizzerApp.Application.Dtos.Exam;
 
 namespace QuizzerApp.Application.Features.Queries.Exam.GetSubjects;
 
-public class GetSubjectsByExamIdQueryHandler : IRequestHandler<GetSubjectsByExamIdQuery, Response<List<SubjecDto>>>
+public class GetSubjectsByExamIdQueryHandler : IRequestHandler<GetSubjectsByExamIdQuery, List<SubjecDto>>
 {
 
     private readonly IRepositoryManager _manager;
@@ -15,7 +14,7 @@ public class GetSubjectsByExamIdQueryHandler : IRequestHandler<GetSubjectsByExam
         _manager = manager;
     }
 
-    public async Task<Response<List<SubjecDto>>> Handle(GetSubjectsByExamIdQuery request, CancellationToken cancellationToken)
+    public async Task<List<SubjecDto>> Handle(GetSubjectsByExamIdQuery request, CancellationToken cancellationToken)
     {
 
         var subjects = await _manager.Exam.GetSubjectsByExamId(request.ExamId);
@@ -27,7 +26,7 @@ public class GetSubjectsByExamIdQueryHandler : IRequestHandler<GetSubjectsByExam
             res.Add(new SubjecDto(s.Id, s.Name));
         });
 
-        return new Response<List<SubjecDto>>(res);
+        return new List<SubjecDto>(res);
 
     }
 }

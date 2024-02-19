@@ -4,4 +4,4 @@ using QuizzenApp.Shared.Dto;
 
 namespace QuizzerApp.Application.Features.Queries.User.GetUserDataById;
 
-public record GetUserDataQuery(string Id) : IRequest<Response<UserDataDto>>;
+public record GetUserDataQuery(string Id) : IRequest<UserDataDto>;

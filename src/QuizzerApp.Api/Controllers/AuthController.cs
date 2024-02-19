@@ -1,4 +1,3 @@
-using System.Drawing;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using QuizzerApp.Application.Dtos.Auth;

@@ -1,12 +1,11 @@
 using MediatR;
-using QuizzenApp.Shared.Dto;
 using QuizzenApp.Shared.Exceptions;
 using QuizzerApp.Application.Common.Interfaces;
 using Entity = QuizzenApp.Domain.Entities;
 
 namespace QuizzerApp.Application.Features.Commands.Question.CreateQuestion;
 
-public class CreateQuestionCommandHandler : IRequestHandler<CreateQuestionCommand, Response<Guid>>
+public class CreateQuestionCommandHandler : IRequestHandler<CreateQuestionCommand, Guid>
 {
     private readonly IRepositoryManager _manager;
 
@@ -15,7 +14,7 @@ public class CreateQuestionCommandHandler : IRequestHandler<CreateQuestionComman
         _manager = manager;
     }
 
-    public async Task<Response<Guid>> Handle(CreateQuestionCommand request, CancellationToken cancellationToken)
+    public async Task<Guid> Handle(CreateQuestionCommand request, CancellationToken cancellationToken)
     {
         var dbExm = await _manager.Exam.GetExamAsync(request.ExamId);
         var dbSubj = await _manager.Exam.GetSubjectAsync(request.SubjectId);
@@ -41,7 +40,7 @@ public class CreateQuestionCommandHandler : IRequestHandler<CreateQuestionComman
 
         if (!res) throw new DbSaveException("Question");
 
-        return new Response<Guid>(question.Id.Value);
+        return question.Id.Value;
 
     }
 }

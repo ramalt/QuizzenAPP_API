@@ -5,7 +5,7 @@ using QuizzerApp.Application.Dtos.Exam;
 
 namespace QuizzerApp.Application.Features.Queries.Exam.GetTopics;
 
-public class GetTopicsBySubjectIdQueryHandler : IRequestHandler<GetTopicsBySubjectIdQuery, Response<List<TopicDto>>>
+public class GetTopicsBySubjectIdQueryHandler : IRequestHandler<GetTopicsBySubjectIdQuery, List<TopicDto>>
 {
 
     private readonly IRepositoryManager _manager;
@@ -15,7 +15,7 @@ public class GetTopicsBySubjectIdQueryHandler : IRequestHandler<GetTopicsBySubje
         _manager = manager;
     }
 
-    public async Task<Response<List<TopicDto>>> Handle(GetTopicsBySubjectIdQuery request, CancellationToken cancellationToken)
+    public async Task<List<TopicDto>> Handle(GetTopicsBySubjectIdQuery request, CancellationToken cancellationToken)
     {
 
         var subjects = await _manager.Exam.GetTopicsBySubjectId(request.SubjectId);
@@ -27,7 +27,7 @@ public class GetTopicsBySubjectIdQueryHandler : IRequestHandler<GetTopicsBySubje
             res.Add(new TopicDto(s.Id, s.Name));
         });
 
-        return new Response<List<TopicDto>>(res);
+        return new List<TopicDto>(res);
 
     }
 }

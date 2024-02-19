@@ -1,10 +1,3 @@
-using MediatR;
-using Microsoft.EntityFrameworkCore;
-using QuizzerApp.Application.Common.Interfaces;
-using QuizzerApp.Application.Dtos.Exam;
-using QuizzerApp.Application.Dtos.Question;
-using QuizzerApp.Application.Dtos.User;
-
 namespace QuizzerApp.Application.Features.Queries.Question.ReadQuestionByUserId;
 
 // public class ReadQuestionsByUserIdQueryHandler : IRequestHandler<ReadQuestionsByUserIdQuery, List<QuestionDto>>
