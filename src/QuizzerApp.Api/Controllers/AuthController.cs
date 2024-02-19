@@ -48,14 +48,9 @@ public class AuthController : ControllerBase
         if (string.IsNullOrEmpty(refreshToken))
             throw new Exception("refresh token not found");
 
-        Console.WriteLine("before => " + refreshToken);
-
         string[] token = authorization.Split(" ");
 
         var res = await _sender.Send(new GetNewTokenCommand(token[1], refreshToken));
-
-        Console.WriteLine("after => " + res.RefreshToken);
-
 
         Response.Cookies.Append("refreshToken", res.RefreshToken, new CookieOptions { HttpOnly = true });
 
