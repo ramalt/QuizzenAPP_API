@@ -1,5 +1,7 @@
+using System.Drawing;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using QuizzerApp.Application.Dtos.Auth;
 using QuizzerApp.Application.Features.Commands.User.CreateUser;
 using QuizzerApp.Application.Features.Commands.User.GetNewToken;
 using QuizzerApp.Application.Features.Commands.User.Login;
@@ -22,7 +24,11 @@ public class AuthController : ControllerBase
     {
         var res = await _sender.Send(command);
 
-        return Ok(res);
+        Response.Cookies.Append("refreshToken", res.RefreshToken);
+
+        LoginDto loginDto = new(res.Token);
+
+        return Ok(loginDto);
     }
 
     [HttpPost("register")]
@@ -30,15 +36,31 @@ public class AuthController : ControllerBase
     {
         var res = await _sender.Send(command);
 
+
         return Ok(res);
     }
 
-    [HttpPost("refresh")]
-    public async Task<IActionResult> GetNewToken(GetNewTokenCommand command)
+    [HttpGet("refresh")]
+    public async Task<IActionResult> GetNewToken([FromHeader] string authorization)
     {
-        var res = await _sender.Send(command);
+        _ = Request.Cookies.TryGetValue("refreshToken", out string? refreshToken);
 
-        return Ok(res);
+        if (string.IsNullOrEmpty(refreshToken))
+            throw new Exception("refresh token not found");
+
+        Console.WriteLine("before => " + refreshToken);
+
+        string[] token = authorization.Split(" ");
+
+        var res = await _sender.Send(new GetNewTokenCommand(token[1], refreshToken));
+
+        Console.WriteLine("after => " + res.RefreshToken);
+
+
+        Response.Cookies.Append("refreshToken", res.RefreshToken, new CookieOptions { HttpOnly = true });
+
+        LoginDto loginDto = new(res.Token);
+        return Ok(loginDto);
     }
 
 }

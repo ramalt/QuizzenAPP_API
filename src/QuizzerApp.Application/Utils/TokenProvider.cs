@@ -1,6 +1,7 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
@@ -34,6 +35,10 @@ public class TokenProvider
             await _userManager.RemoveAuthenticationTokenAsync(user, "", "refresh_token");
 
         await _userManager.SetAuthenticationTokenAsync(user, "", "refresh_token", refreshToken);
+
+        var cookieOpt = new CookieOptions{
+            HttpOnly = true,
+        };
 
         return new(Token: accessToken, RefreshToken: refreshToken);
     }
@@ -80,12 +85,11 @@ public class TokenProvider
         {
             ValidateIssuer = true,
             ValidateAudience = true,
-            ValidateLifetime = true,
+            ValidateLifetime = false,
             ValidateIssuerSigningKey = true,
             ValidIssuer = jwtSettings["issuer"],
             ValidAudience = jwtSettings["audience"],
             IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings["secret"])),
-            RequireExpirationTime = true
         };
 
         ClaimsPrincipal? principal = _tokenHandler.ValidateToken(token: token, validationParameters: tokenValidationParams, out SecurityToken securityToken);
@@ -123,12 +127,21 @@ public class TokenProvider
     private JwtSecurityToken GenerateTokenOption(List<Claim> claims, SigningCredentials credentials)
     {
         var jwtSettings = _configuration.GetSection("JwtSettings");
+        var expirationSeconds = Convert.ToInt32(jwtSettings["expires"]);
+
+        var expirationTime = DateTime.Now.AddSeconds(expirationSeconds);
+
+
+        Console.WriteLine(expirationTime);
+        Console.WriteLine(Convert.ToInt32(jwtSettings["expires"]));
 
         return new JwtSecurityToken(
             issuer: jwtSettings["issuer"],
             audience: jwtSettings["audience"],
             claims: claims,
-            expires: DateTime.Now.AddMinutes(Convert.ToInt32(jwtSettings["expires"])),
+            expires: expirationTime,
+            // expires: DateTime.Now.AddSeconds(15),
+
             signingCredentials: credentials
         );
     }

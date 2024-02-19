@@ -1,6 +1,5 @@
 using MediatR;
 using Microsoft.AspNetCore.Identity;
-using QuizzenApp.Shared.Dto;
 using QuizzenApp.Shared.Exceptions;
 using QuizzerApp.Application.Dtos.Auth;
 using QuizzerApp.Application.Utils;
@@ -8,7 +7,7 @@ using Model = QuizzenApp.Domain.Entities.UserAggregate;
 
 namespace QuizzerApp.Application.Features.Commands.User.Login;
 
-public class UserLoginCommandHandler : IRequestHandler<UserLoginCommand, Response<TokenDto>>
+public class UserLoginCommandHandler : IRequestHandler<UserLoginCommand, TokenDto>
 {
     private readonly TokenProvider _tokenProvider;
     private readonly UserManager<Model.User> _manager;
@@ -20,7 +19,7 @@ public class UserLoginCommandHandler : IRequestHandler<UserLoginCommand, Respons
         _manager = manager;
     }
 
-    public async Task<Response<TokenDto>> Handle(UserLoginCommand request, CancellationToken cancellationToken)
+    public async Task<TokenDto> Handle(UserLoginCommand request, CancellationToken cancellationToken)
     {
         //check db User
         var dbUser = await _manager.FindByEmailAsync(request.Email);
@@ -34,9 +33,10 @@ public class UserLoginCommandHandler : IRequestHandler<UserLoginCommand, Respons
             throw new WrongSigninCredentialsException();
         // is confirmed
 
+
         // generate token
         var token = await _tokenProvider.Generate(dbUser);
 
-        return new Response<TokenDto>(token);
+        return token;
     }
 }

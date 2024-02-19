@@ -5,9 +5,9 @@ using QuizzerApp.Application.Utils;
 
 namespace QuizzerApp.Application.Features.Commands.User.GetNewToken;
 
-public record GetNewTokenCommand(string Token, string RefreshToken) : IRequest<Response<TokenDto>>;
+public record GetNewTokenCommand(string Token, string RefreshToken) : IRequest<TokenDto>;
 
-public class GetNewTokenCommandHandler : IRequestHandler<GetNewTokenCommand, Response<TokenDto>>
+public class GetNewTokenCommandHandler : IRequestHandler<GetNewTokenCommand, TokenDto>
 {
     private readonly TokenProvider _tokenProvider;
 
@@ -17,11 +17,12 @@ public class GetNewTokenCommandHandler : IRequestHandler<GetNewTokenCommand, Res
         _tokenProvider = tokenProvider;
     }
 
-    public async Task<Response<TokenDto>> Handle(GetNewTokenCommand request, CancellationToken cancellationToken)
+    public async Task<TokenDto> Handle(GetNewTokenCommand request, CancellationToken cancellationToken)
     {
+        
         TokenDto tokenDto = new(request.Token, request.RefreshToken);
         var res = await _tokenProvider.RefreshTokenAsync(tokenDto);
 
-        return new Response<TokenDto>(res);
+        return res;
     }
 }

@@ -41,7 +41,8 @@ public static class Extensions
                 ValidateIssuerSigningKey = true,
                 ValidIssuer = jwtSettings["issuer"],
                 ValidAudience = jwtSettings["audience"],
-                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings["secret"]))
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings["secret"])),
+                
             };
         });
 
