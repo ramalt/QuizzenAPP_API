@@ -36,7 +36,7 @@ public class AuthController : ControllerBase
         var res = await _sender.Send(command);
 
 
-        return Ok(res);
+        return Ok(new { userId = res });
     }
 
     [HttpGet("refresh")]
