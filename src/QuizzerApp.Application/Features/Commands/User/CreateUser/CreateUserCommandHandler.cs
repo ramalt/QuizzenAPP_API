@@ -21,6 +21,8 @@ public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, strin
 
         if (dbUser is not null) throw new AlreadyExistException(request.Email);
 
+        
+
         Entity.User user = new Entity.User(userName: request.UserName, gender: request.Gender)
         {
             Email = request.Email,

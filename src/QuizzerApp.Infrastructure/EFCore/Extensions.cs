@@ -17,6 +17,12 @@ public static class Extensions
         services.AddDbContext<QuizzerAppContext>(context => context.UseSqlServer(sqlServerOptions["ConnectionString"]));
     }
 
+    public static void UseSqlLite(this IServiceCollection services)
+    {
+        services.AddDbContext<QuizzerAppContext>(context => context.UseSqlite("Data Source=App.db"));
+
+    }
+
     public static void ConfigureIdentity(this IServiceCollection services)
     {
                         

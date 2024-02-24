@@ -1,4 +1,5 @@
 using QuizzenApp.Domain.Entities.QuestionAggregate;
+using QuizzenApp.Domain.Entities.UserAggregate;
 
 namespace QuizzenApp.Domain.Entities.ExamAggregate;
 
@@ -9,6 +10,7 @@ public class Exam
     public ICollection<Subject> Subjects;
     public ICollection<Topic> Topics;
     public ICollection<Question> Questions;
+    public ICollection<User> Users;
 
 
     public Exam()

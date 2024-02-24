@@ -14,6 +14,10 @@
 *.sln.docstates
 *wwwroot
 
+*App.db
+*App.db-shm
+*App.db-wal
+
 *.vscode
 
 # User-specific files (MonoDevelop/Xamarin Studio)
