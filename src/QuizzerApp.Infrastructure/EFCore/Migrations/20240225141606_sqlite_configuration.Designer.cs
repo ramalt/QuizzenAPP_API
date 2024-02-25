@@ -11,7 +11,7 @@ using QuizzerApp.Infrastructure.EFCore.Contexts;
 namespace QuizzerApp.Infrastructure.EFCore.Migrations
 {
     [DbContext(typeof(QuizzerAppContext))]
-    [Migration("20240224204421_sqlite_configuration")]
+    [Migration("20240225141606_sqlite_configuration")]
     partial class sqlite_configuration
     {
         /// <inheritdoc />
@@ -320,6 +320,18 @@ namespace QuizzerApp.Infrastructure.EFCore.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Exams");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("d8616b29-3b00-4f92-b160-df287298e9f7"),
+                            Name = "EXAM1"
+                        },
+                        new
+                        {
+                            Id = new Guid("1442a173-834c-4a22-a2e3-d84d4bf3a05e"),
+                            Name = "EXAM2"
+                        });
                 });
 
             modelBuilder.Entity("QuizzenApp.Domain.Entities.ExamAggregate.Subject", b =>
@@ -340,6 +352,32 @@ namespace QuizzerApp.Infrastructure.EFCore.Migrations
                     b.HasIndex("ExamId");
 
                     b.ToTable("Subjects");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("e4993243-e075-41a3-9895-e824fbdceee9"),
+                            ExamId = new Guid("d8616b29-3b00-4f92-b160-df287298e9f7"),
+                            Name = "subject-1"
+                        },
+                        new
+                        {
+                            Id = new Guid("c6fc0003-e85f-4cf9-9801-c76b0cf41d7e"),
+                            ExamId = new Guid("d8616b29-3b00-4f92-b160-df287298e9f7"),
+                            Name = "subject-2"
+                        },
+                        new
+                        {
+                            Id = new Guid("0fb1d6f3-24ff-4b0c-8689-4472cc91f1ae"),
+                            ExamId = new Guid("1442a173-834c-4a22-a2e3-d84d4bf3a05e"),
+                            Name = "subject-3"
+                        },
+                        new
+                        {
+                            Id = new Guid("59be79c3-609b-4a04-a9a2-09bf7ee875f6"),
+                            ExamId = new Guid("1442a173-834c-4a22-a2e3-d84d4bf3a05e"),
+                            Name = "subject-4"
+                        });
                 });
 
             modelBuilder.Entity("QuizzenApp.Domain.Entities.ExamAggregate.Topic", b =>
@@ -365,6 +403,36 @@ namespace QuizzerApp.Infrastructure.EFCore.Migrations
                     b.HasIndex("SubjectId");
 
                     b.ToTable("Topics");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("c85a592b-051c-452a-933d-bef85bf5c57b"),
+                            ExamId = new Guid("d8616b29-3b00-4f92-b160-df287298e9f7"),
+                            Name = "topic1",
+                            SubjectId = new Guid("e4993243-e075-41a3-9895-e824fbdceee9")
+                        },
+                        new
+                        {
+                            Id = new Guid("6ee4cc99-78e5-453b-b859-4f7284348f91"),
+                            ExamId = new Guid("d8616b29-3b00-4f92-b160-df287298e9f7"),
+                            Name = "topic2",
+                            SubjectId = new Guid("c6fc0003-e85f-4cf9-9801-c76b0cf41d7e")
+                        },
+                        new
+                        {
+                            Id = new Guid("745fe52f-f0f9-4140-b2eb-668b7f84a604"),
+                            ExamId = new Guid("1442a173-834c-4a22-a2e3-d84d4bf3a05e"),
+                            Name = "topic3",
+                            SubjectId = new Guid("0fb1d6f3-24ff-4b0c-8689-4472cc91f1ae")
+                        },
+                        new
+                        {
+                            Id = new Guid("98047d28-11a7-46a7-96ff-4171061af613"),
+                            ExamId = new Guid("1442a173-834c-4a22-a2e3-d84d4bf3a05e"),
+                            Name = "topic4",
+                            SubjectId = new Guid("59be79c3-609b-4a04-a9a2-09bf7ee875f6")
+                        });
                 });
 
             modelBuilder.Entity("QuizzenApp.Domain.Entities.QuestionAggregate.Question", b =>

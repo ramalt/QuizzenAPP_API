@@ -12,12 +12,12 @@ public class QuizzerAppContext(DbContextOptions<QuizzerAppContext> options) : Id
 {
     protected override void OnModelCreating(ModelBuilder builder)
     {
-        builder.ApplyConfiguration(new QuestionConfiguration());
-        builder.ApplyConfiguration(new AnswerConfiguration());
-        builder.ApplyConfiguration(new UserConfiguration());
         builder.ApplyConfiguration(new ExamConfigurations());
         builder.ApplyConfiguration(new SubjectConfigurations());
         builder.ApplyConfiguration(new TopicConfigurations());
+        builder.ApplyConfiguration(new UserConfiguration());
+        builder.ApplyConfiguration(new QuestionConfiguration());
+        builder.ApplyConfiguration(new AnswerConfiguration());
         builder.ApplyConfiguration(new AnswerVoteConfigurations());
         builder.ApplyConfiguration(new QuestionVoteConfiguration());
 

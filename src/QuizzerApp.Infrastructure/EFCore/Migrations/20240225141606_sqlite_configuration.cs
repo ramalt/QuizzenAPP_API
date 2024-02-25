@@ -3,6 +3,8 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
 namespace QuizzerApp.Infrastructure.EFCore.Migrations
 {
     /// <inheritdoc />
@@ -388,6 +390,37 @@ namespace QuizzerApp.Infrastructure.EFCore.Migrations
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.InsertData(
+                table: "Exams",
+                columns: new[] { "Id", "Name" },
+                values: new object[,]
+                {
+                    { new Guid("1442a173-834c-4a22-a2e3-d84d4bf3a05e"), "EXAM2" },
+                    { new Guid("d8616b29-3b00-4f92-b160-df287298e9f7"), "EXAM1" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Subjects",
+                columns: new[] { "Id", "ExamId", "Name" },
+                values: new object[,]
+                {
+                    { new Guid("0fb1d6f3-24ff-4b0c-8689-4472cc91f1ae"), new Guid("1442a173-834c-4a22-a2e3-d84d4bf3a05e"), "subject-3" },
+                    { new Guid("59be79c3-609b-4a04-a9a2-09bf7ee875f6"), new Guid("1442a173-834c-4a22-a2e3-d84d4bf3a05e"), "subject-4" },
+                    { new Guid("c6fc0003-e85f-4cf9-9801-c76b0cf41d7e"), new Guid("d8616b29-3b00-4f92-b160-df287298e9f7"), "subject-2" },
+                    { new Guid("e4993243-e075-41a3-9895-e824fbdceee9"), new Guid("d8616b29-3b00-4f92-b160-df287298e9f7"), "subject-1" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Topics",
+                columns: new[] { "Id", "ExamId", "Name", "SubjectId" },
+                values: new object[,]
+                {
+                    { new Guid("6ee4cc99-78e5-453b-b859-4f7284348f91"), new Guid("d8616b29-3b00-4f92-b160-df287298e9f7"), "topic2", new Guid("c6fc0003-e85f-4cf9-9801-c76b0cf41d7e") },
+                    { new Guid("745fe52f-f0f9-4140-b2eb-668b7f84a604"), new Guid("1442a173-834c-4a22-a2e3-d84d4bf3a05e"), "topic3", new Guid("0fb1d6f3-24ff-4b0c-8689-4472cc91f1ae") },
+                    { new Guid("98047d28-11a7-46a7-96ff-4171061af613"), new Guid("1442a173-834c-4a22-a2e3-d84d4bf3a05e"), "topic4", new Guid("59be79c3-609b-4a04-a9a2-09bf7ee875f6") },
+                    { new Guid("c85a592b-051c-452a-933d-bef85bf5c57b"), new Guid("d8616b29-3b00-4f92-b160-df287298e9f7"), "topic1", new Guid("e4993243-e075-41a3-9895-e824fbdceee9") }
                 });
 
             migrationBuilder.CreateIndex(

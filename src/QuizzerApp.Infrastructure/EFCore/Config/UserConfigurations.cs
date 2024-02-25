@@ -1,3 +1,5 @@
+using System.Runtime.Intrinsics.Arm;
+using System.Security.Cryptography;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using QuizzenApp.Domain.Entities.UserAggregate;
@@ -18,7 +20,7 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
         // FIRSTNAME & LASTNAME
         builder.Property(u => u.FirstName).IsRequired();
         builder.Property(u => u.LastName).IsRequired();
-    
+
 
         // QUESTIONS
         builder.HasMany(u => u.Questions)
@@ -29,6 +31,7 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
         builder.HasMany(u => u.Answers)
             .WithOne(a => a.User)
             .HasForeignKey(a => a.UserId);
+
 
 
     }

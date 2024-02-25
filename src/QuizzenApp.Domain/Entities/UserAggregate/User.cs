@@ -21,7 +21,7 @@ public class User : IdentityUser
     public Guid ExamId { get; set; }
     public Exam Exam { get; set; }
 
-    public Gender Gender { get; private set; }
+    public Gender Gender { get; set; }
     public ICollection<Question> Questions { get; private set; }
     public ICollection<QuestionVote> QuestionVotes { get; private set; }
     public ICollection<Answer> Answers { get; private set; }
